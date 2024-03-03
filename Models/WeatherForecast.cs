@@ -1,4 +1,4 @@
-namespace PDD.NET
+namespace PDD.NET.Models
 {
     public class WeatherForecast
     {

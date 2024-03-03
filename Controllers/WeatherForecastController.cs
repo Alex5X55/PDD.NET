@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Models;
 
 namespace PDD.NET.Controllers
 {
