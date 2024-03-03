@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDD.NET", "PDD.NET.csproj", "{64A3F14D-9888-4B41-9645-247D1394DA4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64A3F14D-9888-4B41-9645-247D1394DA4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A3F14D-9888-4B41-9645-247D1394DA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A3F14D-9888-4B41-9645-247D1394DA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A3F14D-9888-4B41-9645-247D1394DA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83165D85-0795-40DD-B5AF-42F225DD2F8C}
+	EndGlobalSection
+EndGlobal
