@@ -1,6 +1,0 @@
-@PDD.NET_HostAddress = http://localhost:5157
-
-GET {{PDD.NET_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

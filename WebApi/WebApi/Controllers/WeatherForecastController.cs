@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using PDD.NET.Models;
+using WebApi.Models;
 
-namespace PDD.NET.Controllers
+namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

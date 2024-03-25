@@ -1,4 +1,4 @@
-namespace PDD.NET.Models
+namespace WebApi.Models
 {
     public class WeatherForecast
     {
