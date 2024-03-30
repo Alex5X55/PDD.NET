@@ -10,6 +10,6 @@
 
         public string PasswordHash { get; set; }
 
-        //public Guid UserDetailId { get; set; }
+        //public int UserDetailId { get; set; }
     }
 }

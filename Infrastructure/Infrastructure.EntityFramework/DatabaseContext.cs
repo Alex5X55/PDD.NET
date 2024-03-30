@@ -9,6 +9,7 @@ namespace Infrastructure.EntityFramework
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
+
         public DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

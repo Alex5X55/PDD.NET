@@ -18,9 +18,9 @@ namespace Infrastructure.Repositories.Implementations
 
             Context.Database.EnsureCreated();
 
-            //Context.AddRange(FakeDataFactory.Users);
+            Context.AddRange(FakeDataFactory.Users);
 
-            //Context.SaveChanges();
+            Context.SaveChanges();
         }
     }
 }
