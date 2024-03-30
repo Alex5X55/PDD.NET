@@ -6,12 +6,12 @@ namespace Services.Abstractions
     {
         Task<List<UserDTO>> GetAllAsync();
 
-        Task<UserDTO> GetByIdAsync(Guid id);
+        Task<UserDTO> GetByIdAsync(int id);
 
-        Task<Guid> CreateAsync(CreatingUserDTO creatingUserDTO);
+        Task<int> CreateAsync(CreatingUserDTO creatingUserDTO);
 
-        Task UpdateAsync(Guid id, UpdatingUserDTO updatingUserDTO);
+        Task UpdateAsync(int id, UpdatingUserDTO updatingUserDTO);
 
-        Task DeleteAsync(Guid id);
+        Task DeleteAsync(int id);
     }
 }
