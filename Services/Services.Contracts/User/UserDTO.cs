@@ -1,5 +1,5 @@
 ﻿
-namespace Domain.Entities
+namespace Services.Contracts.User
 {
     public class UserDTO
     {
