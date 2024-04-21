@@ -1,6 +1,6 @@
-﻿namespace PDD.NET.Application.Features.Users.Queries.GetAllUser;
+﻿namespace PDD.NET.Application.Features.Users.Queries.GetUser;
 
-public sealed record GetAllUserResponse
+public sealed record GetUserResponse
 {
     public int Id { get; set; }
 

@@ -3,7 +3,7 @@ using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Common;
 using PDD.NET.Persistence;
 
-namespace CleanArchitecture.Persistence.Repositories;
+namespace PDD.NET.Persistence.Repositories;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
 {
