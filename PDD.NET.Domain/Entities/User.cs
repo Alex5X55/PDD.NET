@@ -11,4 +11,8 @@ public class User : BaseEntity
     public DateTime? LastLoginOn { get; set; }
 
     public string? PasswordHash { get; set; }
+
+    public virtual UserDetail UserDetail { get; set; }
+
+    public virtual IEnumerable<UserInRole> UserInRoles { get; set; }
 }

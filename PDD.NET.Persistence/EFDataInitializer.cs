@@ -19,6 +19,12 @@ public class EFDataInitializer : IDataInitializer
 
         Context.AddRange(FakeDataFactory.Users);
 
+        Context.AddRange(FakeDataFactory.UserDetails);
+
+        Context.AddRange(FakeDataFactory.Roles);
+
+        Context.AddRange(FakeDataFactory.UserInRoles);
+
         Context.SaveChanges();
     }
 }
