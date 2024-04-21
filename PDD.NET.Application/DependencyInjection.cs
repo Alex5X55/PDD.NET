@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using PDD.NET.Application.Common.Behaviors;
 
 namespace PDD.NET.Application;
 
@@ -14,7 +16,7 @@ public static class DependencyInjection
             option.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

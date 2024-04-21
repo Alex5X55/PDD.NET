@@ -1,6 +1,7 @@
 ﻿using PDD.NET.Application;
 using PDD.NET.Persistence;
 using PDD.NET.Application.Repositories;
+using PDD.NET.WebApi.Extensions;
 
 namespace PDD.NET.WebApi;
 
@@ -33,6 +34,8 @@ public class Startup
         {
             app.UseHsts();
         }
+
+        app.UseErrorHandler();
 
         app.UseHttpsRedirection();
 
