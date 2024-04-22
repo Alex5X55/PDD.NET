@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
+using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.Users.Queries.GetUser;
 
@@ -17,7 +19,12 @@ public sealed class GetUserHandler : IRequestHandler<GetUserRequest, GetUserResp
 
     public async Task<GetUserResponse> Handle(GetUserRequest request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.Get(request.id, cancellationToken);
+        var user = _mapper.Map<User>(await _userRepository.Get(request.Id, cancellationToken));
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), request.Id);
+        }
+
         return _mapper.Map<GetUserResponse>(user);
     }
 }

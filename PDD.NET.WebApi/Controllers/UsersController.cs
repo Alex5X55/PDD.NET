@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PDD.NET.Application.Features.Users.Commands.CreateUser;
+using PDD.NET.Application.Features.Users.Commands.DeleteUser;
+using PDD.NET.Application.Features.Users.Commands.UpdateUser;
 using PDD.NET.Application.Features.Users.Queries.GetAllUser;
 using PDD.NET.Application.Features.Users.Queries.GetUser;
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
@@ -63,6 +65,33 @@ public class UserController : ControllerBase
     public async Task<ActionResult<CreateUserResponse>> Create(CreateUserRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
+        return Ok(response);
+    }
+
+    /// <summary>
+    /// Обновить информацию пользователя по запросу
+    /// </summary>
+    /// <param name="id">Запрос на обновление информации пользователя</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Сущность Пользователя</returns>
+    [HttpPost("{id}")]
+    public async Task<ActionResult<UpdateUserResponse>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
+        return Ok(response);
+    }
+
+
+    /// <summary>
+    /// Удалить пользователя по Id
+    /// </summary>
+    /// <param name="id">Id пользователя</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Id пользователя</returns>
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<DeleteUserResponse>> Delete(int id, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new DeleteUserRequest(id), cancellationToken);
         return Ok(response);
     }
 }

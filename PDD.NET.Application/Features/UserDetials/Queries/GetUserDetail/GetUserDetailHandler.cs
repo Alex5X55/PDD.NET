@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDD.NET.Application.Features.UserDetials.Queries
+namespace PDD.NET.Application.Features.UserDetials.Queries.GetUserDetail
 {
-    internal class GetUserDetail
+    internal class GetUserDetailHandler
     {
     }
 }

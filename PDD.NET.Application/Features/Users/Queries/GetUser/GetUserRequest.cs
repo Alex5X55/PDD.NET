@@ -2,4 +2,4 @@
 
 namespace PDD.NET.Application.Features.Users.Queries.GetUser;
 
-public sealed record GetUserRequest(int id) : IRequest<GetUserResponse>;
+public sealed record GetUserRequest(int Id) : IRequest<GetUserResponse>;

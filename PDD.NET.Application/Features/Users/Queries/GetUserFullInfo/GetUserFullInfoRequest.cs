@@ -2,4 +2,4 @@
 
 namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 
-public sealed record GetUserFullInfoRequest(int id) : IRequest<GetUserFullInfoResponse>;
+public sealed record GetUserFullInfoRequest(int Id) : IRequest<GetUserFullInfoResponse>;

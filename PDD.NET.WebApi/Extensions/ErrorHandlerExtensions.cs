@@ -21,11 +21,10 @@ public static class ErrorHandlerExtensions
 
                 context.Response.StatusCode = contextFeature.Error switch
                 {
-                    BadRequestException badRequest when badRequest.Errors != null && badRequest.Errors.Any() =>
-                        (int) HttpStatusCode.BadRequest,
-                    BadRequestException badRequest => (int)HttpStatusCode.BadRequest,
-                    NotFoundException => (int)HttpStatusCode.NotFound,
-                    _ => (int)HttpStatusCode.InternalServerError
+                    BadRequestException badRequest when badRequest.Errors != null && badRequest.Errors.Any() => (int) HttpStatusCode.BadRequest,
+                    BadRequestException badRequest => (int) HttpStatusCode.BadRequest,
+                    NotFoundException => (int) HttpStatusCode.NotFound,
+                    _ => (int) HttpStatusCode.InternalServerError
                 };
 
                 var errorResponse = new

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
+using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 
@@ -17,7 +19,12 @@ public sealed class GetUserFullInfoHandler : IRequestHandler<GetUserFullInfoRequ
 
     public async Task<GetUserFullInfoResponse> Handle(GetUserFullInfoRequest request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserFullInfo(request.id, cancellationToken);
+        var user = _mapper.Map<User>(await _userRepository.GetUserFullInfo(request.Id, cancellationToken));
+        if (user == null)
+        {
+            throw new NotFoundException(nameof(User), request.Id);
+        }
+
         return _mapper.Map<GetUserFullInfoResponse>(user);
     }
 }
