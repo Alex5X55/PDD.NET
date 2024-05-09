@@ -77,7 +77,7 @@ public class UserController : ControllerBase
     [HttpPost("{id}")]
     public async Task<ActionResult<UpdateUserResponse>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(request, cancellationToken);
+        var response = await _mediator.Send(new UpdateUserInternalRequest(id, request.Login, request.Email), cancellationToken);
         return Ok(response);
     }
 

@@ -6,7 +6,7 @@ using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.Users.Commands.UpdateUser;
 
-public sealed class UpdateUserHandler : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
+public sealed class UpdateUserHandler : IRequestHandler<UpdateUserInternalRequest, UpdateUserResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
@@ -19,7 +19,7 @@ public sealed class UpdateUserHandler : IRequestHandler<UpdateUserRequest, Updat
         _mapper = mapper;
     }
 
-    public async Task<UpdateUserResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+    public async Task<UpdateUserResponse> Handle(UpdateUserInternalRequest request, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<User>(await _userRepository.Get(request.Id, cancellationToken));
         if (user == null)
