@@ -6,7 +6,7 @@ using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.Users.Commands.DeleteUser;
 
-public sealed class DeleteUserHandler : IRequestHandler<DeleteUserRequest, DeleteUserResponse>
+public sealed class DeleteUserHandler : IRequestHandler<DeleteUserRequest, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
@@ -19,9 +19,9 @@ public sealed class DeleteUserHandler : IRequestHandler<DeleteUserRequest, Delet
         _mapper = mapper;
     }
 
-    public async Task<DeleteUserResponse> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteUserRequest request, CancellationToken cancellationToken)
     {
-        var user = _mapper.Map<User>(await _userRepository.Get(request.Id, cancellationToken));
+        var user = await _userRepository.Get(request.Id, cancellationToken);
         if (user == null)
         {
             throw new NotFoundException(nameof(User), request.Id);
@@ -31,6 +31,6 @@ public sealed class DeleteUserHandler : IRequestHandler<DeleteUserRequest, Delet
         _userRepository.Update(user);
         await _unitOfWork.Save(cancellationToken);
 
-        return _mapper.Map<DeleteUserResponse>(user);
+        return Unit.Value;
     }
 }

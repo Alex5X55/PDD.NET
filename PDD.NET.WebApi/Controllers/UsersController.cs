@@ -75,10 +75,10 @@ public class UserController : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Пользователя</returns>
     [HttpPost("{id}")]
-    public async Task<ActionResult<UpdateUserResponse>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Unit>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new UpdateUserInternalRequest(id, request.Login, request.Email), cancellationToken);
-        return Ok(response);
+        await _mediator.Send(new UpdateUserInternalRequest(id, request.Login, request.Email), cancellationToken);
+        return Ok();
     }
 
 
@@ -89,9 +89,9 @@ public class UserController : ControllerBase
     /// <param name="cancellationToken"></param>
     /// <returns>Id пользователя</returns>
     [HttpDelete("{id}")]
-    public async Task<ActionResult<DeleteUserResponse>> Delete(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<Unit>> Delete(int id, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new DeleteUserRequest(id), cancellationToken);
-        return Ok(response);
+        await _mediator.Send(new DeleteUserRequest(id), cancellationToken);
+        return Ok();
     }
 }

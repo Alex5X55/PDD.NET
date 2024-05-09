@@ -9,6 +9,4 @@ public sealed record GetAllUserResponse
     public string Email { get; set; }
 
     public DateTime LastLoginOn { get; set; }
-
-    public string PasswordHash { get; set; }
 }
