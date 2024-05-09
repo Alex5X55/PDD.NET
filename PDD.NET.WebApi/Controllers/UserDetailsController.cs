@@ -41,7 +41,7 @@ public class UserDetailController : ControllerBase
     /// <param name="request">Запрос на обновление дополнительной информации пользователя</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("{userId}")]
+    [HttpPost("{userId:int}")]
     public async Task<ActionResult<Unit>> Update(int userId, UpdateUserDetailRequest request, CancellationToken cancellationToken)
     {
         await _mediator.Send(new UpdateUserDetailInternalRequest(request.Name, request.Surname, request.Country, userId), cancellationToken);

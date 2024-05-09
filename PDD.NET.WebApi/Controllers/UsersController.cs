@@ -28,7 +28,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Пользователя</returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetUser(int id, bool fullInfo, CancellationToken cancellationToken)
     {
         if (fullInfo)
@@ -74,7 +74,7 @@ public class UserController : ControllerBase
     /// <param name="id">Запрос на обновление информации пользователя</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("{id}")]
+    [HttpPost("{id:int}")]
     public async Task<ActionResult<Unit>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
     {
         await _mediator.Send(new UpdateUserInternalRequest(id, request.Login, request.Email), cancellationToken);
@@ -88,7 +88,7 @@ public class UserController : ControllerBase
     /// <param name="id">Id пользователя</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult<Unit>> Delete(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteUserRequest(id), cancellationToken);

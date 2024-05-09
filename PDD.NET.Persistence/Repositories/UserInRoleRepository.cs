@@ -15,4 +15,9 @@ public class UserInRoleRepository : BaseRepository<UserInRole>, IUserInRoleRepos
         return await Context.Set<UserInRole>()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.RoleId == roleId, cancellationToken);
     }
+
+    public void DeleteUserInRole(UserInRole userInRole)
+    {
+         Context.Set<UserInRole>().Remove(userInRole);
+    }
 }
