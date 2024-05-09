@@ -73,7 +73,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="id">Запрос на обновление информации пользователя</param>
     /// <param name="cancellationToken"></param>
-    /// <returns>Сущность Пользователя</returns>
+    /// <returns></returns>
     [HttpPost("{id}")]
     public async Task<ActionResult<Unit>> Update(int id, UpdateUserRequest request, CancellationToken cancellationToken)
     {
@@ -87,7 +87,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="id">Id пользователя</param>
     /// <param name="cancellationToken"></param>
-    /// <returns>Id пользователя</returns>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<ActionResult<Unit>> Delete(int id, CancellationToken cancellationToken)
     {

@@ -14,7 +14,11 @@ public static class DependencyInjection
         services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite(connectionString));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserDetailRepository, UserDetailRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUserInRoleRepository, UserInRoleRepository>();
 
         services.AddScoped<IDataInitializer, EFDataInitializer>();
 

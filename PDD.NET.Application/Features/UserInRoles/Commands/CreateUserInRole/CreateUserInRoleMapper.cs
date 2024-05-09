@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.UserInRoles.Commands.CreateUserInRole
+namespace PDD.NET.Application.Features.UserInRoles.Commands.CreateUserInRole;
+
+public sealed class CreateUserInRoleMapper : Profile
 {
-    internal class CreateUserInRoleMapper
+    public CreateUserInRoleMapper()
     {
+        CreateMap<CreateUserInRoleRequest, UserInRole>();
     }
 }

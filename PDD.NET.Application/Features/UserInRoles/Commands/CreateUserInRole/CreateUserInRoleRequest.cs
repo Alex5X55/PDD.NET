@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace PDD.NET.Application.Features.UserInRoles.Commands.CreateUserInRole
-{
-    internal class CreateUserInRoleRequest
-    {
-    }
-}
+namespace PDD.NET.Application.Features.UserInRoles.Commands.CreateUserInRole;
+
+public sealed record CreateUserInRoleRequest(int UserId, int RoleId) : IRequest<Unit>;

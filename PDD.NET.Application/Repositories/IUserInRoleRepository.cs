@@ -4,4 +4,5 @@ namespace PDD.NET.Application.Repositories;
 
 public interface IUserInRoleRepository : IBaseRepository<UserInRole>
 {
+    public Task<UserInRole> GetUserInRole(int userId, int roleId, CancellationToken cancellationToken);
 }
