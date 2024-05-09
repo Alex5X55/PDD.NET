@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.UserDetials.Commands.CreateUserDetail
+namespace PDD.NET.Application.Features.UserDetials.Commands.CreateUserDetail;
+
+public sealed class CreateUserDetailMapper : Profile
 {
-    internal class CreateUserDetailMapper
+    public CreateUserDetailMapper()
     {
+        CreateMap<CreateUserDetailInternalRequest, UserDetail>();
+        CreateMap<UserDetail, CreateUserDetailResponse>();
     }
 }

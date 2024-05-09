@@ -32,13 +32,17 @@ public static class FakeDataFactory
             {
                 Id = 1,
                 UserId = 1,
-                Country = "RUS"
+                Country = "RUS",
+                Name = "Alex",
+                Surname = "Ivanov"
             },
             new UserDetail()
             {
                 Id = 2,
                 UserId = 2,
-                Country = "USA"
+                Country = "USA",
+                Name = "John",
+                Surname = "Smit"
             }
         };
 

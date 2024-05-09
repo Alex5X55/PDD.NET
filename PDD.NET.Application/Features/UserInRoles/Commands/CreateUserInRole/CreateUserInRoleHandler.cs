@@ -42,10 +42,10 @@ public sealed class CreateUserInRoleHandler : IRequestHandler<CreateUserInRoleRe
             throw new NotFoundException(nameof(Role), request.RoleId);
         }
 
-        var existUserInRole = await _userInRoleRepository.GetUserInRole(request.UserId, request.RoleId, cancellationToken);
-        if (existUserInRole != null)
+        var existsUserInRole = await _userInRoleRepository.GetUserInRole(request.UserId, request.RoleId, cancellationToken);
+        if (existsUserInRole != null)
         {
-            throw new Exception($"User with id: {request.UserId} already in role with id: {request.RoleId}");
+            throw new BadRequestException($"User with id: {request.UserId} already in role with id: {request.RoleId}");
         }
 
         var userInRole = _mapper.Map<UserInRole>(request);
