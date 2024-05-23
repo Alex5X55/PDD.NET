@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.idea/.idea.PDD.NET/.idea/.gitignore
+.idea/.idea.PDD.NET/.idea/encodings.xml
+.idea/.idea.PDD.NET/.idea/indexLayout.xml
+.idea/.idea.PDD.NET/.idea/vcs.xml
+.idea/config/applicationhost.config
