@@ -60,4 +60,11 @@ public static class FakeDataFactory
             new UserInRole() { UserId = 1, RoleId = 2 },
             new UserInRole() { UserId = 2, RoleId = 2 }
         };
+    
+    public static IEnumerable<ExamHistory> ExamHistories =>
+        new List<ExamHistory>()
+        {
+            new ExamHistory() { UserId = 1, IsSeccess = true },
+            new ExamHistory() { UserId = 2, IsSeccess = false },
+        };
 }

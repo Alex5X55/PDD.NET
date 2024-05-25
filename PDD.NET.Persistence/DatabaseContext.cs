@@ -16,6 +16,8 @@ public class DatabaseContext : DbContext
     public DbSet<Role> Roles { get; set; }
 
     public DbSet<UserInRole> UserInRoles { get; set; }
+    
+    public DbSet<ExamHistory> ExamHistories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -43,6 +45,12 @@ public class DatabaseContext : DbContext
 
         modelBuilder.Entity<User>().Property(x => x.Login).HasMaxLength(100);
         modelBuilder.Entity<User>().Property(x => x.Email).HasMaxLength(100);
+        
+        modelBuilder
+            .Entity<ExamHistory>()
+            .HasOne(eh => eh.User)
+            .WithMany(u => u.ExamHistories)
+            .HasForeignKey(ex => ex.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
