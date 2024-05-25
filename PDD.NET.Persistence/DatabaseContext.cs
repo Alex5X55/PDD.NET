@@ -17,6 +17,9 @@ public class DatabaseContext : DbContext
 
     public DbSet<UserInRole> UserInRoles { get; set; }
 
+    public DbSet<Question> Questions { get; set; }
+    public DbSet<QuestionCategory> QuestionCategories { get; set; } 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -43,6 +46,11 @@ public class DatabaseContext : DbContext
 
         modelBuilder.Entity<User>().Property(x => x.Login).HasMaxLength(100);
         modelBuilder.Entity<User>().Property(x => x.Email).HasMaxLength(100);
+
+        modelBuilder.Entity<Question>()
+            .HasOne<QuestionCategory>(x => x.Category)
+            .WithMany(r => r.Questions)
+            .HasForeignKey(x=>x.CategoryId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
