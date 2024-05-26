@@ -17,4 +17,6 @@ public class User : BaseEntity
     public virtual IEnumerable<UserInRole> UserInRoles { get; set; }
     
     public virtual IEnumerable<ExamHistory> ExamHistories { get; set; }
+
+    public virtual IEnumerable<UserInAnswerHistory> UserInAnswerHistories { get; set; }
 }
