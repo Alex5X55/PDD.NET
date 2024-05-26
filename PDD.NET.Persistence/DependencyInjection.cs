@@ -21,6 +21,8 @@ public static class DependencyInjection
         services.AddScoped<IUserInRoleRepository, UserInRoleRepository>();
         services.AddScoped<IExamHistoryRepository, ExamHistoryRepository>();
 
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
+
         services.AddScoped<IDataInitializer, EFDataInitializer>();
 
         return services;
