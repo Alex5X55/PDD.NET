@@ -59,6 +59,24 @@ public class DatabaseContext : DbContext
             .HasOne(eh => eh.User)
             .WithMany(u => u.ExamHistories)
             .HasForeignKey(ex => ex.UserId);
+
+        modelBuilder
+            .Entity<Question>()
+            .HasMany<AnswerOption>(ur => ur.AnswerOptions)
+            .WithOne(u => u.Question)
+            .HasForeignKey(ur => ur.QuestionId);
+
+        modelBuilder
+            .Entity<AnswerOption>()
+            .HasMany<UserInAnswerHistory>(ur => ur.UserAnswersHistories)
+            .WithOne(u => u.AnswerOption)
+            .HasForeignKey(ur => ur.AnswerOptionId);
+
+        modelBuilder
+            .Entity<UserInAnswerHistory>()
+            .HasOne<User>(ur => ur.User)
+            .WithMany(u => u.UserInAnswerHistories)
+            .HasForeignKey(ur => ur.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
