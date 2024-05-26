@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PDD.NET.Application.Features.UserDetails.Commands.UpdateUserDetail;
+namespace PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 
 public sealed class UpdateUserDetailValidator : AbstractValidator<UpdateUserDetailInternalRequest>
 {

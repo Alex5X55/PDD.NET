@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PDD.NET.Application.Common.Constants;
 
-namespace PDD.NET.Application.Features.Users.Commands.UpdateUser;
+namespace PDD.NET.Application.Features.Answers.Commands.UpdateAnswer;
 
 public sealed class UpdateAnswerValidator : AbstractValidator<UpdateAnswerInternalRequest>
 {

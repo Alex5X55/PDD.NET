@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PDD.NET.Application.Features.Users.Commands.UpdateUser;
+namespace PDD.NET.Application.Features.Answers.Commands.UpdateAnswer;
 
 public sealed record UpdateAnswerRequest(string Text, bool IsRight) : IRequest<Unit>;
 

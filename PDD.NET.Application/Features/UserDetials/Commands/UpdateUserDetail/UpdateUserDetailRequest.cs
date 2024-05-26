@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PDD.NET.Application.Features.UserDetails.Commands.UpdateUserDetail;
+namespace PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 
 public sealed record UpdateUserDetailRequest(string Name, string Surname, string Country)
     : IRequest<Unit>;

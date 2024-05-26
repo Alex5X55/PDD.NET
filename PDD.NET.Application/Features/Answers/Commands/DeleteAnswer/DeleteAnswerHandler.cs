@@ -4,7 +4,7 @@ using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Users.Commands.DeleteUser;
+namespace PDD.NET.Application.Features.Answers.Commands.DeleteAnswer;
 
 public sealed class DeleteAnswerHandler : IRequestHandler<DeleteAnswerRequest, Unit>
 {

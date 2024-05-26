@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace PDD.NET.Application.Features.Users.Commands.DeleteUser;
+namespace PDD.NET.Application.Features.Answers.Commands.DeleteAnswer;
 
 public sealed record DeleteAnswerRequest(int Id) : IRequest<Unit>;

@@ -2,7 +2,7 @@
 using MediatR;
 using PDD.NET.Application.Repositories;
 
-namespace PDD.NET.Application.Features.Questions.Queries.GetQuestion
+namespace PDD.NET.Application.Features.Questions.Queries.GetQuestionById
 {
     public sealed class GetQuestionByIdHandler : IRequestHandler<GetQuestionByIdRequest, GetQuestionByIdResponse>
     {
@@ -17,7 +17,7 @@ namespace PDD.NET.Application.Features.Questions.Queries.GetQuestion
 
         public async Task<GetQuestionByIdResponse> Handle(GetQuestionByIdRequest request, CancellationToken cancellationToken)
         {
-            var question = await _questionRepository.Get(request.Id,  cancellationToken);
+            var question = await _questionRepository.Get(request.Id, cancellationToken);
             return _mapper.Map<GetQuestionByIdResponse>(question);
         }
     }

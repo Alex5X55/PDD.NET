@@ -4,7 +4,7 @@ using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.UserDetails.Commands.UpdateUserDetail;
+namespace PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 
 public sealed class UpdateUserDetailHandler : IRequestHandler<UpdateUserDetailInternalRequest, Unit>
 {
@@ -42,7 +42,7 @@ public sealed class UpdateUserDetailHandler : IRequestHandler<UpdateUserDetailIn
             userDetail.Country = request.Country;
             _userDetailRepository.Update(userDetail);
         }
-        
+
         await _unitOfWork.Save(cancellationToken);
 
         return Unit.Value;
