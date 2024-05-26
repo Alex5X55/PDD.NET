@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PDD.NET.Application.Features.UserDetails.Commands.UpdateUserDetail;
 using PDD.NET.Application.Features.UserDetials.Commands.CreateUserDetail;
+using PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 
 namespace PDD.NET.WebAPI.Controllers;
 

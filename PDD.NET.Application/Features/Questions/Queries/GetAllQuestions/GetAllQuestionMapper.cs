@@ -2,7 +2,7 @@
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestion;
+namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
 
 public sealed class GetAllQuestionMapper : Profile
 {

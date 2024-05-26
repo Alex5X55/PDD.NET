@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Questions.Queries.GetQuestion
+namespace PDD.NET.Application.Features.Questions.Queries.GetQuestionById
 {
     public sealed class GetQuestionByIdMapper : Profile
     {

@@ -2,7 +2,7 @@
 using MediatR;
 using PDD.NET.Application.Repositories;
 
-namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestion;
+namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
 
 public sealed class GetAllQuestionHandler : IRequestHandler<GetAllQuestionRequest, IEnumerable<GetAllQuestionResponse>>
 {

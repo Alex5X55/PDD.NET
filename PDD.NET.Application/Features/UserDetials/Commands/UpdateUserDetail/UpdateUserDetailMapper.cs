@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.UserDetails.Commands.UpdateUserDetail;
+namespace PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 
 public sealed class UpdateUserDetailMapper : Profile
 {
