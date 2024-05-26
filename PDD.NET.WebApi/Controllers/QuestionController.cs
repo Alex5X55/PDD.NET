@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PDD.NET.Application.Features.Questions.Queries.GetAllQuestion;
-using PDD.NET.Application.Features.Questions.Queries.GetQuestion;
+using PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
+using PDD.NET.Application.Features.Questions.Queries.GetQuestionById;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId;
 
 namespace PDD.NET.WebApi.Controllers
