@@ -3,7 +3,7 @@ using MediatR;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Users.Commands.CreateUser;
+namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
 
 public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, CreateAnswerResponse>
 {

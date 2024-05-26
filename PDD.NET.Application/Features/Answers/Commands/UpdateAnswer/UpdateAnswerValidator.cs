@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using PDD.NET.Application.Common.Constants;
 
-namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
+namespace PDD.NET.Application.Features.Users.Commands.UpdateUser;
 
-public sealed class CreateAnswerValidator : AbstractValidator<CreateAnswerRequest>
+public sealed class UpdateAnswerValidator : AbstractValidator<UpdateAnswerInternalRequest>
 {
-    public CreateAnswerValidator()
+    public UpdateAnswerValidator()
     {
         RuleFor(x => x.Text).NotEmpty().WithMessage("Answer cannot be empty")
             .MaximumLength(ProjectConstants.MAX_TEXT_LENGHT).WithMessage($"Answer must be less than {ProjectConstants.MAX_TEXT_LENGHT} characters");

@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Answers\Commands\DeleteAnswer\" />
-    <Folder Include="Features\Answers\Commands\UpdateAnswer\" />
     <Folder Include="Features\Answers\Queries\GetAllAnswers\" />
     <Folder Include="Features\Answers\Queries\GetAnswer\" />
     <Folder Include="Features\Questions\Commands\" />

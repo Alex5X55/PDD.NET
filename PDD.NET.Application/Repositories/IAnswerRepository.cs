@@ -4,5 +4,5 @@ namespace PDD.NET.Application.Repositories;
 
 public interface IAnswerRepository : IBaseRepository<AnswerOption>
 {
-    public Task<AnswerOption> GetUserFullInfo(int id, CancellationToken cancellationToken);
+    public Task<AnswerOption> GetAnswerFullInfo(int id, CancellationToken cancellationToken);
 }
