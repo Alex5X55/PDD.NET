@@ -16,6 +16,8 @@ public class DatabaseContext : DbContext
     public DbSet<Role> Roles { get; set; }
 
     public DbSet<UserInRole> UserInRoles { get; set; }
+    
+    public DbSet<ExamHistory> ExamHistories { get; set; }
 
     public DbSet<Question> Questions { get; set; }
     public DbSet<QuestionCategory> QuestionCategories { get; set; } 
@@ -51,6 +53,12 @@ public class DatabaseContext : DbContext
             .HasOne<QuestionCategory>(x => x.Category)
             .WithMany(r => r.Questions)
             .HasForeignKey(x=>x.CategoryId);
+        
+        modelBuilder
+            .Entity<ExamHistory>()
+            .HasOne(eh => eh.User)
+            .WithMany(u => u.ExamHistories)
+            .HasForeignKey(ex => ex.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

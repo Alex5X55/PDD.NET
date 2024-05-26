@@ -60,8 +60,7 @@ public static class FakeDataFactory
             new UserInRole() { UserId = 1, RoleId = 2 },
             new UserInRole() { UserId = 2, RoleId = 2 }
         };
-
-    
+  
     public static IEnumerable<Question> Questions => new List<Question>()
     {
         //src: https://www.pdd24.com/pdd-onlain
@@ -86,4 +85,11 @@ public static class FakeDataFactory
 
         new QuestionCategory(){Id = 28 , Text = "28 Медицина"}
     };
+    
+    public static IEnumerable<ExamHistory> ExamHistories =>
+        new List<ExamHistory>()
+        {
+            new ExamHistory() { UserId = 1, IsSeccess = true },
+            new ExamHistory() { UserId = 2, IsSeccess = false },
+        };
 }
