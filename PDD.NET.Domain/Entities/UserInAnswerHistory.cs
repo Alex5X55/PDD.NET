@@ -1,12 +1,8 @@
 ﻿using PDD.NET.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDD.NET.Domain.Entities
 {
+    //TODO Добавить дату время?
     /// <summary>
     /// Сущность истории ответов пользователя на вопросы
     /// </summary>
