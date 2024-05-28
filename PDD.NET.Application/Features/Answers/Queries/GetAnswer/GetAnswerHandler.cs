@@ -19,10 +19,10 @@ public sealed class GetAnswerHandler : IRequestHandler<GetAnswerRequest, GetAnsw
 
     public async Task<GetAnswerResponse> Handle(GetAnswerRequest request, CancellationToken cancellationToken)
     {
-        var answer = _mapper.Map<User>(await _answerRepository.Get(request.Id, cancellationToken));
+        var answer = _mapper.Map<AnswerOption>(await _answerRepository.Get(request.Id, cancellationToken));
         if (answer == null)
         {
-            throw new NotFoundException(nameof(User), request.Id);
+            throw new NotFoundException(nameof(AnswerOption), request.Id);
         }
 
         return _mapper.Map<GetAnswerResponse>(answer);

@@ -19,12 +19,12 @@ public sealed class GetAnswerFullInfoHandler : IRequestHandler<GetAnswerFullInfo
 
     public async Task<GetAnswerFullInfoResponse> Handle(GetAnswerFullInfoRequest request, CancellationToken cancellationToken)
     {
-        var user = _mapper.Map<AnswerOption>(await _answerRepository.GetAnswerFullInfo(request.Id, cancellationToken));
-        if (user == null)
+        var answer = _mapper.Map<AnswerOption>(await _answerRepository.GetAnswerFullInfo(request.Id, cancellationToken));
+        if (answer == null)
         {
-            throw new NotFoundException(nameof(User), request.Id);
+            throw new NotFoundException(nameof(AnswerOption), request.Id);
         }
 
-        return _mapper.Map<GetAnswerFullInfoResponse>(user);
+        return _mapper.Map<GetAnswerFullInfoResponse>(answer);
     }
 }

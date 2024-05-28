@@ -6,5 +6,5 @@ public sealed record GetAllAnswerResponse
 
     public string Text { get; set; }
 
-    public bool IsEnabled { get; set; }
+    public bool IsRight { get; set; }
 }
