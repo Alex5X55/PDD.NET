@@ -20,7 +20,11 @@ public class DatabaseContext : DbContext
     public DbSet<ExamHistory> ExamHistories { get; set; }
 
     public DbSet<Question> Questions { get; set; }
-    public DbSet<QuestionCategory> QuestionCategories { get; set; } 
+    public DbSet<QuestionCategory> QuestionCategories { get; set; }
+
+    public DbSet<AnswerOption> AnswerOptions { get; set; }
+
+    public DbSet<UserInAnswerHistory> UserAnswerHistories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +63,24 @@ public class DatabaseContext : DbContext
             .HasOne(eh => eh.User)
             .WithMany(u => u.ExamHistories)
             .HasForeignKey(ex => ex.UserId);
+
+        modelBuilder
+            .Entity<Question>()
+            .HasMany<AnswerOption>(ur => ur.AnswerOptions)
+            .WithOne(u => u.Question)
+            .HasForeignKey(ur => ur.QuestionId);
+
+        modelBuilder
+            .Entity<AnswerOption>()
+            .HasMany<UserInAnswerHistory>(ur => ur.UserAnswersHistories)
+            .WithOne(u => u.AnswerOption)
+            .HasForeignKey(ur => ur.AnswerOptionId);
+
+        modelBuilder
+            .Entity<UserInAnswerHistory>()
+            .HasOne<User>(ur => ur.User)
+            .WithMany(u => u.UserInAnswerHistories)
+            .HasForeignKey(ur => ur.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

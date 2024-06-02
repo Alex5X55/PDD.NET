@@ -23,5 +23,10 @@ namespace PDD.NET.Domain.Entities
         /// Категория вопросов
         /// </summary>
         public virtual QuestionCategory Category { get; set; }
+
+        /// <summary>
+        /// Варианты ответов
+        /// </summary>
+        public virtual IEnumerable<AnswerOption> AnswerOptions { get; set; }
     }
 }

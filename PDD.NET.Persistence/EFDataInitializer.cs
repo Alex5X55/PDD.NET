@@ -31,6 +31,10 @@ public class EFDataInitializer : IDataInitializer
 
         Context.AddRange(FakeDataFactory.QuestionCategories);
 
+        Context.AddRange(FakeDataFactory.AnswerOptions);
+
+        Context.AddRange(FakeDataFactory.UserInAnswerHistories);
+
         Context.SaveChanges();
     }
 }
