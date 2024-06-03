@@ -40,9 +40,14 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 d-flex flex-column align-items-center">
       <h1 className="mb-4">Регистрация</h1>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={validated}
+        onSubmit={handleSubmit}
+        className="w-50"
+      >
         <Form.Group controlId="formUsername" className="mb-3">
           <Form.Control
             required
@@ -99,10 +104,11 @@ const RegisterPage: React.FC = () => {
             Пароли не совпадают.
           </Form.Control.Feedback>
         </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Регистрация
-        </Button>
+        <div className="d-flex justify-content-center">
+          <Button variant="primary" type="submit">
+            Регистрация
+          </Button>
+        </div>
       </Form>
     </Container>
   );
