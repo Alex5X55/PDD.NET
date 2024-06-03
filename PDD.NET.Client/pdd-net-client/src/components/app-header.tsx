@@ -16,6 +16,11 @@ export default function AppHeader() {
               Главная
             </Nav.Link>
           </Nav>
+          <Nav className="ml-auto">
+            <Nav.Link as={NavLink} to="/register" end>
+              Регистрация
+            </Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

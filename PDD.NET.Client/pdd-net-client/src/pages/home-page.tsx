@@ -1,7 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import React from "react";
 
-export default function HomePage() {
+const HomePage: React.FC = () => {
   return (
     <div className="container">
       <header className="jumbotron mt-5">
@@ -47,4 +48,6 @@ export default function HomePage() {
       </header>
     </div>
   );
-}
+};
+
+export default HomePage;
