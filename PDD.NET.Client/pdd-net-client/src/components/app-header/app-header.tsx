@@ -13,7 +13,7 @@ export default function AppHeader() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/" end>
-              Home
+              Главная
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
