@@ -15,6 +15,9 @@ export default function AppHeader() {
             <Nav.Link as={NavLink} to="/" end>
               Главная
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/register" end>
+              Регистрация
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
