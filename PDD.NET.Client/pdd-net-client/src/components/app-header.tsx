@@ -15,6 +15,9 @@ export default function AppHeader() {
             <Nav.Link as={NavLink} to="/" end>
               Главная
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/qustion-categories" end>
+              Вопросы по категориям
+            </Nav.Link>
           </Nav>
           <Nav className="ml-auto">
             <Nav.Link as={NavLink} to="/login" end>

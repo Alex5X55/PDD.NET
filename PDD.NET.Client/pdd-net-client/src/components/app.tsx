@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import LoginPage from "../pages/login-page";
 import RestorePasswordPage from "../pages/restore-password";
 import ResetPasswordPage from "../pages/reset-password";
+import QuestionCategoriesPage from "../pages/question-categories-page";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/restore-password" element={<RestorePasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route
+            path="/qustion-categories"
+            element={<QuestionCategoriesPage />}
+          />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

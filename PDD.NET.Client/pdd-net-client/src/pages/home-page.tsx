@@ -1,6 +1,8 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import React from "react";
+import Nav from "react-bootstrap/Nav";
+import { NavLink } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   return (
@@ -33,8 +35,11 @@ const HomePage: React.FC = () => {
               (дорожные знаки, разметка, правила проезда перекрёстков, первая
               помощь и т.д.).
             </Card.Text>
-            {/*TODO: ссылка на будущий раздел*/}
-            <Button variant="primary">Перейти в раздел</Button>
+            <Button variant="primary">
+              <Nav.Link as={NavLink} to="/qustion-categories" end>
+                Перейти в раздел
+              </Nav.Link>
+            </Button>
           </Card.Body>
         </Card>
         <Card className="mb-4">
