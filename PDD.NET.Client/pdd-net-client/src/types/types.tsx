@@ -1,3 +1,5 @@
+import QuestionList from "../components/question-list";
+
 export interface IRegisterRequest {
   login: string;
   email: string;
@@ -28,16 +30,21 @@ export interface IQuestionCategoriesList {
   categories: Array<IQuestionCategory>;
 }
 
-export interface IQuestion {
-  id: number;
-  categoryId: number;
-  imageData: string;
-  text: string;
-}
-
 export interface IAnswerOption {
   id: number;
   questionId: number;
   text: string;
   isRight: boolean;
+}
+
+export interface IQuestion {
+  id: number;
+  categoryId: number;
+  imageData: string;
+  text: string;
+  answerOptions: Array<IAnswerOption>;
+}
+
+export interface IQuestionList {
+  questions: Array<IQuestion>;
 }

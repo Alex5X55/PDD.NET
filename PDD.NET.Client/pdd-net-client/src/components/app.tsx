@@ -11,6 +11,8 @@ import RestorePasswordPage from "../pages/restore-password";
 import ResetPasswordPage from "../pages/reset-password";
 import QuestionCategoriesPage from "../pages/question-categories-page";
 import QuestionCategoryPage from "../pages/question-category-page";
+import QuestionCard from "./question-card";
+import QuestionLayout from "./question-layout";
 
 function App() {
   return (
@@ -28,9 +30,14 @@ function App() {
             element={<QuestionCategoriesPage />}
           />
           <Route
-            path="/question-category/:id"
+            path="/question-category/:categoryId"
             element={<QuestionCategoryPage />}
           />
+          <Route
+            path="/question-category/:categoryId/*"
+            element={<QuestionLayout />}
+          />
+          <Route path="/question/:questionId" element={<QuestionLayout />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
