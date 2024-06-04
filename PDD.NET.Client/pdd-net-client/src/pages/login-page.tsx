@@ -1,14 +1,13 @@
-import React, { useState, FormEvent } from "react";
-import { Form, Button, Container } from "react-bootstrap";
-import { IRegisterRequest } from "../types/types";
+import React, { FormEvent, useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useForm } from "../hooks/use-form";
+import { ILoginRequest } from "../types/types";
 
-const RegisterPage: React.FC = () => {
-  const { formState, handleFieldChange } = useForm<IRegisterRequest>({
+const LoginPage: React.FC = () => {
+  const { formState, handleFieldChange } = useForm<ILoginRequest>({
     login: "",
-    email: "",
     password: "",
-    confirmPassword: "",
   });
 
   const [validated, setValidated] = useState(false);
@@ -16,10 +15,7 @@ const RegisterPage: React.FC = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    if (
-      !form.checkValidity() ||
-      formState.password !== formState.confirmPassword
-    ) {
+    if (!form.checkValidity()) {
       e.stopPropagation();
     } else {
       console.log("Form data:", formState);
@@ -29,7 +25,7 @@ const RegisterPage: React.FC = () => {
 
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
-      <h1 className="mb-4">Регистрация</h1>
+      <h1 className="mb-4">Вход</h1>
       <Form
         noValidate
         validated={validated}
@@ -50,20 +46,6 @@ const RegisterPage: React.FC = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="formEmail" className="mb-3">
-          <Form.Control
-            required
-            type="email"
-            name="email"
-            value={formState.email}
-            onChange={handleFieldChange}
-            placeholder="Email"
-          />
-          <Form.Control.Feedback type="invalid">
-            Пожалуйста, введите корректный email.
-          </Form.Control.Feedback>
-        </Form.Group>
-
         <Form.Group controlId="formPassword" className="mb-3">
           <Form.Control
             required
@@ -78,28 +60,17 @@ const RegisterPage: React.FC = () => {
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="formConfirmPassword" className="mb-3">
-          <Form.Control
-            required
-            type="password"
-            name="confirmPassword"
-            value={formState.confirmPassword}
-            onChange={handleFieldChange}
-            placeholder="Подтвердите пароль"
-            isInvalid={formState.password !== formState.confirmPassword}
-          />
-          <Form.Control.Feedback type="invalid">
-            Пароли не совпадают.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mb-3">
           <Button variant="primary" type="submit">
-            Регистрация
+            Вход
           </Button>
         </div>
       </Form>
+      <div className="d-flex justify-content-center">
+        <Link to="/login">Напомнить пароль</Link>
+      </div>
     </Container>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
