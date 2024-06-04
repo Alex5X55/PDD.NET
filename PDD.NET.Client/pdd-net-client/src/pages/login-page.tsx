@@ -67,7 +67,7 @@ const LoginPage: React.FC = () => {
         </div>
       </Form>
       <div className="d-flex justify-content-center">
-        <Link to="/login">Напомнить пароль</Link>
+        <Link to="/restore-password">Восстановить пароль</Link>
       </div>
     </Container>
   );

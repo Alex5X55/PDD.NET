@@ -9,3 +9,7 @@ export interface ILoginRequest {
   login: string;
   password: string;
 }
+
+export interface IRestorePasswordRequest {
+  email: string;
+}
