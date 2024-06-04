@@ -35,7 +35,7 @@ const HomePage: React.FC = () => {
             помощь и т.д.).
           </Card.Text>
           <Button variant="primary">
-            <Nav.Link as={NavLink} to="/qustion-categories" end>
+            <Nav.Link as={NavLink} to="/question-categories" end>
               Перейти в раздел
             </Nav.Link>
           </Button>

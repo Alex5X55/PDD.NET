@@ -26,19 +26,13 @@ function App() {
           <Route path="/restore-password" element={<RestorePasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route
-            path="/qustion-categories"
+            path="/question-categories"
             element={<QuestionCategoriesPage />}
-          />
-          <Route
-            path="/question-category/:categoryId"
-            element={<QuestionCategoryPage />}
           />
           <Route
             path="/question-category/:categoryId/*"
             element={<QuestionLayout />}
           />
-          <Route path="/question/:questionId" element={<QuestionLayout />} />
-
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>

@@ -1,11 +1,12 @@
 import React from "react";
 import { IQuestionList } from "../types/types";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
 const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
+  const { categoryId } = useParams<{ categoryId: string }>();
   return (
     <div className="container">
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -16,7 +17,7 @@ const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
               {questions.map((item, index) => (
                 <Nav.Link
                   as={NavLink}
-                  to={`/question/${item.id}`}
+                  to={`/question-category/${categoryId}/${item.id}`}
                   key={item.id}
                   end
                 >

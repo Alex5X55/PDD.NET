@@ -15,7 +15,7 @@ export default function AppHeader() {
             <Nav.Link as={NavLink} to="/" end>
               Главная
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/qustion-categories" end>
+            <Nav.Link as={NavLink} to="/question-categories" end>
               Вопросы по темам
             </Nav.Link>
           </Nav>
