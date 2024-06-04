@@ -1,5 +1,3 @@
-import QuestionList from "../components/question-list";
-
 export interface IRegisterRequest {
   login: string;
   email: string;

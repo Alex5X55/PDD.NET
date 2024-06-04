@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppHeader from "./app-header";
 import HomePage from "../pages/home-page";
 import { Route, Routes } from "react-router-dom";
@@ -10,11 +10,17 @@ import LoginPage from "../pages/login-page";
 import RestorePasswordPage from "../pages/restore-password";
 import ResetPasswordPage from "../pages/reset-password";
 import QuestionCategoriesPage from "../pages/question-categories-page";
-import QuestionCategoryPage from "../pages/question-category-page";
-import QuestionCard from "./question-card";
-import QuestionLayout from "./question-layout";
+import CategoryQuestionsLayout from "./category-questions-layout";
+import { useAppDispatch } from "../services/hooks";
+import { setQuestionCategories } from "../services/question/reducer";
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setQuestionCategories());
+  }, [dispatch]);
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <AppHeader />
@@ -31,8 +37,9 @@ function App() {
           />
           <Route
             path="/question-category/:categoryId/*"
-            element={<QuestionLayout />}
+            element={<CategoryQuestionsLayout />}
           />
+
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>
