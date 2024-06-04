@@ -6,6 +6,7 @@ import NotFoundPage from "../pages/not-found-page";
 import RegisterPage from "../pages/register-page";
 import AppFooter from "./app-footer";
 import Container from "react-bootstrap/Container";
+import LoginPage from "../pages/login-page";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
