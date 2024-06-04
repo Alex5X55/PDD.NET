@@ -8,6 +8,7 @@ import AppFooter from "./app-footer";
 import Container from "react-bootstrap/Container";
 import LoginPage from "../pages/login-page";
 import RestorePasswordPage from "../pages/restore-password";
+import ResetPasswordPage from "../pages/reset-password";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/restore-password" element={<RestorePasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
