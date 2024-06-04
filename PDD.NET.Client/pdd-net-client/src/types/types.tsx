@@ -18,3 +18,12 @@ export interface IResetPasswordRequest {
   password: string;
   confirmPassword: string;
 }
+
+export interface IQuestionCategory {
+  id: number;
+  text: string;
+}
+
+export interface IQuestionCategoriesList {
+  categories: Array<IQuestionCategory>;
+}

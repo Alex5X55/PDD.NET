@@ -16,7 +16,7 @@ export default function AppHeader() {
               Главная
             </Nav.Link>
             <Nav.Link as={NavLink} to="/qustion-categories" end>
-              Вопросы по категориям
+              Вопросы по темам
             </Nav.Link>
           </Nav>
           <Nav className="ml-auto">
