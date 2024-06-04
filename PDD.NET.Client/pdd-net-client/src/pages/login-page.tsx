@@ -1,26 +1,16 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-interface FormData {
-  login: string;
-  password: string;
-}
+import { useForm } from "../hooks/use-form";
+import { ILoginRequest } from "../types/types";
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const { formState, handleFieldChange } = useForm<ILoginRequest>({
     login: "",
     password: "",
   });
 
   const [validated, setValidated] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,10 +18,11 @@ const LoginPage: React.FC = () => {
     if (!form.checkValidity()) {
       e.stopPropagation();
     } else {
-      console.log("Form data:", formData);
+      console.log("Form data:", formState);
     }
     setValidated(true);
   };
+
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
       <h1 className="mb-4">Вход</h1>
@@ -46,8 +37,8 @@ const LoginPage: React.FC = () => {
             required
             type="text"
             name="login"
-            value={formData.login}
-            onChange={handleChange}
+            value={formState.login}
+            onChange={handleFieldChange}
             placeholder="Логин"
           />
           <Form.Control.Feedback type="invalid">
@@ -60,8 +51,8 @@ const LoginPage: React.FC = () => {
             required
             type="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={formState.password}
+            onChange={handleFieldChange}
             placeholder="Пароль"
           />
           <Form.Control.Feedback type="invalid">

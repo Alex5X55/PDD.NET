@@ -1,15 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, FormEvent } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-
-interface FormData {
-  login: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { IRegisterRequest } from "../types/types";
+import { useForm } from "../hooks/use-form";
 
 const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const { formState, handleFieldChange } = useForm<IRegisterRequest>({
     login: "",
     email: "",
     password: "",
@@ -18,23 +13,16 @@ const RegisterPage: React.FC = () => {
 
   const [validated, setValidated] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     if (
       !form.checkValidity() ||
-      formData.password !== formData.confirmPassword
+      formState.password !== formState.confirmPassword
     ) {
       e.stopPropagation();
     } else {
-      console.log("Form data:", formData);
+      console.log("Form data:", formState);
     }
     setValidated(true);
   };
@@ -53,8 +41,8 @@ const RegisterPage: React.FC = () => {
             required
             type="text"
             name="login"
-            value={formData.login}
-            onChange={handleChange}
+            value={formState.login}
+            onChange={handleFieldChange}
             placeholder="Логин"
           />
           <Form.Control.Feedback type="invalid">
@@ -67,8 +55,8 @@ const RegisterPage: React.FC = () => {
             required
             type="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={formState.email}
+            onChange={handleFieldChange}
             placeholder="Email"
           />
           <Form.Control.Feedback type="invalid">
@@ -81,8 +69,8 @@ const RegisterPage: React.FC = () => {
             required
             type="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={formState.password}
+            onChange={handleFieldChange}
             placeholder="Пароль"
           />
           <Form.Control.Feedback type="invalid">
@@ -95,10 +83,10 @@ const RegisterPage: React.FC = () => {
             required
             type="password"
             name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
+            value={formState.confirmPassword}
+            onChange={handleFieldChange}
             placeholder="Подтвердите пароль"
-            isInvalid={formData.password !== formData.confirmPassword}
+            isInvalid={formState.password !== formState.confirmPassword}
           />
           <Form.Control.Feedback type="invalid">
             Пароли не совпадают.
