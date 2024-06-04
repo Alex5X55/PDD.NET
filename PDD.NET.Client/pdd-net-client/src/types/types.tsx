@@ -13,3 +13,8 @@ export interface ILoginRequest {
 export interface IRestorePasswordRequest {
   email: string;
 }
+
+export interface IResetPasswordRequest {
+  password: string;
+  confirmPassword: string;
+}
