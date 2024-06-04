@@ -10,6 +10,7 @@ import LoginPage from "../pages/login-page";
 import RestorePasswordPage from "../pages/restore-password";
 import ResetPasswordPage from "../pages/reset-password";
 import QuestionCategoriesPage from "../pages/question-categories-page";
+import QuestionCategoryPage from "../pages/question-category-page";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
           <Route
             path="/qustion-categories"
             element={<QuestionCategoriesPage />}
+          />
+          <Route
+            path="/question-category/:id"
+            element={<QuestionCategoryPage />}
           />
 
           <Route path="*" element={<NotFoundPage />} />

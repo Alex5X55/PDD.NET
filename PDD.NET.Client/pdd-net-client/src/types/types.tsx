@@ -27,3 +27,17 @@ export interface IQuestionCategory {
 export interface IQuestionCategoriesList {
   categories: Array<IQuestionCategory>;
 }
+
+export interface IQuestion {
+  id: number;
+  categoryId: number;
+  imageData: string;
+  text: string;
+}
+
+export interface IAnswerOption {
+  id: number;
+  questionId: number;
+  text: string;
+  isRight: boolean;
+}

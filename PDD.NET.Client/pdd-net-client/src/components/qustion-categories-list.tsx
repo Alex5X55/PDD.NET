@@ -17,7 +17,7 @@ const QuestionCategoriesList: React.FC<IQuestionCategoriesList> = ({
       </p>
       <ListGroup>
         {categories.map((item) => (
-          <ListGroup.Item>
+          <ListGroup.Item key={item.id}>
             <Link to={`/question-category/${item.id}`}>{item.text}</Link>
           </ListGroup.Item>
         ))}
