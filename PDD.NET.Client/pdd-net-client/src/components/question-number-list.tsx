@@ -17,7 +17,7 @@ const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
               {questions.map((item, index) => (
                 <Nav.Link
                   as={NavLink}
-                  to={`/question-category/${categoryId}/${item.id}`}
+                  to={`/question/${item.id}`}
                   key={item.id}
                   end
                 >

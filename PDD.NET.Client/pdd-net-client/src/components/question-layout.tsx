@@ -14,7 +14,7 @@ const QuestionLayout: React.FC = () => {
     <div className="container">
       <QuestionNumberList questions={questions} />
       <Routes>
-        <Route path=":questionId" element={<QuestionCard />} />
+        <Route path="/question/questionId" element={<QuestionCard />} />
       </Routes>
     </div>
   );
