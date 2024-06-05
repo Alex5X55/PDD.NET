@@ -1,9 +1,9 @@
 import React from "react";
 import { IQuestionList } from "../types/types";
-import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import CustomNavLink from "./custom-nav-link";
 
 const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
   return (
@@ -14,7 +14,12 @@ const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               {questions.map((item, index) => (
-                <Nav.Link as={NavLink} to={`${item.id}`} key={item.id} end>
+                <Nav.Link
+                  as={CustomNavLink}
+                  to={`${item.id}`}
+                  key={item.id}
+                  className="nav-link"
+                >
                   {index + 1}
                 </Nav.Link>
               ))}
