@@ -1,5 +1,15 @@
-.custom {
-    color: red !important;
-    background-color: white !important;
+
+.nav_link_main {
+    font-size: 26px;
+    margin-left: 15px;
     text-decoration: none;
+}
+
+.link_active {
+
+    color: red;
+}
+
+.link_inactive {
+    color: black;
 }

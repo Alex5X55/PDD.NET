@@ -12,9 +12,9 @@ const CustomNavLink: React.FC<PropsWithChildren<CustomNavLinkProps>> = ({
   ...props
 }) => {
   return (
-    <NavLink {...props}>
+    <NavLink {...props} className={styles.nav_link_main}>
       {({ isActive }) => (
-        <span className={`${className} ${isActive ? styles.custom : ""}`}>
+        <span className={isActive ? styles.link_active : styles.link_inactive}>
           {children}
         </span>
       )}
