@@ -1,12 +1,14 @@
-
 .nav_link_main {
-    font-size: 26px;
-    margin-left: 15px;
+    font-size: 20px;
+    margin-left: 10px;
     text-decoration: none;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: lightgray;
 }
 
 .link_active {
-
     color: red;
 }
 
