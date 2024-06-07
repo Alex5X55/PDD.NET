@@ -57,6 +57,9 @@ export const questionSlice = createSlice({
         );
       }
     },
+    resetCurrentQuestionNumber: (state) => {
+      state.currentQuestionNumber = 0;
+    },
   },
 });
 
@@ -67,4 +70,5 @@ export const {
   setNextQuestion,
   setPrevQuestion,
   setCurrentQuestionNumber,
+  resetCurrentQuestionNumber,
 } = questionSlice.actions;

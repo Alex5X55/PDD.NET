@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import {
+  resetCurrentQuestionNumber,
   setCurrentQuestionNumber,
   setNextQuestion,
   setPrevQuestion,
@@ -26,6 +27,10 @@ const QuestionCard: React.FC = () => {
     if (question && currentQuestions.length > 0) {
       dispatch(setCurrentQuestionNumber(question));
     }
+
+    return () => {
+      dispatch(resetCurrentQuestionNumber());
+    };
   }, [dispatch, question, currentQuestions]);
 
   //TODO: переход должен сохранять форму
