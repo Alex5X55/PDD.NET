@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import QuestionNumberList from "../components/question-number-list";
 import QuestionCard from "../components/question-card";
@@ -6,18 +6,21 @@ import Button from "react-bootstrap/Button";
 import useQuestionNavigation from "../hooks/use-question-navigation";
 
 const ExamPage: React.FC = () => {
+  const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState<number>(1200); // 20 минут в секундах
+  const [timeLeft, setTimeLeft] = useState<number>(initTimeLeft);
   const { currentQuestions } = useQuestionNavigation(true);
+  const hasFinished = useRef(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (isStart && timeLeft > 0) {
+    if (isStart && timeLeft >= 0) {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft < 0 && !hasFinished.current) {
+      hasFinished.current = true;
       onFinishHandleClick();
     }
 
@@ -28,7 +31,8 @@ const ExamPage: React.FC = () => {
 
   const onStartHandleClick = () => {
     setIsStart(true);
-    setTimeLeft(1200);
+    setTimeLeft(initTimeLeft);
+    hasFinished.current = false;
   };
 
   const onFinishHandleClick = () => {
@@ -64,10 +68,11 @@ const ExamPage: React.FC = () => {
             <Button variant="primary" onClick={onFinishHandleClick}>
               Завершить экзамен
             </Button>
-            <p className="fs-2 fw-bold me-4">
-              <div className="timer" style={{ marginLeft: "auto" }}>
-                {formatTime(timeLeft)}
-              </div>
+            <p
+              className="timer fs-2 fw-bold me-4"
+              style={{ marginLeft: "auto" }}
+            >
+              {formatTime(timeLeft)}
             </p>
           </div>
           <QuestionNumberList questions={currentQuestions} />
