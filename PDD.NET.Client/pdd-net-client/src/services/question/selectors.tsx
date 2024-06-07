@@ -8,3 +8,6 @@ export const getQuestionCategories = (state: RootState) =>
 
 export const getCurrentQuestions = (state: RootState) =>
   state.question.currentQuestions;
+
+export const getCurrentQuestionNumber = (state: RootState) =>
+  state.question.currentQuestionNumber;
