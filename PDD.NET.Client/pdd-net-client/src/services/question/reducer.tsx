@@ -28,8 +28,12 @@ export const questionSlice = createSlice({
         (question) => question.categoryId === action.payload?.id,
       );
     },
+    setExamQuestion: (state) => {
+      // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
+      state.currentQuestions = mockData.questions;
+    },
   },
 });
 
-export const { setQuestionCategory, setQuestionCategories } =
+export const { setQuestionCategory, setQuestionCategories, setExamQuestion } =
   questionSlice.actions;

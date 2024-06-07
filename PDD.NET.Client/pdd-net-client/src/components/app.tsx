@@ -40,7 +40,7 @@ function App() {
             path="/question-category/:categoryId/*"
             element={<CategoryQuestionsLayout />}
           />
-          <Route path="/exam" element={<ExamPage />} />
+          <Route path="/exam/*" element={<ExamPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
