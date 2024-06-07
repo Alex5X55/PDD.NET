@@ -22,8 +22,11 @@ const HomePage: React.FC = () => {
             встретите на реальном экзамене. Тренируйтесь с нашими интерактивными
             тестами и повышайте свои шансы на успешное прохождение экзамена.
           </Card.Text>
-          {/*TODO: ссылка на будущий раздел*/}
-          <Button variant="primary">Перейти в раздел</Button>
+          <Button variant="primary">
+            <Nav.Link as={NavLink} to="/exam" end>
+              Перейти в раздел
+            </Nav.Link>
+          </Button>
         </Card.Body>
       </Card>
       <Card className="mb-4">
@@ -39,14 +42,6 @@ const HomePage: React.FC = () => {
               Перейти в раздел
             </Nav.Link>
           </Button>
-        </Card.Body>
-      </Card>
-      <Card className="mb-4">
-        <Card.Body>
-          <Card.Title>Билеты списком</Card.Title>
-          <Card.Text>40 билетов ПДД из категория A и B.</Card.Text>
-          {/*TODO: ссылка на будущий раздел*/}
-          <Button variant="primary">Перейти в раздел</Button>
         </Card.Body>
       </Card>
     </div>
