@@ -44,35 +44,39 @@ const QuestionCard: React.FC = () => {
 
   return (
     <div className="container mb-3">
-      <Card className="mt-4">
-        {question?.imageData && (
-          <img src={question.imageData} alt={question.text} />
-        )}
-        <Card.Body>
-          <Card.Text>{question?.text}</Card.Text>
-          <Form>
-            <div className="mb-3">
-              {question?.answerOptions.map((option) => (
-                <Form.Check
-                  key={option.id}
-                  type={"radio"}
-                  id={`answer-${option.id}`}
-                  name="answer"
-                  label={option.text}
-                />
-              ))}
+      {question ? (
+        <Card className="mt-4">
+          {question?.imageData && (
+            <img src={question.imageData} alt={question.text} />
+          )}
+          <Card.Body>
+            <Card.Text>{question?.text}</Card.Text>
+            <Form>
+              <div className="mb-3">
+                {question?.answerOptions.map((option) => (
+                  <Form.Check
+                    key={option.id}
+                    type={"radio"}
+                    id={`answer-${option.id}`}
+                    name="answer"
+                    label={option.text}
+                  />
+                ))}
+              </div>
+            </Form>
+            <div className="d-flex justify-content-between mt-4">
+              <Button variant="primary" onClick={onPrevQuestionHandleClick}>
+                Предыдущий вопрос
+              </Button>
+              <Button variant="primary" onClick={onNextQuestionHandleClick}>
+                Следующий вопрос
+              </Button>
             </div>
-          </Form>
-          <div className="d-flex justify-content-between mt-4">
-            <Button variant="primary" onClick={onPrevQuestionHandleClick}>
-              Предыдущий вопрос
-            </Button>
-            <Button variant="primary" onClick={onNextQuestionHandleClick}>
-              Следующий вопрос
-            </Button>
-          </div>
-        </Card.Body>
-      </Card>
+          </Card.Body>
+        </Card>
+      ) : (
+        <div>Вопрос не найден</div>
+      )}
     </div>
   );
 };
