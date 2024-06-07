@@ -1,10 +1,11 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../services/hooks";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { getCurrentQuestions } from "../services/question/selectors";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { setNextQuestion, setPrevQuestion } from "../services/question/reducer";
 
 const QuestionCard: React.FC = () => {
   const { questionId } = useParams<{ questionId: string }>();
@@ -15,6 +16,16 @@ const QuestionCard: React.FC = () => {
   const question = currentQuestions.find(
     (question) => question.id === questionIdNumber,
   );
+
+  const dispatch = useAppDispatch();
+  //TODO: переход должен сохранять форму
+  const onNextQuestionHandleClick = () => {
+    dispatch(setNextQuestion());
+  };
+
+  const onPrevQuestionHandleClick = () => {
+    dispatch(setPrevQuestion());
+  };
 
   return (
     <div className="container mb-3">
@@ -38,9 +49,12 @@ const QuestionCard: React.FC = () => {
             </div>
           </Form>
           <div className="d-flex justify-content-between mt-4">
-            {/*TODO: переход должен сохранять форму*/}
-            <Button variant="primary">Предыдущий вопрос</Button>
-            <Button variant="primary">Следующий вопрос</Button>
+            <Button variant="primary" onClick={onPrevQuestionHandleClick}>
+              Предыдущий вопрос
+            </Button>
+            <Button variant="primary" onClick={onNextQuestionHandleClick}>
+              Следующий вопрос
+            </Button>
           </div>
         </Card.Body>
       </Card>

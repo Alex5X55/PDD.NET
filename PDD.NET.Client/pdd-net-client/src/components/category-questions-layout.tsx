@@ -4,6 +4,7 @@ import QuestionCard from "./question-card";
 import QuestionNumberList from "./question-number-list";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
 import {
+  getCurrentQuestionNumber,
   getCurrentQuestions,
   getQuestionCategories,
   getSelectedQuestionCategory,
@@ -37,6 +38,14 @@ const CategoryQuestionsLayout: React.FC = () => {
       navigate(`${currentQuestions[0].id}`);
     }
   }, [currentQuestions]);
+
+  const currentQuestionNumber = useAppSelector(getCurrentQuestionNumber);
+
+  useEffect(() => {
+    if (currentQuestions.length > 0 && currentQuestionNumber >= 0) {
+      navigate(`${currentQuestions[currentQuestionNumber].id}`);
+    }
+  }, [currentQuestionNumber, currentQuestions]);
 
   return (
     <div className="container">

@@ -6,12 +6,14 @@ interface QuestionState {
   questionCategories: IQuestionCategory[];
   selectedQuestionCategory: IQuestionCategory | null;
   currentQuestions: IQuestion[];
+  currentQuestionNumber: number;
 }
 
 const initialState: QuestionState = {
   questionCategories: [],
   selectedQuestionCategory: null,
   currentQuestions: [],
+  currentQuestionNumber: 0,
 };
 
 export const questionSlice = createSlice({
@@ -32,8 +34,29 @@ export const questionSlice = createSlice({
       // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
       state.currentQuestions = mockData.questions;
     },
+    setNextQuestion: (state) => {
+      const newQuestionNumber: number = state.currentQuestionNumber + 1;
+      if (newQuestionNumber > state.currentQuestions?.length - 1) {
+        alert("Это был последний вопрос!");
+      } else {
+        state.currentQuestionNumber = newQuestionNumber;
+      }
+    },
+    setPrevQuestion: (state) => {
+      const newQuestionNumber: number = state.currentQuestionNumber - 1;
+      if (newQuestionNumber < 0) {
+        alert("Это был первый вопрос!");
+      } else {
+        state.currentQuestionNumber = newQuestionNumber;
+      }
+    },
   },
 });
 
-export const { setQuestionCategory, setQuestionCategories, setExamQuestion } =
-  questionSlice.actions;
+export const {
+  setQuestionCategory,
+  setQuestionCategories,
+  setExamQuestion,
+  setNextQuestion,
+  setPrevQuestion,
+} = questionSlice.actions;
