@@ -50,6 +50,13 @@ export const questionSlice = createSlice({
         state.currentQuestionNumber = newQuestionNumber;
       }
     },
+    setCurrentQuestionNumber: (state, action: PayloadAction<IQuestion>) => {
+      if (state.currentQuestions.length > 0) {
+        state.currentQuestionNumber = state.currentQuestions.findIndex(
+          (question) => question.id === action.payload.id,
+        );
+      }
+    },
   },
 });
 
@@ -59,4 +66,5 @@ export const {
   setExamQuestion,
   setNextQuestion,
   setPrevQuestion,
+  setCurrentQuestionNumber,
 } = questionSlice.actions;

@@ -1,23 +1,33 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { getCurrentQuestions } from "../services/question/selectors";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { setNextQuestion, setPrevQuestion } from "../services/question/reducer";
+import {
+  setCurrentQuestionNumber,
+  setNextQuestion,
+  setPrevQuestion,
+} from "../services/question/reducer";
 
 const QuestionCard: React.FC = () => {
-  const { questionId } = useParams<{ questionId: string }>();
-  const questionIdNumber = parseInt(questionId || "", 10);
-
+  const dispatch = useAppDispatch();
   const currentQuestions = useAppSelector(getCurrentQuestions);
 
-  const question = currentQuestions.find(
-    (question) => question.id === questionIdNumber,
+  const { questionId } = useParams<{ questionId: string }>();
+  const questionIdNumber = parseInt(questionId || "", 10);
+  const question = useMemo(
+    () => currentQuestions.find((item) => item.id === questionIdNumber),
+    [questionIdNumber, currentQuestions],
   );
 
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (question && currentQuestions.length > 0) {
+      dispatch(setCurrentQuestionNumber(question));
+    }
+  }, [dispatch, question, currentQuestions]);
+
   //TODO: переход должен сохранять форму
   const onNextQuestionHandleClick = () => {
     dispatch(setNextQuestion());

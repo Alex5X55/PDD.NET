@@ -1,51 +1,11 @@
-import React, { useEffect } from "react";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 import QuestionCard from "./question-card";
 import QuestionNumberList from "./question-number-list";
-import { useAppDispatch, useAppSelector } from "../services/hooks";
-import {
-  getCurrentQuestionNumber,
-  getCurrentQuestions,
-  getQuestionCategories,
-  getSelectedQuestionCategory,
-} from "../services/question/selectors";
-import { IQuestionCategory } from "../types/types";
-import { setQuestionCategory } from "../services/question/reducer";
+import useQuestionNavigation from "../hooks/use-question-navigation";
+
 const CategoryQuestionsLayout: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { categoryId } = useParams<{ categoryId: string }>();
-
-  const questionCategories = useAppSelector(getQuestionCategories);
-  const currentQuestionCategory = useAppSelector(getSelectedQuestionCategory);
-  const currentQuestions = useAppSelector(getCurrentQuestions);
-
-  useEffect(() => {
-    const categoryIdNumber = parseInt(categoryId || "", 10);
-    if (categoryIdNumber && questionCategories) {
-      const category = questionCategories.find(
-        (item: IQuestionCategory) => item.id === categoryIdNumber,
-      );
-      if (category) {
-        dispatch(setQuestionCategory(category));
-      }
-    }
-  }, [categoryId, dispatch, questionCategories]);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (currentQuestions.length > 0) {
-      navigate(`${currentQuestions[0].id}`);
-    }
-  }, [currentQuestions]);
-
-  const currentQuestionNumber = useAppSelector(getCurrentQuestionNumber);
-
-  useEffect(() => {
-    if (currentQuestions.length > 0 && currentQuestionNumber >= 0) {
-      navigate(`${currentQuestions[currentQuestionNumber].id}`);
-    }
-  }, [currentQuestionNumber, currentQuestions]);
+  const { currentQuestionCategory, currentQuestions } = useQuestionNavigation();
 
   return (
     <div className="container">
