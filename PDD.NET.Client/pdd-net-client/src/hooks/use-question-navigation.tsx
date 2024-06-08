@@ -9,7 +9,7 @@ import {
 } from "../services/question/selectors";
 import { IQuestionCategory } from "../types/types";
 import {
-  setQuestionCategory,
+  setCurrentQuestionCategory,
   setExamQuestion,
 } from "../services/question/reducer";
 
@@ -33,7 +33,7 @@ const useQuestionNavigation = (isExam: boolean = false) => {
           (item: IQuestionCategory) => item.id === categoryIdNumber,
         );
         if (category) {
-          dispatch(setQuestionCategory(category));
+          dispatch(setCurrentQuestionCategory(category));
         }
       }
     }
