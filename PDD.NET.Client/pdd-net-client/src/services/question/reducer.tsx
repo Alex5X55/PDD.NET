@@ -4,14 +4,14 @@ import { mockData } from "../../data/mock-data";
 
 interface QuestionState {
   questionCategories: IQuestionCategory[];
-  selectedQuestionCategory: IQuestionCategory | null;
+  currentQuestionCategory: IQuestionCategory | null;
   currentQuestions: IQuestion[];
   currentQuestionNumber: number;
 }
 
 const initialState: QuestionState = {
   questionCategories: [],
-  selectedQuestionCategory: null,
+  currentQuestionCategory: null,
   currentQuestions: [],
   currentQuestionNumber: 0,
 };
@@ -24,8 +24,11 @@ export const questionSlice = createSlice({
       // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
       state.questionCategories = mockData.categories;
     },
-    setQuestionCategory: (state, action: PayloadAction<IQuestionCategory>) => {
-      state.selectedQuestionCategory = action.payload;
+    setCurrentQuestionCategory: (
+      state,
+      action: PayloadAction<IQuestionCategory>,
+    ) => {
+      state.currentQuestionCategory = action.payload;
       state.currentQuestions = mockData.questions.filter(
         (question) => question.categoryId === action.payload?.id,
       );
@@ -64,7 +67,7 @@ export const questionSlice = createSlice({
 });
 
 export const {
-  setQuestionCategory,
+  setCurrentQuestionCategory,
   setQuestionCategories,
   setExamQuestion,
   setNextQuestion,
