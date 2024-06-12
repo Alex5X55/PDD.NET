@@ -2,9 +2,16 @@ import React from "react";
 import { useAppSelector } from "../services/hooks";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getQuestionCategories } from "../services/question-category/selectors";
+import {
+  getQuestionCategories,
+  getQuestionCategoriesError,
+  getQuestionCategoriesLoading,
+} from "../services/question-category/selectors";
+import Preloader from "../components/preloader/preloader";
 
 const QuestionCategoriesPage: React.FC = () => {
+  const isLoading = useAppSelector(getQuestionCategoriesLoading);
+  const error = useAppSelector(getQuestionCategoriesError);
   const questionCategories = useAppSelector(getQuestionCategories);
 
   return (
@@ -16,6 +23,8 @@ const QuestionCategoriesPage: React.FC = () => {
         В этом разделе вы можете выбрать конкретную категорию вопросов, которую
         хотите потренировать.
       </p>
+      {isLoading && <Preloader />}
+      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {questionCategories && questionCategories.length > 0 && (
         <ListGroup>
           {questionCategories.map((item) => (
