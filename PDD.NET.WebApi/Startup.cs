@@ -19,13 +19,24 @@ public class Startup
         services
             .AddApplicationConfig()
             .AddInfrastructureConfig(Configuration)
-            .AddPresentationConfig();
+            .AddPresentationConfig()
+            .AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataInitializer dataInitializer)
     {
         if (env.IsDevelopment())
         {
+            app.UseCors("AllowReactApp");
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();

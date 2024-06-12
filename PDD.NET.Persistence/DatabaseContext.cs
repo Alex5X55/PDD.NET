@@ -20,6 +20,7 @@ public class DatabaseContext : DbContext
     public DbSet<ExamHistory> ExamHistories { get; set; }
 
     public DbSet<Question> Questions { get; set; }
+
     public DbSet<QuestionCategory> QuestionCategories { get; set; }
 
     public DbSet<AnswerOption> AnswerOptions { get; set; }

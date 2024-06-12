@@ -12,14 +12,14 @@ import ResetPasswordPage from "../pages/reset-password-page";
 import QuestionCategoriesPage from "../pages/question-categories-page";
 import CategoryQuestionsLayout from "./category-questions-layout";
 import { useAppDispatch } from "../services/hooks";
-import { setQuestionCategories } from "../services/question/reducer";
 import ExamPage from "../pages/exam-page";
+import { loadQuestionCategories } from "../services/question-category/actions";
 
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setQuestionCategories());
+    dispatch(loadQuestionCategories());
   }, [dispatch]);
 
   return (
