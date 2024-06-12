@@ -1,8 +1,8 @@
 import React from "react";
 import { useAppSelector } from "../services/hooks";
-import { getQuestionCategories } from "../services/question/selectors";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { getQuestionCategories } from "../services/question-category/selectors";
 
 const QuestionCategoriesPage: React.FC = () => {
   const questionCategories = useAppSelector(getQuestionCategories);
@@ -16,13 +16,15 @@ const QuestionCategoriesPage: React.FC = () => {
         В этом разделе вы можете выбрать конкретную категорию вопросов, которую
         хотите потренировать.
       </p>
-      <ListGroup>
-        {questionCategories.map((item) => (
-          <ListGroup.Item key={item.id}>
-            <Link to={`/question-category/${item.id}`}>{item.text}</Link>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      {questionCategories && questionCategories.length > 0 && (
+        <ListGroup>
+          {questionCategories.map((item) => (
+            <ListGroup.Item key={item.id}>
+              <Link to={`/question-category/${item.id}`}>{item.text}</Link>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      )}
     </div>
   );
 };

@@ -3,14 +3,12 @@ import { IQuestion, IQuestionCategory } from "../../types/types";
 import { mockData } from "../../data/mock-data";
 
 interface QuestionState {
-  questionCategories: IQuestionCategory[];
   currentQuestionCategory: IQuestionCategory | null;
   currentQuestions: IQuestion[];
   currentQuestionNumber: number;
 }
 
 const initialState: QuestionState = {
-  questionCategories: [],
   currentQuestionCategory: null,
   currentQuestions: [],
   currentQuestionNumber: 0,
@@ -20,10 +18,6 @@ export const questionSlice = createSlice({
   name: "question",
   initialState,
   reducers: {
-    setQuestionCategories: (state) => {
-      // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
-      state.questionCategories = mockData.categories;
-    },
     setCurrentQuestionCategory: (
       state,
       action: PayloadAction<IQuestionCategory>,
@@ -68,7 +62,6 @@ export const questionSlice = createSlice({
 
 export const {
   setCurrentQuestionCategory,
-  setQuestionCategories,
   setExamQuestion,
   setNextQuestion,
   setPrevQuestion,

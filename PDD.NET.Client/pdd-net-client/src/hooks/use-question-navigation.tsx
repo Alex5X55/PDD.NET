@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../services/hooks";
 import {
   getCurrentQuestionNumber,
   getCurrentQuestions,
-  getQuestionCategories,
   getSelectedQuestionCategory,
 } from "../services/question/selectors";
 import { IQuestionCategory } from "../types/types";
@@ -12,6 +11,7 @@ import {
   setCurrentQuestionCategory,
   setExamQuestion,
 } from "../services/question/reducer";
+import { getQuestionCategories } from "../services/question-category/selectors";
 
 const useQuestionNavigation = (isExam: boolean = false) => {
   const dispatch = useAppDispatch();
