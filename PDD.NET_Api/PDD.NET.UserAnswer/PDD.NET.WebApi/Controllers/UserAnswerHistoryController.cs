@@ -8,7 +8,7 @@ namespace PDD.NET.WebAPI.Controllers;
 /// История ответов на вопросы пользователей
 /// </summary>
 [ApiController]
-[Route("useranswerhistory")]
+[Route("api/user-answer/history")]
 public class UserAnswerHistoryController : ControllerBase
 {
     private readonly IMediator _mediator;
