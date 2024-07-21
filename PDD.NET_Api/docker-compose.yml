@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  user-answer-service:
+    image: user-answer-service
+    build:
+      context: ./PDD.NET.UserAnswer
+      dockerfile: Dockerfile
+    ports:
+      - "5194:8080"
+
+  apigateway:
+    image: apigateway
+    build:
+      context: ./PDD.NET.Gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - user-answer-service
+    ports:
+      - "5288:8080"

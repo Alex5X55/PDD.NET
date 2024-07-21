@@ -1,0 +1,6 @@
+@PDD.NET.Gateway_HostAddress = http://localhost:5288
+
+GET {{PDD.NET.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
