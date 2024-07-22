@@ -25,15 +25,15 @@ public class EFDataInitializer : IDataInitializer
 
         Context.AddRange(FakeDataFactory.UserInRoles);
         
-        Context.AddRange(FakeDataFactory.ExamHistories);
+        //Context.AddRange(FakeDataFactory.ExamHistories);
 
-        Context.AddRange(FakeDataFactory.Questions);
+        //Context.AddRange(FakeDataFactory.Questions);
 
-        Context.AddRange(FakeDataFactory.QuestionCategories);
+        //Context.AddRange(FakeDataFactory.QuestionCategories);
 
-        Context.AddRange(FakeDataFactory.AnswerOptions);
+        //Context.AddRange(FakeDataFactory.AnswerOptions);
 
-        Context.AddRange(FakeDataFactory.UserInAnswerHistories);
+        //Context.AddRange(FakeDataFactory.UserInAnswerHistories);
 
         Context.SaveChanges();
     }
