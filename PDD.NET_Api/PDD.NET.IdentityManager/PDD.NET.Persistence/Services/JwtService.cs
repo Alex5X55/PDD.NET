@@ -8,6 +8,8 @@ using PDD.NET.Domain.Entities;
 using PDD.NET.Application.Auth;
 using PDD.NET.Application.Auth.Request;
 using PDD.NET.Application.Auth.Response;
+using System.Linq;
+using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 
 namespace PDD.NET.Persistence.Services;
 
@@ -23,18 +25,18 @@ public class JwtService : IJwtService
         _tokenValidationParameters = tokenValidationParameters;
     }
 
-    public async Task<AuthResult> GenerateToken(User user)
+    public async Task<AuthResult> GenerateToken(User user, bool isAdmin)
     {
 
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
 
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
-
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("id", user.Id.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,isAdmin==true ? "Admin" : "User"),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -55,7 +57,8 @@ public class JwtService : IJwtService
             IsRevoked = false,
             Id = user.Id,
             CreatedAt = DateTime.UtcNow,
-            ExpiredAt = DateTime.UtcNow.AddMonths(1),
+            //ExpiredAt = DateTime.UtcNow.AddMonths(1),
+            ExpiredAt = DateTime.UtcNow.AddSeconds(5),
             Token = GetRandomString() + Guid.NewGuid()
         };
         refreshToken.User = user;
@@ -114,9 +117,9 @@ public class JwtService : IJwtService
             // UTC to DateTime
             DateTime expireDate = UTCtoDateTime(utcExpireDate);
 
-            Console.WriteLine($"expireDate: {expireDate} - now: {DateTime.UtcNow}");
+            Console.WriteLine($"expireDate: {expireDate} - now: {DateTime.Now}");
 
-            if (expireDate > DateTime.UtcNow)
+            if (expireDate > DateTime.Now)
             {
                 return new RefreshTokenResponseDTO()
                 {

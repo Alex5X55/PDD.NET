@@ -8,7 +8,7 @@ namespace PDD.NET.Persistence.Services;
 
 public interface IJwtService
 {
-    Task<AuthResult> GenerateToken(User user);
+    Task<AuthResult> GenerateToken(User user, bool IsAdmin);
     Task<RefreshTokenResponseDTO> VerifyToken(TokenRequestDTO tokenRequest);
 
 }

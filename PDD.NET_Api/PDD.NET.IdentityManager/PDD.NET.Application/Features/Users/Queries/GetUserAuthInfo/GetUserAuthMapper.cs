@@ -14,7 +14,7 @@ public sealed class GetUserAuthMapper : Profile
                 opt => opt.MapFrom(src => src.UserInRoles.Select(ur => ur.Role))
             );*/
 
-        CreateMap<UserDetail, UserDetailDTO>();
-        CreateMap<Role, RoleDTO>();
+        //CreateMap<UserDetail, UserDetailDTO>();
+        //CreateMap<Role, RoleDTO>();
     }
 }

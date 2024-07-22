@@ -93,7 +93,7 @@ public class AuthController : ControllerBase
             bool isUserCorrect = string.Equals(existingUser.PasswordHash, user.Password);
             if (isUserCorrect)
             {
-                AuthResult authResult = await _jwtService.GenerateToken(existingUser);
+                AuthResult authResult = await _jwtService.GenerateToken(existingUser, false);
                 //return a token
                 return Ok(authResult);
             }
@@ -133,7 +133,7 @@ public class AuthController : ControllerBase
             var tokenUser = await _mediator.Send(new GetUserAuthRequest(verified.Email), cancellationToken);
             //var tokenUser = await _userManager.FindByIdAsync(verified.UserId);
             //var response = await _mediator.Send(new GetUserRequest(id), cancellationToken);
-            AuthResult authResult = await _jwtService.GenerateToken(tokenUser);
+            AuthResult authResult = await _jwtService.GenerateToken(tokenUser, false);
             //return a token
             return Ok(authResult);
 
