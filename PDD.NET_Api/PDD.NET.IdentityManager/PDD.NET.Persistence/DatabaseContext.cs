@@ -27,9 +27,13 @@ public class DatabaseContext : DbContext
 
     public DbSet<UserInAnswerHistory> UserAnswerHistories { get; set; }
 
+    //public DbSet<Todo> Todos { get; set; }
+    //public DbSet<RefreshToken> RefreshTokens { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("PDD");
 
         modelBuilder
             .Entity<User>()

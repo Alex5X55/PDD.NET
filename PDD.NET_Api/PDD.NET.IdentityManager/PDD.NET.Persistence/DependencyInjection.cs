@@ -3,8 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Persistence.Repositories;
+using PDD.NET.Persistence.Services;
 using System.Text;
-using TodoAPI.Data;
+using PDD.NET.Domain.Entities;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace PDD.NET.Persistence;
 
@@ -24,15 +27,15 @@ public static class DependencyInjection
 
         services.AddScoped<IDataInitializer, EFDataInitializer>();
 
-        services.AddDbContext<ApiDbContext>(opt =>
-    opt.UseSqlite(builder.Configuration.GetConnectionString("Default"))
-);
+        var connectionStringAuth = configuration.GetConnectionString("Default");
+        services.AddDbContext<ApiDbContext>(opt => opt.UseSqlite(connectionStringAuth));
 
         //JWT Config
-        services.Configure<JwtConfig>(builder.Configuration.GetSection("JwtConfig"));
-
+        var jwtConfig = configuration.GetSection("JwtConfig:Secret");
+        services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
         // Validation params
-        Byte[]? key = Encoding.ASCII.GetBytes(builder.Configuration["JwtConfig:Secret"]);
+
+        Byte[]? key = Encoding.ASCII.GetBytes(jwtConfig.Value.ToCharArray());
         TokenValidationParameters? tokenValidationParams = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -56,6 +59,11 @@ public static class DependencyInjection
         });
 
         services.AddSingleton(tokenValidationParams);
+
+/*        services.AddDefaultIdentity<IdentityUser>(options => { options.SignIn.RequireConfirmedAccount = true; })
+            .AddEntityFrameworkStores<ApiDbContext>();*/
+
+        services.AddScoped<IJwtService, JwtService>();
 
         return services;
     }

@@ -19,4 +19,14 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
     }
+
+    public async Task<User> GetUserAuthInfo(string email, CancellationToken cancellationToken)
+    {
+        return await Context.Set<User>()
+            .Include(u => u.UserDetail)
+            .Include(u => u.UserInRoles)
+            .ThenInclude(ur => ur.Role)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email && !x.IsDeleted, cancellationToken);
+    }
 }

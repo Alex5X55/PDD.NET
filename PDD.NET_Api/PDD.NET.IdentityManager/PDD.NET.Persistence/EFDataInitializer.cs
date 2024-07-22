@@ -1,14 +1,17 @@
 ﻿using PDD.NET.Application.Repositories;
+using PDD.NET.Persistence.Services;
 
 namespace PDD.NET.Persistence;
 
 public class EFDataInitializer : IDataInitializer
 {
     protected readonly DatabaseContext Context;
+    protected readonly ApiDbContext ContextAuth;
 
-    public EFDataInitializer(DatabaseContext context)
+    public EFDataInitializer(DatabaseContext context, ApiDbContext contextAuth)
     {
         Context = context;
+        ContextAuth = contextAuth;
     }
 
     public void InitData()
@@ -16,6 +19,11 @@ public class EFDataInitializer : IDataInitializer
         Context.Database.EnsureDeleted();
 
         Context.Database.EnsureCreated();
+
+        ContextAuth.Database.EnsureDeleted();
+
+        ContextAuth.Database.EnsureCreated();
+
 
         Context.AddRange(FakeDataFactory.Users);
 
@@ -36,5 +44,6 @@ public class EFDataInitializer : IDataInitializer
         //Context.AddRange(FakeDataFactory.UserInAnswerHistories);
 
         Context.SaveChanges();
+        ContextAuth.SaveChanges();
     }
 }

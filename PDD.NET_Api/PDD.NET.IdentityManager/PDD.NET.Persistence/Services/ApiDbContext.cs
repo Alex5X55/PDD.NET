@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TodoAPI.Models;
+using PDD.NET.Domain.Entities;
+namespace PDD.NET.Persistence.Services;
 
-namespace TodoAPI.Data;
-
-public class ApiDbContext : IdentityDbContext
+public class ApiDbContext : DbContext
 {
-    public ApiDbContext(DbContextOptions<ApiDbContext> opt) : base(opt)
+    public ApiDbContext(DbContextOptions<ApiDbContext> options)
+        : base(options) { }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("Auth");
     }
 
-    public virtual DbSet<Todo> Todos { get; set; }
-    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Todo> Todos { get; set; }
+    public  DbSet<RefreshToken> RefreshTokens { get; set; }
 }
