@@ -9,7 +9,7 @@ namespace PDD.NET.WebAPI.Controllers;
 /// Дополнительная информация пользователя
 /// </summary>
 [ApiController]
-[Route("userDetail")]
+[Route("api/authorization/userDetail")]
 public class UserDetailController : ControllerBase
 {
     private readonly IMediator _mediator;

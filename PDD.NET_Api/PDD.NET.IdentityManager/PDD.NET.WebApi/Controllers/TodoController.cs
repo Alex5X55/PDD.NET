@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace PDD.NET.WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/authorization/todo")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class TodoController : ControllerBase
 {

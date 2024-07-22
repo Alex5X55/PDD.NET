@@ -14,7 +14,8 @@ using PDD.NET.Domain.Entities;
 namespace PDD.NET.WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+//[Route("api/[controller]")]
+[Route("api/authorization/manager")]
 public class AuthController : ControllerBase
 {
     // Identity package

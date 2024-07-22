@@ -10,7 +10,7 @@ public class ApiDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("Auth");
+        //modelBuilder.HasDefaultSchema("Auth");
     }
 
     public DbSet<Todo> Todos { get; set; }
