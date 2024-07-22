@@ -7,8 +7,6 @@ public sealed class CreateAnswerMapper : Profile
 {
     public CreateAnswerMapper()
     {
-        //CreateMap<CreateAnswerResponse, AnswerOption>().ReverseMap();
-
         CreateMap<CreateAnswerRequest, AnswerOption>();
         CreateMap<AnswerOption, CreateAnswerResponse>();
     }

@@ -9,8 +9,5 @@ public sealed class GetAnswerFullInfoMapper : Profile
     {
         CreateMap<AnswerOption, GetAnswerFullInfoResponse>()
             .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.QuestionId));
-
-        // Если вам больше не нужна маппинг для Question, вы можете удалить следующую строку
-        // CreateMap<Question, QuestionDTO>();
     }
 }
