@@ -9,7 +9,7 @@ namespace PDD.NET.WebAPI.Controllers;
 /// Вхождение пользователя в роль
 /// </summary>
 [ApiController]
-[Route("userInRole")]
+[Route("api/authorization/userInRole")]
 public class UserInRoleController : ControllerBase
 {
     private readonly IMediator _mediator;

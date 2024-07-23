@@ -33,7 +33,7 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("PDD");
+        //modelBuilder.HasDefaultSchema("PDD");
 
         modelBuilder
             .Entity<User>()

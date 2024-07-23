@@ -11,13 +11,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAD4E84C-D96A-491F-BA43-545990C586BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDD.NET.Domain", "PDD.NET.Domain\PDD.NET.Domain.csproj", "{2FBF77E2-EAEF-4CC8-B765-DB126CCD8642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDD.NET.Domain", "PDD.NET.Domain\PDD.NET.Domain.csproj", "{2FBF77E2-EAEF-4CC8-B765-DB126CCD8642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDD.NET.Application", "PDD.NET.Application\PDD.NET.Application.csproj", "{FE0071C8-3FF6-45AE-AB75-7FAF72C95871}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDD.NET.Application", "PDD.NET.Application\PDD.NET.Application.csproj", "{FE0071C8-3FF6-45AE-AB75-7FAF72C95871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDD.NET.Persistence", "PDD.NET.Persistence\PDD.NET.Persistence.csproj", "{9DA38103-115D-4A39-A5DB-4F0D12F32F57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDD.NET.Persistence", "PDD.NET.Persistence\PDD.NET.Persistence.csproj", "{9DA38103-115D-4A39-A5DB-4F0D12F32F57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDD.NET.WebApi", "PDD.NET.WebApi\PDD.NET.WebApi.csproj", "{A3432F7C-FF70-428B-B22A-811DF3D999E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PDD.NET.WebApi", "PDD.NET.WebApi\PDD.NET.WebApi.csproj", "{A3432F7C-FF70-428B-B22A-811DF3D999E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8790F1BD-8350-4189-9D65-9F6F840503EE}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
