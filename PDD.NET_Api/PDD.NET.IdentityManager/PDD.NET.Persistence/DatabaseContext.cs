@@ -17,15 +17,15 @@ public class DatabaseContext : DbContext
 
     public DbSet<UserInRole> UserInRoles { get; set; }
     
-    public DbSet<ExamHistory> ExamHistories { get; set; }
+    //public DbSet<ExamHistory> ExamHistories { get; set; }
 
-    public DbSet<Question> Questions { get; set; }
+    //public DbSet<Question> Questions { get; set; }
 
-    public DbSet<QuestionCategory> QuestionCategories { get; set; }
+    //public DbSet<QuestionCategory> QuestionCategories { get; set; }
 
-    public DbSet<AnswerOption> AnswerOptions { get; set; }
+    //public DbSet<AnswerOption> AnswerOptions { get; set; }
 
-    public DbSet<UserInAnswerHistory> UserAnswerHistories { get; set; }
+    //public DbSet<UserInAnswerHistory> UserAnswerHistories { get; set; }
 
     //public DbSet<Todo> Todos { get; set; }
     //public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -58,7 +58,7 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<User>().Property(x => x.Login).HasMaxLength(100);
         modelBuilder.Entity<User>().Property(x => x.Email).HasMaxLength(100);
 
-        modelBuilder.Entity<Question>()
+        /*modelBuilder.Entity<Question>()
             .HasOne<QuestionCategory>(x => x.Category)
             .WithMany(r => r.Questions)
             .HasForeignKey(x=>x.CategoryId);
@@ -85,7 +85,7 @@ public class DatabaseContext : DbContext
             .Entity<UserInAnswerHistory>()
             .HasOne<User>(ur => ur.User)
             .WithMany(u => u.UserInAnswerHistories)
-            .HasForeignKey(ur => ur.UserId);
+            .HasForeignKey(ur => ur.UserId);*/
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
