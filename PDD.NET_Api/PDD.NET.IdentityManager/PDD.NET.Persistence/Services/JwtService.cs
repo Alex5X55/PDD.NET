@@ -65,8 +65,8 @@ public class JwtService : IJwtService
             Id = user.Id,
             UserId = user.Id,
             CreatedAt = DateTime.UtcNow,
-            //ExpiredAt = DateTime.UtcNow.AddMonths(1),
-            ExpiredAt = DateTime.UtcNow.AddSeconds(1),
+            ExpiredAt = DateTime.UtcNow.AddMonths(1),
+            //ExpiredAt = DateTime.UtcNow.AddSeconds(1),
             Token = GetRandomString() + Guid.NewGuid()
         };
         //refreshToken.User = user;
