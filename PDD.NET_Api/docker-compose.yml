@@ -8,6 +8,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5194:8080"
+      
+  authorization:
+    image: authorization
+    build:
+      context: ./PDD.NET.IdentityManager
+      dockerfile: Dockerfile
+    ports:
+      - "5200:8080"
 
   apigateway:
     image: apigateway
@@ -16,5 +24,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - user-answer-service
+      - authorization
     ports:
       - "5288:8080"
