@@ -22,7 +22,7 @@ public class JwtService : IJwtService
     private readonly TokenValidationParameters _tokenValidationParameters;
     private readonly IMediator _mediator;
     public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, AuthDbContext context, TokenValidationParameters tokenValidationParameters
-        ,IMediator mediator
+        , IMediator mediator
         )
     {
         _mediator = mediator;
@@ -71,11 +71,12 @@ public class JwtService : IJwtService
         };
         //refreshToken.User = user;
         RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Id == refreshToken.Id);
-        if  (storedToken == null)
+        if (storedToken == null)
         {
             await _entitySet.AddAsync(refreshToken);
         }
-        else{
+        else
+        {
             storedToken = refreshToken;
 
             _entitySet.Update(storedToken);
@@ -90,7 +91,6 @@ public class JwtService : IJwtService
             Token = jwtToken,
             RefreshToken = refreshToken.Token,
             Success = true,
-
         };
 
     }
