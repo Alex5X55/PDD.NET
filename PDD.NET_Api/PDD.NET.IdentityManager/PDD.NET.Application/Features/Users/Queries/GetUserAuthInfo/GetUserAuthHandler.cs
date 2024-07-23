@@ -7,7 +7,7 @@ using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 
-public sealed class GetUserAuthHandler : IRequestHandler<GetUserAuthRequest, User>
+public sealed class GetUserAuthHandler : IRequestHandler<GetUserAuthRequest, GetUserAuthResponse>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -18,7 +18,7 @@ public sealed class GetUserAuthHandler : IRequestHandler<GetUserAuthRequest, Use
         _mapper = mapper;
     }
 
-    public async Task<User> Handle(GetUserAuthRequest request, CancellationToken cancellationToken)
+    public async Task<GetUserAuthResponse> Handle(GetUserAuthRequest request, CancellationToken cancellationToken)
     {
         var user = _mapper.Map<User>(await _userRepository.GetUserAuthInfo(request.email, cancellationToken));
         if (user == null)
@@ -26,6 +26,6 @@ public sealed class GetUserAuthHandler : IRequestHandler<GetUserAuthRequest, Use
             throw new NotFoundException(nameof(User));
         }
 
-        return _mapper.Map<User>(user);
+        return _mapper.Map<GetUserAuthResponse>(user);
     }
 }

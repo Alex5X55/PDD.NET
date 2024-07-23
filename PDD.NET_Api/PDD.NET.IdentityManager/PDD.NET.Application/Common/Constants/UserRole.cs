@@ -8,7 +8,7 @@ namespace PDD.NET.Application.Common.Constants
 {
     public enum UserRole
     {
-        USER,
-        ADMIN
+        User,
+        Admin
     }
 }

@@ -9,9 +9,8 @@ using PDD.NET.Application.Auth;
 using PDD.NET.Application.Auth.Request;
 using PDD.NET.Application.Auth.Response;
 using MediatR;
-using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
-using System.Threading;
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
+using PDD.NET.Application.Common.Constants;
 
 namespace PDD.NET.Persistence.Services;
 
@@ -33,18 +32,18 @@ public class JwtService : IJwtService
         _tokenValidationParameters = tokenValidationParameters;
     }
 
-    public async Task<AuthResult> GenerateToken(User user, bool isAdmin)
+    public async Task<AuthResult> GenerateToken(GetUserAuthResponse user)
     {
-
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
 
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
+        var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("id", user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType,isAdmin==true ? "Admin" : "User"),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -64,13 +63,24 @@ public class JwtService : IJwtService
             IsUsed = false,
             IsRevoked = false,
             Id = user.Id,
+            UserId = user.Id,
             CreatedAt = DateTime.UtcNow,
             //ExpiredAt = DateTime.UtcNow.AddMonths(1),
-            ExpiredAt = DateTime.UtcNow.AddSeconds(5),
+            ExpiredAt = DateTime.UtcNow.AddSeconds(1),
             Token = GetRandomString() + Guid.NewGuid()
         };
         //refreshToken.User = user;
-        await _entitySet.AddAsync(refreshToken);
+        RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Id == refreshToken.Id);
+        if  (storedToken == null)
+        {
+            await _entitySet.AddAsync(refreshToken);
+        }
+        else{
+            storedToken = refreshToken;
+
+            _entitySet.Update(storedToken);
+            //_context.Entry(storedToken).State = EntityState.Modified;
+        }
         await _context.SaveChangesAsync();
 
 
@@ -92,7 +102,7 @@ public class JwtService : IJwtService
         try
         {
             ////////////////
-            RefreshToken? storedToken = await _entitySet.FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+            RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
 
             if (storedToken == null)
             {
@@ -176,14 +186,16 @@ public class JwtService : IJwtService
 
             ////////////////
             storedToken.IsUsed = true;
-            _entitySet.Update(storedToken);
+            _context.Entry(storedToken).State = EntityState.Modified;
+            //_entitySet.Update(storedToken);
             await _context.SaveChangesAsync();
+            _context.Entry(storedToken).State = EntityState.Detached;
 
             // return token
             return new RefreshTokenResponseDTO()
             {
                 Email = userFullResponse.Email,
-                Id = storedToken.Id,
+                Id = storedToken.UserId,
                 Success = true,
             };
         }
