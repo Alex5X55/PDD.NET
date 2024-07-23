@@ -6,9 +6,9 @@ namespace PDD.NET.Persistence;
 public class EFDataInitializer : IDataInitializer
 {
     protected readonly DatabaseContext Context;
-    protected readonly ApiDbContext ContextAuth;
+    protected readonly AuthDbContext ContextAuth;
 
-    public EFDataInitializer(DatabaseContext context, ApiDbContext contextAuth)
+    public EFDataInitializer(DatabaseContext context, AuthDbContext contextAuth)
     {
         Context = context;
         ContextAuth = contextAuth;

@@ -8,20 +8,28 @@ using PDD.NET.Domain.Entities;
 using PDD.NET.Application.Auth;
 using PDD.NET.Application.Auth.Request;
 using PDD.NET.Application.Auth.Response;
-using System.Linq;
+using MediatR;
 using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
+using System.Threading;
+using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 
 namespace PDD.NET.Persistence.Services;
 
 public class JwtService : IJwtService
 {
     private readonly JwtConfig _jwtConfig;
-    private readonly ApiDbContext _context;
+    private readonly AuthDbContext _context;
+    private readonly DbSet<RefreshToken> _entitySet;
     private readonly TokenValidationParameters _tokenValidationParameters;
-    public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, ApiDbContext context, TokenValidationParameters tokenValidationParameters)
+    private readonly IMediator _mediator;
+    public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, AuthDbContext context, TokenValidationParameters tokenValidationParameters
+        ,IMediator mediator
+        )
     {
+        _mediator = mediator;
         _jwtConfig = jwtConfig.CurrentValue;
         _context = context;
+        _entitySet = _context.Set<RefreshToken>();
         _tokenValidationParameters = tokenValidationParameters;
     }
 
@@ -61,8 +69,8 @@ public class JwtService : IJwtService
             ExpiredAt = DateTime.UtcNow.AddSeconds(5),
             Token = GetRandomString() + Guid.NewGuid()
         };
-        refreshToken.User = user;
-        await _context.RefreshTokens.AddAsync(refreshToken);
+        //refreshToken.User = user;
+        await _entitySet.AddAsync(refreshToken);
         await _context.SaveChangesAsync();
 
 
@@ -84,7 +92,8 @@ public class JwtService : IJwtService
         try
         {
             ////////////////
-            RefreshToken? storedToken = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+            RefreshToken? storedToken = await _entitySet.FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+
             if (storedToken == null)
             {
                 return new RefreshTokenResponseDTO()
@@ -95,6 +104,8 @@ public class JwtService : IJwtService
                     }
                 };
             }
+            var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(storedToken.UserId), CancellationToken.None);
+
             ClaimsPrincipal? tokenVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters, out var validatedToken); //?
 
             ////////////////
@@ -165,13 +176,13 @@ public class JwtService : IJwtService
 
             ////////////////
             storedToken.IsUsed = true;
-            _context.RefreshTokens.Update(storedToken);
+            _entitySet.Update(storedToken);
             await _context.SaveChangesAsync();
 
             // return token
             return new RefreshTokenResponseDTO()
             {
-                Email = storedToken.User.Email,
+                Email = userFullResponse.Email,
                 Id = storedToken.Id,
                 Success = true,
             };

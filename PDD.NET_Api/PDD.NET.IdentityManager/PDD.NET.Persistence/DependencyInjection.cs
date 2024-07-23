@@ -28,7 +28,12 @@ public static class DependencyInjection
         services.AddScoped<IDataInitializer, EFDataInitializer>();
 
         var connectionStringAuth = configuration.GetConnectionString("Default");
-        services.AddDbContext<ApiDbContext>(opt => opt.UseSqlite(connectionStringAuth));
+        services.AddDbContext<AuthDbContext>(opt =>
+        {
+            opt.EnableSensitiveDataLogging();
+            opt.UseSqlite(connectionStringAuth);
+            opt.EnableDetailedErrors();
+        });
 
         //JWT Config
         var jwtConfig = configuration.GetSection("JwtConfig:Secret");

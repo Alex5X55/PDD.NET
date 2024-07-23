@@ -13,6 +13,7 @@ public class RefreshToken
     public DateTime CreatedAt { get; set; }
     public DateTime ExpiredAt { get; set; }
 
-    [ForeignKey(nameof(Id))]
-    public User User { get; set; }
+    public int UserId { get; set; }
+    //[ForeignKey(nameof(Id))]
+    //public virtual User User { get; set; }
 }
