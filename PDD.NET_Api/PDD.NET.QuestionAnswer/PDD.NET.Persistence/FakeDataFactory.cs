@@ -4,63 +4,6 @@ namespace PDD.NET.Persistence;
 
 public static class FakeDataFactory
 {
-    public static IEnumerable<User> Users =>
-        new List<User>()
-        {
-            new User()
-            {
-                Id = 1,
-                Login = "Admin",
-                Email = "admin@admin.ru",
-                LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
-            },
-            new User()
-            {
-                Id = 2,
-                Login = "TestUser",
-                Email = "test-user@mail.ru",
-                LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
-            }
-        };
-
-    public static IEnumerable<UserDetail> UserDetails =>
-        new List<UserDetail>()
-        {
-            new UserDetail()
-            {
-                Id = 1,
-                UserId = 1,
-                Country = "RUS",
-                Name = "Alex",
-                Surname = "Ivanov"
-            },
-            new UserDetail()
-            {
-                Id = 2,
-                UserId = 2,
-                Country = "USA",
-                Name = "John",
-                Surname = "Smit"
-            }
-        };
-
-    public static IEnumerable<Role> Roles =>
-        new List<Role>()
-        {
-            new Role() { Id = 1, Name = "Admin" },
-            new Role() { Id = 2, Name = "User" }
-        };
-
-    public static IEnumerable<UserInRole> UserInRoles =>
-        new List<UserInRole>()
-        {
-            new UserInRole() { UserId = 1, RoleId = 1 },
-            new UserInRole() { UserId = 1, RoleId = 2 },
-            new UserInRole() { UserId = 2, RoleId = 2 }
-        };
-
     public static IEnumerable<Question> Questions => new List<Question>()
     {
         //src: https://www.pdd24.com/pdd-onlain
@@ -86,13 +29,6 @@ public static class FakeDataFactory
         new QuestionCategory(){Id = 28 , Text = "28 Медицина"}
     };
 
-    public static IEnumerable<ExamHistory> ExamHistories =>
-        new List<ExamHistory>()
-        {
-            new ExamHistory() { UserId = 1, IsSeccess = true },
-            new ExamHistory() { UserId = 2, IsSeccess = false },
-        };
-
     public static IEnumerable<AnswerOption> AnswerOptions => new List<AnswerOption>()
     {
         new AnswerOption(){Id = 1 ,QuestionId=2801, Text = "При наличии болей в области сердца и затрудненного дыхания.", IsRight=false},
@@ -101,10 +37,5 @@ public static class FakeDataFactory
         new AnswerOption(){Id = 4 ,QuestionId=101, Text = "Обгон.", IsRight=false},
         new AnswerOption(){Id = 5 ,QuestionId=101, Text = "Перестроение с дальнейшим опережением.", IsRight=true},
         new AnswerOption(){Id = 6 ,QuestionId=101, Text = "Объезд.", IsRight=false},
-    };
-
-    public static IEnumerable<UserInAnswerHistory> UserInAnswerHistories => new List<UserInAnswerHistory>()
-    {
-        new UserInAnswerHistory(){Id = 1 ,AnswerOptionId=1, UserId =1 },
     };
 }

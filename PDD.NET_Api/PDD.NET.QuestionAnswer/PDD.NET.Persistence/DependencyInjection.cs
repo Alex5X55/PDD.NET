@@ -15,13 +15,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserDetailRepository, UserDetailRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IAnswerRepository, AnswerRepository>();
-        services.AddScoped<IUserAnswerHistoryRepository, UserAnswerHistoryRepository>();
-        services.AddScoped<IUserInRoleRepository, UserInRoleRepository>();
-        services.AddScoped<IExamHistoryRepository, ExamHistoryRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();
         services.AddScoped<IQuestionCategoryRepository, QuestionCategoryRepository>();
 
