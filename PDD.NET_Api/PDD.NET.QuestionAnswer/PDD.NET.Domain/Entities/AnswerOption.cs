@@ -22,7 +22,7 @@ namespace PDD.NET.Domain.Entities
         /// </summary>
         public bool IsRight { get; set; }
 
-        public virtual IEnumerable<UserInAnswerHistory> UserAnswersHistories { get; set; }
+        //public virtual IEnumerable<UserInAnswerHistory> UserAnswersHistories { get; set; }
 
         public int QuestionId { get; set; }
 
