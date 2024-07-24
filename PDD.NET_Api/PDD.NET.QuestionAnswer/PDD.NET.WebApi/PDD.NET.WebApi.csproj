@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="PDD_NET_DB %28SQLite%29.db" />
-    <None Remove="PDD_NET_DB %28SQLite%29.db-shm" />
-    <None Remove="PDD_NET_DB %28SQLite%29.db-wal" />
+    <None Remove="PDD_NET_DB_question %28SQLite%29.db" />
+    <None Remove="PDD_NET_DB_question %28SQLite%29.db-shm" />
+    <None Remove="PDD_NET_DB_question %28SQLite%29.db-wal" />
   </ItemGroup>
 
   <ItemGroup>

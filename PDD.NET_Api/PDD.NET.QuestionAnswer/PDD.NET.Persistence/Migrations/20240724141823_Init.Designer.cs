@@ -10,8 +10,8 @@ using PDD.NET.Persistence;
 namespace PDD.NET.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240724132821_Update_UserDetail_UserInRole")]
-    partial class Update_UserDetail_UserInRole
+    [Migration("20240724141823_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,7 +5,7 @@
 namespace PDD.NET.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Update_UserDetail_UserInRole : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
