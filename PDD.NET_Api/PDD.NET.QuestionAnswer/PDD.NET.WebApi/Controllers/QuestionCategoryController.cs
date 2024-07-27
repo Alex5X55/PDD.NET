@@ -8,7 +8,7 @@ namespace PDD.NET.WebAPI.Controllers;
 /// Категории вопросов
 /// </summary>
 [ApiController]
-[Route("question-categories")]
+[Route("api/question-categories")]
 public class QuestionCategoryController : ControllerBase
 {
     private readonly IMediator _mediator;

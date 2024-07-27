@@ -17,8 +17,8 @@ services:
     ports:
       - "5200:8080"
 
-  question-categories-service:
-    image: question-categories-service
+  question-answer-service:
+    image: question-answer-service
     build:
       context: ./PDD.NET.QuestionAnswer
       dockerfile: Dockerfile
@@ -31,7 +31,7 @@ services:
       context: ./PDD.NET.Gateway
       dockerfile: Dockerfile
     depends_on:
-      - question-categories-service
+      - question-answer-service
       - user-answer-service
       - authorization
     ports:

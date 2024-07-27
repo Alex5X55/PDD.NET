@@ -13,7 +13,7 @@ namespace PDD.NET.WebApi.Controllers
     /// Ответы на вопросы
     /// </summary>
     [ApiController]
-    [Route("answers")]
+    [Route("api/answer-options")]
     public class AnswersController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -6,7 +6,7 @@ using PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId;
 
 namespace PDD.NET.WebApi.Controllers
 {
-    [Route("question")]
+    [Route("api/questions")]
     [ApiController]
     public class QuestionController : ControllerBase
     {
