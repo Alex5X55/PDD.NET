@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IQuestion, IQuestionCategory } from "../../types/types";
 import { mockData } from "../../data/mock-data";
+import { loadQuestionsByCategory } from "./actions";
 
 interface QuestionState {
   currentQuestionCategory: IQuestionCategory | null;
+
   currentQuestions: IQuestion[];
+  currentQuestionsLoading: boolean;
+  currentQuestionsError: string | null;
+
   currentQuestionNumber: number;
 }
 
@@ -12,6 +17,8 @@ const initialState: QuestionState = {
   currentQuestionCategory: null,
   currentQuestions: [],
   currentQuestionNumber: 0,
+  currentQuestionsLoading: false,
+  currentQuestionsError: null,
 };
 
 export const questionSlice = createSlice({
@@ -23,9 +30,9 @@ export const questionSlice = createSlice({
       action: PayloadAction<IQuestionCategory>,
     ) => {
       state.currentQuestionCategory = action.payload;
-      state.currentQuestions = mockData.questions.filter(
-        (question) => question.categoryId === action.payload?.id,
-      );
+      // state.currentQuestions = mockData.questions.filter(
+      //   (question) => question.categoryId === action.payload?.id,
+      // );
     },
     setExamQuestion: (state) => {
       // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
@@ -57,6 +64,21 @@ export const questionSlice = createSlice({
     resetCurrentQuestionNumber: (state) => {
       state.currentQuestionNumber = 0;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadQuestionsByCategory.pending, (state) => {
+        state.currentQuestionsLoading = true;
+        state.currentQuestionsError = null;
+      })
+      .addCase(loadQuestionsByCategory.fulfilled, (state, action) => {
+        state.currentQuestions = action.payload;
+        state.currentQuestionsLoading = false;
+      })
+      .addCase(loadQuestionsByCategory.rejected, (state, action) => {
+        state.currentQuestionsLoading = false;
+        state.currentQuestionsError = action?.error?.message as string;
+      });
   },
 });
 

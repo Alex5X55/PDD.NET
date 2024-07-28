@@ -12,6 +12,7 @@ import {
   setExamQuestion,
 } from "../services/question/reducer";
 import { getQuestionCategories } from "../services/question-category/selectors";
+import { loadQuestionsByCategory } from "../services/question/actions";
 
 const useQuestionNavigation = (isExam: boolean = false) => {
   const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ const useQuestionNavigation = (isExam: boolean = false) => {
         );
         if (category) {
           dispatch(setCurrentQuestionCategory(category));
+          dispatch(loadQuestionsByCategory(category.id));
         }
       }
     }

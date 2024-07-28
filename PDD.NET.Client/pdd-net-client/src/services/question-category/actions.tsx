@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getQuestionCategories } from "../../utils/question-categories-api";
 
 export const loadQuestionCategories = createAsyncThunk<IQuestionCategory[]>(
-  "questions/loadQuestionCategories",
+  "questionCategories/loadQuestionCategories",
   async () => {
     return await getQuestionCategories();
   },
