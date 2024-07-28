@@ -1,5 +1,5 @@
-import React from "react";
-import { useAppSelector } from "../services/hooks";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
@@ -8,11 +8,18 @@ import {
   getQuestionCategoriesLoading,
 } from "../services/question-category/selectors";
 import Preloader from "../components/preloader/preloader";
+import { resetCurrentAnswers } from "../services/answer/reducer";
 
 const QuestionCategoriesPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const isLoading = useAppSelector(getQuestionCategoriesLoading);
   const error = useAppSelector(getQuestionCategoriesError);
   const questionCategories = useAppSelector(getQuestionCategories);
+
+  useEffect(() => {
+    dispatch(resetCurrentAnswers());
+  }, []);
 
   return (
     <div className="container">

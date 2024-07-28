@@ -4,8 +4,12 @@ import QuestionNumberList from "../components/question-number-list";
 import QuestionCard from "../components/question-card";
 import Button from "react-bootstrap/Button";
 import useQuestionNavigation from "../hooks/use-question-navigation";
+import { useAppDispatch } from "../services/hooks";
+import { resetCurrentAnswers } from "../services/answer/reducer";
 
 const ExamPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(initTimeLeft);
@@ -30,6 +34,8 @@ const ExamPage: React.FC = () => {
   }, [isStart, timeLeft]);
 
   const onStartHandleClick = () => {
+    dispatch(resetCurrentAnswers());
+
     setIsStart(true);
     setTimeLeft(initTimeLeft);
     hasFinished.current = false;

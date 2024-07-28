@@ -43,6 +43,11 @@ export interface IQuestion {
   answerOptions: Array<IAnswerOption>;
 }
 
+export interface IAnswer {
+  answerId: number;
+  questionId: number;
+}
+
 export interface IQuestionList {
   questions: Array<IQuestion>;
 }

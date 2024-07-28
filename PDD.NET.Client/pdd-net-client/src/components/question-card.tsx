@@ -11,16 +11,24 @@ import {
   setNextQuestion,
   setPrevQuestion,
 } from "../services/question/reducer";
+import { getCurrentAnswers } from "../services/answer/selectors";
+import { addCurrentAnswer } from "../services/answer/reducer";
 
 const QuestionCard: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentQuestions = useAppSelector(getCurrentQuestions);
+  const currentAnswers = useAppSelector(getCurrentAnswers);
 
   const { questionId } = useParams<{ questionId: string }>();
   const questionIdNumber = parseInt(questionId || "", 10);
   const question = useMemo(
     () => currentQuestions.find((item) => item.id === questionIdNumber),
     [questionIdNumber, currentQuestions],
+  );
+
+  const selectedAnswer = useMemo(
+    () => currentAnswers.find((item) => item.questionId === question?.id),
+    [currentAnswers, question],
   );
 
   useEffect(() => {
@@ -33,7 +41,12 @@ const QuestionCard: React.FC = () => {
     };
   }, [dispatch, question, currentQuestions]);
 
-  //TODO: переход должен сохранять форму
+  const handleAnswerChange = (optionId: number) => {
+    dispatch(
+      addCurrentAnswer({ answerId: optionId, questionId: questionIdNumber }),
+    );
+  };
+
   const onNextQuestionHandleClick = () => {
     dispatch(setNextQuestion());
   };
@@ -60,6 +73,18 @@ const QuestionCard: React.FC = () => {
                     id={`answer-${option.id}`}
                     name="answer"
                     label={option.text}
+                    checked={selectedAnswer?.answerId === option.id}
+                    // disabled={selectedAnswer !== null}
+                    onChange={() => handleAnswerChange(option.id)}
+                    style={{
+                      color:
+                        selectedAnswer && option.isRight
+                          ? "green"
+                          : selectedAnswer &&
+                              selectedAnswer.answerId === option.id
+                            ? "red"
+                            : "inherit",
+                    }}
                   />
                 ))}
               </div>
