@@ -46,6 +46,7 @@ export interface IQuestion {
 export interface IAnswer {
   answerId: number;
   questionId: number;
+  isRight: boolean;
 }
 
 export interface IQuestionList {

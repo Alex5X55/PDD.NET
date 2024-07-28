@@ -15,6 +15,12 @@ import { getCurrentAnswers } from "../services/answer/selectors";
 import { addCurrentAnswer } from "../services/answer/reducer";
 
 const QuestionCard: React.FC = () => {
+  const currentPath = window.location.pathname;
+  const isExam = useMemo(
+    () => currentPath.indexOf("exam") !== -1,
+    [currentPath],
+  );
+
   const dispatch = useAppDispatch();
   const currentQuestions = useAppSelector(getCurrentQuestions);
   const currentAnswers = useAppSelector(getCurrentAnswers);
@@ -41,9 +47,13 @@ const QuestionCard: React.FC = () => {
     };
   }, [dispatch, question, currentQuestions]);
 
-  const handleAnswerChange = (optionId: number) => {
+  const handleAnswerChange = (optionId: number, isRight: boolean) => {
     dispatch(
-      addCurrentAnswer({ answerId: optionId, questionId: questionIdNumber }),
+      addCurrentAnswer({
+        answerId: optionId,
+        questionId: questionIdNumber,
+        isRight: isRight,
+      }),
     );
   };
 
@@ -74,16 +84,19 @@ const QuestionCard: React.FC = () => {
                     name="answer"
                     label={option.text}
                     checked={selectedAnswer?.answerId === option.id}
-                    // disabled={selectedAnswer !== null}
-                    onChange={() => handleAnswerChange(option.id)}
+                    disabled={selectedAnswer !== undefined}
+                    onChange={() =>
+                      handleAnswerChange(option.id, option.isRight)
+                    }
                     style={{
-                      color:
-                        selectedAnswer && option.isRight
+                      color: !isExam
+                        ? selectedAnswer && option.isRight
                           ? "green"
                           : selectedAnswer &&
                               selectedAnswer.answerId === option.id
                             ? "red"
-                            : "inherit",
+                            : "inherit"
+                        : "",
                     }}
                   />
                 ))}
