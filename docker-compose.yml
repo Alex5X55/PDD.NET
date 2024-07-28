@@ -4,7 +4,7 @@ services:
   user-answer-service:
     image: user-answer-service
     build:
-      context: ./PDD.NET.UserAnswer
+      context: ./PDD.NET_Api/PDD.NET.UserAnswer
       dockerfile: Dockerfile
     ports:
       - "5194:8080"
@@ -12,7 +12,7 @@ services:
   authorization:
     image: authorization
     build:
-      context: ./PDD.NET.IdentityManager
+      context: ./PDD.NET_Api/PDD.NET.IdentityManager
       dockerfile: Dockerfile
     ports:
       - "5200:8080"
@@ -20,7 +20,7 @@ services:
   question-answer-service:
     image: question-answer-service
     build:
-      context: ./PDD.NET.QuestionAnswer
+      context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
       dockerfile: Dockerfile
     ports:
       - "5211:8080"  
@@ -28,7 +28,7 @@ services:
   apigateway:
     image: apigateway
     build:
-      context: ./PDD.NET.Gateway
+      context: ./PDD.NET_Api/PDD.NET.Gateway
       dockerfile: Dockerfile
     depends_on:
       - question-answer-service
@@ -36,3 +36,13 @@ services:
       - authorization
     ports:
       - "5288:8080"
+      
+  react-app:
+    image: react-app
+    build:
+      context: ./PDD.NET.Client/pdd-net-client
+      dockerfile: Dockerfile
+    depends_on:
+      - apigateway
+    ports:
+      - "9000:3000"
