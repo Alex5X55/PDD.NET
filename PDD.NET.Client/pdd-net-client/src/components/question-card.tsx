@@ -15,12 +15,6 @@ import { getCurrentAnswers } from "../services/answer/selectors";
 import { addCurrentAnswer } from "../services/answer/reducer";
 
 const QuestionCard: React.FC = () => {
-  const currentPath = window.location.pathname;
-  const isExam = useMemo(
-    () => currentPath.indexOf("exam") !== -1,
-    [currentPath],
-  );
-
   const dispatch = useAppDispatch();
   const currentQuestions = useAppSelector(getCurrentQuestions);
   const currentAnswers = useAppSelector(getCurrentAnswers);
@@ -89,14 +83,13 @@ const QuestionCard: React.FC = () => {
                       handleAnswerChange(option.id, option.isRight)
                     }
                     style={{
-                      color: !isExam
-                        ? selectedAnswer && option.isRight
+                      color:
+                        selectedAnswer && option.isRight
                           ? "green"
                           : selectedAnswer &&
                               selectedAnswer.answerId === option.id
                             ? "red"
-                            : "inherit"
-                        : "",
+                            : "inherit",
                     }}
                   />
                 ))}

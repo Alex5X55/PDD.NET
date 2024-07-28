@@ -1,14 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { Route, Routes } from "react-router-dom";
 import QuestionNumberList from "../components/question-number-list";
 import QuestionCard from "../components/question-card";
 import Button from "react-bootstrap/Button";
 import useQuestionNavigation from "../hooks/use-question-navigation";
-import { useAppDispatch } from "../services/hooks";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { resetCurrentAnswers } from "../services/answer/reducer";
+import { getCurrentAnswers } from "../services/answer/selectors";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const currentAnswers = useAppSelector(getCurrentAnswers);
+  const rightAnswersCount = useMemo(
+    () => currentAnswers.filter((item) => item.isRight).length,
+    [currentAnswers],
+  );
 
   const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
@@ -43,7 +49,9 @@ const ExamPage: React.FC = () => {
 
   const onFinishHandleClick = () => {
     setIsStart(false);
-    alert("Экзамен завершен!");
+    alert(
+      `Экзамен завершен!\nПравильных ответов: ${rightAnswersCount} из ${currentQuestions.length}`,
+    );
   };
 
   const formatTime = (seconds: number) => {
