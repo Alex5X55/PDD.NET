@@ -8,8 +8,12 @@ public sealed class GetAllQuestionMapper : Profile
     public GetAllQuestionMapper()
     {
         CreateMap<Question, GetAllQuestionResponse>()
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
+            .ForMember(dest => dest.Category,
+                opt => opt.MapFrom(src => src.Category))
+            .ForMember(dest => dest.AnswerOptions,
+                opt => opt.MapFrom(src => src.AnswerOptions));
 
         CreateMap<QuestionCategory, QuestionCategoryDTO>();
+        CreateMap<AnswerOption, AnswerOptionsDTO>();
     }
 }

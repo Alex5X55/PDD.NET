@@ -7,6 +7,11 @@ import useQuestionNavigation from "../hooks/use-question-navigation";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { resetCurrentAnswers } from "../services/answer/reducer";
 import { getCurrentAnswers } from "../services/answer/selectors";
+import {
+  getCurrentExamQuestionsError,
+  getCurrentExamQuestionsLoading,
+} from "../services/question/selectors";
+import Preloader from "../components/preloader/preloader";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +20,9 @@ const ExamPage: React.FC = () => {
     () => currentAnswers.filter((item) => item.isRight).length,
     [currentAnswers],
   );
+
+  const isLoading = useAppSelector(getCurrentExamQuestionsLoading);
+  const error = useAppSelector(getCurrentExamQuestionsError);
 
   const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
@@ -78,6 +86,8 @@ const ExamPage: React.FC = () => {
         </>
       ) : (
         <>
+          {isLoading && <Preloader />}
+          {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
           <div className="d-flex justify-content-between align-items-center mb-3">
             <Button variant="primary" onClick={onFinishHandleClick}>
               Завершить экзамен

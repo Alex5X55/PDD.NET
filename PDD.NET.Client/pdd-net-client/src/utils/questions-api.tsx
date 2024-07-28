@@ -14,3 +14,11 @@ export const getQuestionsByCategory = async (
   );
   return getResponse(res);
 };
+
+export const getExamQuestions = async (): Promise<IQuestion[]> => {
+  const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
+    method: "GET",
+    headers: baseApiConfig.headers,
+  });
+  return getResponse(res);
+};

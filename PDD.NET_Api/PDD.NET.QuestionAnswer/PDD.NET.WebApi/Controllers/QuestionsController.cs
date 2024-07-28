@@ -18,10 +18,10 @@ namespace PDD.NET.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить все вопросы
+        /// Получить все вопросы c вариантами ответов
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>Список всех вопросов</returns>
+        /// <returns>Список всех вопросов c вариантами ответов</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetAllQuestionResponse>>> GetAllQuestions(CancellationToken cancellationToken)
         {

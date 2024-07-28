@@ -7,12 +7,12 @@ import {
   getSelectedQuestionCategory,
 } from "../services/question/selectors";
 import { IQuestionCategory } from "../types/types";
-import {
-  setCurrentQuestionCategory,
-  setExamQuestion,
-} from "../services/question/reducer";
+import { setCurrentQuestionCategory } from "../services/question/reducer";
 import { getQuestionCategories } from "../services/question-category/selectors";
-import { loadQuestionsByCategory } from "../services/question/actions";
+import {
+  loadExamQuestions,
+  loadQuestionsByCategory,
+} from "../services/question/actions";
 
 const useQuestionNavigation = (isExam: boolean = false) => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ const useQuestionNavigation = (isExam: boolean = false) => {
 
   useEffect(() => {
     if (isExam) {
-      dispatch(setExamQuestion());
+      dispatch(loadExamQuestions());
     } else {
       const categoryIdNumber = parseInt(categoryId || "", 10);
       if (categoryIdNumber && questionCategories) {

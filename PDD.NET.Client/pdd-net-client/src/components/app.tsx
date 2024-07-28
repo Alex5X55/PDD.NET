@@ -14,6 +14,10 @@ import CategoryQuestionsLayout from "./category-questions-layout";
 import { useAppDispatch } from "../services/hooks";
 import ExamPage from "../pages/exam-page";
 import { loadQuestionCategories } from "../services/question-category/actions";
+import AdminPanelPage from "../pages/admin-panel-page";
+import AdminQuestionsPage from "../pages/admin-questions-page";
+import AdminQuestionCategoriesPage from "../pages/admin-question-categories-page";
+import AdminUserStatisticsPage from "../pages/admin-user-statistics-page";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,6 +34,16 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminPanelPage />} />
+          <Route path="/admin/questions" element={<AdminQuestionsPage />} />
+          <Route
+            path="/admin/question-categories"
+            element={<AdminQuestionCategoriesPage />}
+          />
+          <Route
+            path="/admin/user-statistics"
+            element={<AdminUserStatisticsPage />}
+          />
           <Route path="/restore-password" element={<RestorePasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route

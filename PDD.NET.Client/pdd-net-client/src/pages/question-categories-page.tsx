@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
-import { ListGroup } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
   getQuestionCategories,
@@ -9,6 +9,7 @@ import {
 } from "../services/question-category/selectors";
 import Preloader from "../components/preloader/preloader";
 import { resetCurrentAnswers } from "../services/answer/reducer";
+import "./pages.css";
 
 const QuestionCategoriesPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ const QuestionCategoriesPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(resetCurrentAnswers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="container">
@@ -33,13 +34,15 @@ const QuestionCategoriesPage: React.FC = () => {
       {isLoading && <Preloader />}
       {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {questionCategories && questionCategories.length > 0 && (
-        <ListGroup>
+        <div className="d-grid gap-2">
           {questionCategories.map((item) => (
-            <ListGroup.Item key={item.id}>
-              <Link to={`/question-category/${item.id}`}>{item.text}</Link>
-            </ListGroup.Item>
+            <Link key={item.id} to={`/question-category/${item.id}`}>
+              <Button variant="primary" size="lg">
+                {item.text}
+              </Button>
+            </Link>
           ))}
-        </ListGroup>
+        </div>
       )}
     </div>
   );

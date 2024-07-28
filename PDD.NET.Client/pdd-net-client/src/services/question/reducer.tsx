@@ -1,24 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IQuestion, IQuestionCategory } from "../../types/types";
-import { mockData } from "../../data/mock-data";
-import { loadQuestionsByCategory } from "./actions";
+import { loadExamQuestions, loadQuestionsByCategory } from "./actions";
 
 interface QuestionState {
   currentQuestionCategory: IQuestionCategory | null;
+  currentQuestionNumber: number;
 
   currentQuestions: IQuestion[];
+
   currentQuestionsLoading: boolean;
   currentQuestionsError: string | null;
 
-  currentQuestionNumber: number;
+  currentExamQuestionsLoading: boolean;
+  currentExamQuestionsError: string | null;
 }
 
 const initialState: QuestionState = {
   currentQuestionCategory: null,
-  currentQuestions: [],
   currentQuestionNumber: 0,
+
+  currentQuestions: [],
+
   currentQuestionsLoading: false,
   currentQuestionsError: null,
+
+  currentExamQuestionsLoading: false,
+  currentExamQuestionsError: null,
 };
 
 export const questionSlice = createSlice({
@@ -30,13 +37,6 @@ export const questionSlice = createSlice({
       action: PayloadAction<IQuestionCategory>,
     ) => {
       state.currentQuestionCategory = action.payload;
-      // state.currentQuestions = mockData.questions.filter(
-      //   (question) => question.categoryId === action.payload?.id,
-      // );
-    },
-    setExamQuestion: (state) => {
-      // TODO: Сделать запрос с сервера. Пока для тестирования захардкожено.
-      state.currentQuestions = mockData.questions;
     },
     setNextQuestion: (state) => {
       const newQuestionNumber: number = state.currentQuestionNumber + 1;
@@ -78,13 +78,24 @@ export const questionSlice = createSlice({
       .addCase(loadQuestionsByCategory.rejected, (state, action) => {
         state.currentQuestionsLoading = false;
         state.currentQuestionsError = action?.error?.message as string;
+      })
+      .addCase(loadExamQuestions.pending, (state) => {
+        state.currentExamQuestionsLoading = true;
+        state.currentExamQuestionsError = null;
+      })
+      .addCase(loadExamQuestions.fulfilled, (state, action) => {
+        state.currentQuestions = action.payload;
+        state.currentExamQuestionsLoading = false;
+      })
+      .addCase(loadExamQuestions.rejected, (state, action) => {
+        state.currentExamQuestionsLoading = false;
+        state.currentExamQuestionsError = action?.error?.message as string;
       });
   },
 });
 
 export const {
   setCurrentQuestionCategory,
-  setExamQuestion,
   setNextQuestion,
   setPrevQuestion,
   setCurrentQuestionNumber,
