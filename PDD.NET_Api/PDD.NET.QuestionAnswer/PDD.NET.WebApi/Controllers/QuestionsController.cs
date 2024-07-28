@@ -8,20 +8,20 @@ namespace PDD.NET.WebApi.Controllers
 {
     [Route("api/questions")]
     [ApiController]
-    public class QuestionController : ControllerBase
+    public class QuestionsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public QuestionController(IMediator mediator)
+        public QuestionsController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Получить все вопросы
+        /// Получить все вопросы c вариантами ответов
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>Список всех вопросов</returns>
+        /// <returns>Список всех вопросов c вариантами ответов</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetAllQuestionResponse>>> GetAllQuestions(CancellationToken cancellationToken)
         {
@@ -30,12 +30,12 @@ namespace PDD.NET.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить все вопросы по идентификатору категории
+        /// Получить все вопросы с вариантами ответов по идентификатору категории
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <returns>Список всех вопросов по категории</returns>
-        [HttpGet("categoryId/{categoryId:int}")]
-        public async Task<ActionResult<IEnumerable<GetQuestionsByCategoryIdResponse>>> GetQuestionsByCategoryId(int categoryId, CancellationToken cancellationToken)
+        /// <returns>Список всех вопросов с вариантами ответов по категории</returns>
+        [HttpGet("category/{categoryId:int}")]
+        public async Task<ActionResult<IEnumerable<GetQuestionsByCategoryIdResponse>>> GetQuestionsWithAnswerOptionsByCategoryId(int categoryId, CancellationToken cancellationToken)
         {
             var questions = await _mediator.Send(new GetQuestionsByCategoryIdRequest(categoryId), cancellationToken);
             return Ok(questions);
