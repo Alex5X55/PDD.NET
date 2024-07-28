@@ -8,9 +8,13 @@ namespace PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryI
         public GetQuestionsByCategoryIdMapper()
         {
             CreateMap<Question, GetQuestionsByCategoryIdResponse>()
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category));
+                .ForMember(dest => dest.Category,
+                    opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.AnswerOptions,
+                opt => opt.MapFrom(src => src.AnswerOptions));
 
             CreateMap<QuestionCategory, QuestionCategoryDTO>();
+            CreateMap<AnswerOption, AnswerOptionsDTO>();
         }
     }
 }

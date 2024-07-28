@@ -4,6 +4,14 @@ namespace PDD.NET.Persistence;
 
 public static class FakeDataFactory
 {
+    public static IEnumerable<QuestionCategory> QuestionCategories => new List<QuestionCategory>()
+    {
+        new QuestionCategory(){Id = 1 , Text = "1 Общие положения"},
+        new QuestionCategory(){Id = 2 , Text = "2 Обязанности водителей"},
+        new QuestionCategory(){Id = 3 , Text = "3 Дорожные знаки"},
+        new QuestionCategory(){Id = 4 , Text = "4 Дорожная разметка"},
+        new QuestionCategory(){Id = 28 , Text = "28 Медицина"}
+    };
     public static IEnumerable<Question> Questions => new List<Question>()
     {
         //src: https://www.pdd24.com/pdd-onlain
@@ -19,15 +27,7 @@ public static class FakeDataFactory
         new Question(){Id = 2801,CategoryId = 28, ImageData = "https://storage.yandexcloud.net/pddlife/no_picture.png", Text = "В каких случаях следует начинать сердечно-легочную реанимацию пострадавшего?" },
     };
 
-    public static IEnumerable<QuestionCategory> QuestionCategories => new List<QuestionCategory>()
-    {
-        new QuestionCategory(){Id = 1 , Text = "1 Общие положения"},
-        new QuestionCategory(){Id = 2 , Text = "2 Обязанности водителей"},
-        new QuestionCategory(){Id = 3 , Text = "3 Дорожные знаки"},
-        new QuestionCategory(){Id = 4 , Text = "4 Дорожная разметка"},
-
-        new QuestionCategory(){Id = 28 , Text = "28 Медицина"}
-    };
+    
 
     public static IEnumerable<AnswerOption> AnswerOptions => new List<AnswerOption>()
     {
