@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
+namespace PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 
 public sealed class GetUserAuthMapper : Profile
 {

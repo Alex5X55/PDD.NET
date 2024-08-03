@@ -26,6 +26,8 @@ public class UserController : ControllerBase
     /// <summary>
     /// Получить пользователя по Id
     /// </summary>
+    /// <param name="id"></param>
+    /// <param name="fullInfo"></param>
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Пользователя</returns>
     [HttpGet("{id:int}")]
@@ -72,6 +74,7 @@ public class UserController : ControllerBase
     /// Обновить информацию пользователя по запросу
     /// </summary>
     /// <param name="id">Запрос на обновление информации пользователя</param>
+    /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost("{id:int}")]

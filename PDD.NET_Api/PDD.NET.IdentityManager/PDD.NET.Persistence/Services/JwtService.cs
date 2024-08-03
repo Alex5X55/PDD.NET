@@ -11,6 +11,7 @@ using PDD.NET.Application.Auth.Response;
 using MediatR;
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 using PDD.NET.Application.Common.Constants;
+using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 
 namespace PDD.NET.Persistence.Services;
 
@@ -35,7 +36,7 @@ public class JwtService : IJwtService
     public async Task<AuthResult> GenerateToken(GetUserAuthResponse user)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
-
+        //серкретный ключ, который поможет закодировать или закодировать токен
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
         var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
@@ -48,12 +49,17 @@ public class JwtService : IJwtService
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
-            Expires = DateTime.UtcNow.AddSeconds(35),
+            //Issuer - издатель, кто создает токен, какой сервис
+            //Audience - кто принимает токен
+            //Expires-Gets or sets the value of the 'expiration' claim. This value should be in UTC.
+            Expires = DateTime.UtcNow.AddHours(value: 24),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            //HmacSha256Signature - алгоритм для кодирования
         };
 
         // Create token
         SecurityToken? token = jwtTokenHandler.CreateToken(tokenDescriptor);
+        // сериализует класс токена в строку
         string jwtToken = jwtTokenHandler.WriteToken(token);
 
         // Create refresh token
@@ -102,9 +108,9 @@ public class JwtService : IJwtService
         try
         {
             ////////////////
-            RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+            RefreshToken? refreshToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
 
-            if (storedToken == null)
+            if (refreshToken == null)
             {
                 return new RefreshTokenResponseDTO()
                 {
@@ -114,14 +120,14 @@ public class JwtService : IJwtService
                     }
                 };
             }
-            var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(storedToken.UserId), CancellationToken.None);
-
+            var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(refreshToken.UserId), CancellationToken.None);
+            //A Microsoft.IdentityModel.Tokens.SecurityTokenHandler designed for creating and validating Json Web Tokens
             ClaimsPrincipal? tokenVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters, out var validatedToken); //?
 
-            ////////////////
+            //REQUIRED. JWT ID. Jti-A unique identifier for the token, which can be used to prevent reuse of the token. These tokens MUST only be used once, unless conditions for reuse were negotiated between the parties; any such negotiation is beyond the scope of this specification https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             var jti = tokenVerification.Claims.FirstOrDefault(t => t.Type == JwtRegisteredClaimNames.Jti).Value;
 
-            if (storedToken.JwtId != jti)
+            if (refreshToken.JwtId != jti)
             {
                 return new RefreshTokenResponseDTO()
                 {
@@ -131,8 +137,8 @@ public class JwtService : IJwtService
                     }
                 };
             }
-
-            //////////////////
+            //https://datatracker.ietf.org/doc/html/rfc7519#section-4 
+            //The "exp" (expiration time) claim identifies and is defined as the number of seconds 
             long utcExpireDate = long.Parse(tokenVerification.Claims.FirstOrDefault(d => d.Type == JwtRegisteredClaimNames.Exp).Value);
 
             // UTC to DateTime
@@ -162,7 +168,7 @@ public class JwtService : IJwtService
                 }
             }
             //////////////////
-            if (storedToken.IsUsed)
+            if (refreshToken.IsUsed)
             {
                 return new RefreshTokenResponseDTO()
                 {
@@ -173,7 +179,7 @@ public class JwtService : IJwtService
                 };
             }
             ////////////////
-            if (storedToken.IsRevoked)
+            if (refreshToken.IsRevoked)
             {
                 return new RefreshTokenResponseDTO()
                 {
@@ -185,17 +191,17 @@ public class JwtService : IJwtService
             }
 
             ////////////////
-            storedToken.IsUsed = true;
-            _context.Entry(storedToken).State = EntityState.Modified;
+            refreshToken.IsUsed = true;
+            _context.Entry(refreshToken).State = EntityState.Modified;
             //_entitySet.Update(storedToken);
             await _context.SaveChangesAsync();
-            _context.Entry(storedToken).State = EntityState.Detached;
+            _context.Entry(refreshToken).State = EntityState.Detached;
 
             // return token
             return new RefreshTokenResponseDTO()
             {
                 Email = userFullResponse.Email,
-                Id = storedToken.UserId,
+                Id = refreshToken.UserId,
                 Success = true,
             };
         }
