@@ -20,3 +20,12 @@ export const getCurrentExamQuestionsLoading = (state: RootState) =>
 
 export const getCurrentExamQuestionsError = (state: RootState) =>
   state.question.currentExamQuestionsError;
+
+export const getAllQuestions = (state: RootState) =>
+  state.question.allQuestions;
+
+export const getAllQuestionsLoading = (state: RootState) =>
+  state.question.allQuestionsLoading;
+
+export const getAllQuestionsError = (state: RootState) =>
+  state.question.allQuestionsError;

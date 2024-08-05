@@ -22,3 +22,11 @@ export const getExamQuestions = async (): Promise<IQuestion[]> => {
   });
   return getResponse(res);
 };
+
+export const getQuestions = async (): Promise<IQuestion[]> => {
+  const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
+    method: "GET",
+    headers: baseApiConfig.headers,
+  });
+  return getResponse(res);
+};

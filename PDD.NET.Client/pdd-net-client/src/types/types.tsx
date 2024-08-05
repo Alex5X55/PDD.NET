@@ -40,6 +40,7 @@ export interface IQuestion {
   categoryId: number;
   imageData: string;
   text: string;
+  category: IQuestionCategory;
   answerOptions: Array<IAnswerOption>;
 }
 

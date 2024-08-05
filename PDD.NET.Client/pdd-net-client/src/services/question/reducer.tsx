@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IQuestion, IQuestionCategory } from "../../types/types";
-import { loadExamQuestions, loadQuestionsByCategory } from "./actions";
+import {
+  loadAllQuestions,
+  loadExamQuestions,
+  loadQuestionsByCategory,
+} from "./actions";
 
 interface QuestionState {
   currentQuestionCategory: IQuestionCategory | null;
@@ -13,6 +17,10 @@ interface QuestionState {
 
   currentExamQuestionsLoading: boolean;
   currentExamQuestionsError: string | null;
+
+  allQuestions: IQuestion[];
+  allQuestionsLoading: boolean;
+  allQuestionsError: string | null;
 }
 
 const initialState: QuestionState = {
@@ -26,6 +34,10 @@ const initialState: QuestionState = {
 
   currentExamQuestionsLoading: false,
   currentExamQuestionsError: null,
+
+  allQuestions: [],
+  allQuestionsLoading: false,
+  allQuestionsError: null,
 };
 
 export const questionSlice = createSlice({
@@ -90,6 +102,18 @@ export const questionSlice = createSlice({
       .addCase(loadExamQuestions.rejected, (state, action) => {
         state.currentExamQuestionsLoading = false;
         state.currentExamQuestionsError = action?.error?.message as string;
+      })
+      .addCase(loadAllQuestions.pending, (state) => {
+        state.allQuestionsLoading = true;
+        state.allQuestionsError = null;
+      })
+      .addCase(loadAllQuestions.fulfilled, (state, action) => {
+        state.allQuestions = action.payload;
+        state.allQuestionsLoading = false;
+      })
+      .addCase(loadAllQuestions.rejected, (state, action) => {
+        state.allQuestionsLoading = false;
+        state.allQuestionsError = action?.error?.message as string;
       });
   },
 });
