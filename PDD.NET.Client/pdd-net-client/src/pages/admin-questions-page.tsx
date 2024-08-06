@@ -7,6 +7,7 @@ import {
 } from "../services/question/selectors";
 import Preloader from "../components/preloader/preloader";
 import { loadAllQuestions } from "../services/question/actions";
+import QuestionRowEdit from "../components/question-row-edit";
 
 const AdminQuestionsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,22 +31,21 @@ const AdminQuestionsPage: React.FC = () => {
       {isLoading && <Preloader />}
       {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {allQuestions.length > 0 ? (
-        <div className="d-grid gap-2">
-          <div className="container">
-            <div className="row">
-              <div className="col-1">Id</div>
-              <div className="col-8">Текст вопроса</div>
-              <div className="col">Категория</div>
-            </div>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Текст вопроса</th>
+              <th scope="col">Категория</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
             {allQuestions.map((item) => (
-              <div className="row" key={item.id}>
-                <div className="col-1">{item.id}</div>
-                <div className="col-8">{item.text}</div>
-                <div className="col">{item.category?.text}</div>
-              </div>
+              <QuestionRowEdit {...item} key={item.id} />
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       ) : (
         <div>Вопросы не найдены</div>
       )}
