@@ -53,3 +53,16 @@ export interface IAnswer {
 export interface IQuestionList {
   questions: Array<IQuestion>;
 }
+
+export interface IIconProps {
+  onClick: () => void;
+}
+
+export interface IConfirmationDialog {
+  title: string;
+  body: string;
+  onApproveClick: () => void;
+  onRejectClick: () => void;
+  show: boolean;
+  onHide: () => void;
+}

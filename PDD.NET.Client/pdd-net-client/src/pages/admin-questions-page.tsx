@@ -8,6 +8,9 @@ import {
 import Preloader from "../components/preloader/preloader";
 import { loadAllQuestions } from "../services/question/actions";
 import QuestionRowEdit from "../components/question-row-edit";
+import ConfirmationDialog from "../components/confirmation-dialog";
+import { getIsShowModal } from "../services/modal/selectors";
+import { setIsShowModal } from "../services/modal/reducer";
 
 const AdminQuestionsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +21,12 @@ const AdminQuestionsPage: React.FC = () => {
   const allQuestions = useAppSelector(getAllQuestions);
   const isLoading = useAppSelector(getAllQuestionsLoading);
   const error = useAppSelector(getAllQuestionsError);
+
+  const isShowModal = useAppSelector(getIsShowModal);
+
+  const onHide = () => {
+    dispatch(setIsShowModal(false));
+  };
 
   return (
     <div className="container">
@@ -35,8 +44,9 @@ const AdminQuestionsPage: React.FC = () => {
           <thead>
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Текст вопроса</th>
+              <th scope="col">Текст вопроса/варианта ответа</th>
               <th scope="col">Категория</th>
+              <th scope="col">Правильный ответ?</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -49,6 +59,14 @@ const AdminQuestionsPage: React.FC = () => {
       ) : (
         <div>Вопросы не найдены</div>
       )}
+      <ConfirmationDialog
+        show={isShowModal}
+        onHide={onHide}
+        title="Подтверждение удаления"
+        body="Вы уверены, что хотите удалить этот элемент?"
+        onApproveClick={onHide}
+        onRejectClick={onHide}
+      />
     </div>
   );
 };
