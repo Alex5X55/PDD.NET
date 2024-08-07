@@ -12,6 +12,7 @@ using MediatR;
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
+using System.Security.Cryptography;
 
 namespace PDD.NET.Persistence.Services;
 
@@ -44,7 +45,7 @@ public class JwtService : IJwtService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("id", user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//можно определять по id роль.
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -73,7 +74,7 @@ public class JwtService : IJwtService
             CreatedAt = DateTime.UtcNow,
             ExpiredAt = DateTime.UtcNow.AddMonths(1),
             //ExpiredAt = DateTime.UtcNow.AddSeconds(1),
-            Token = GetRandomString() + Guid.NewGuid()
+            Token = GetRandomString() + Guid.NewGuid() //random string - типичный подход.
         };
         //refreshToken.User = user;
         RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Id == refreshToken.Id);
@@ -101,6 +102,7 @@ public class JwtService : IJwtService
 
     }
 
+    //is used to get the user principal from the expired access token.
     public async Task<RefreshTokenResponseDTO> VerifyToken(TokenRequestDTO tokenRequest)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -121,6 +123,25 @@ public class JwtService : IJwtService
                 };
             }
             var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(refreshToken.UserId), CancellationToken.None);
+
+            //мы это делаем вручную
+/*            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //потребитель токена
+                //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,// издатель токена
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
+                ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            //tokenRequest.Token - уточнить.
+            var principal = tokenHandler.ValidateToken(tokenRequest.Token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");*/
+
             //A Microsoft.IdentityModel.Tokens.SecurityTokenHandler designed for creating and validating Json Web Tokens
             ClaimsPrincipal? tokenVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters, out var validatedToken); //?
 
@@ -236,6 +257,18 @@ public class JwtService : IJwtService
         Random random = new Random();
         string chars = "ABCDEFGHIJKLMNOPRSTUVYZWX0123456789";
         return new string(Enumerable.Repeat(chars, 35).Select(n => n[new Random().Next(n.Length)]).ToArray());
+/*аналоговнет
+        var randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+*/
+    }
 
+    public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+    {
+        throw new NotImplementedException();
     }
 }

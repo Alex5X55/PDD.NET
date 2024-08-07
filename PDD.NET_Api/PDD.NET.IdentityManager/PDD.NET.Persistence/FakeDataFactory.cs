@@ -13,7 +13,7 @@ public static class FakeDataFactory
                 Login = "Admin",
                 Email = "admin@admin.ru",
                 LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
+                PasswordHash =BCrypt.Net.BCrypt.EnhancedHashPassword("1")// "********"
             },
             new User()
             {
@@ -21,7 +21,7 @@ public static class FakeDataFactory
                 Login = "TestUser",
                 Email = "test-user@mail.ru",
                 LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
+                PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("1")
             }
         };
 

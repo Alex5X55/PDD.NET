@@ -87,7 +87,7 @@ public class AuthController : ControllerBase
 
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login(LoginUserDTO user, CancellationToken cancellationToken)
+    public async Task<IActionResult> Login([FromBody] LoginUserDTO user, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
