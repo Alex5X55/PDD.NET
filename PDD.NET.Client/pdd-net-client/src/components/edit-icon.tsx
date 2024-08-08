@@ -1,10 +1,8 @@
 import React from "react";
-import { IIconProps } from "../types/types";
 
-const EditIcon: React.FC<IIconProps> = ({ onClick }) => {
+const EditIcon: React.FC = () => {
   return (
     <svg
-      onClick={onClick}
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"

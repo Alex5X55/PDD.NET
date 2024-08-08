@@ -27,10 +27,10 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onRejectClick}>
-          Close
+          Нет
         </Button>
         <Button variant="primary" onClick={onApproveClick}>
-          Save changes
+          Да
         </Button>
       </Modal.Footer>
     </Modal>

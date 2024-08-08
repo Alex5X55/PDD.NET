@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IAnswer, IQuestion } from "../../types/types";
+import { IAnswerOption, IQuestion } from "../../types/types";
 
 interface ModalState {
   isShowModal: boolean;
-  deletingAnswer: IAnswer | null;
+  deletingAnswer: IAnswerOption | null;
   deletingQuestion: IQuestion | null;
 }
 
@@ -20,7 +20,7 @@ export const modalSlice = createSlice({
     setIsShowModal: (state, action: PayloadAction<boolean>) => {
       state.isShowModal = action.payload;
     },
-    setDeletingAnswer: (state, action: PayloadAction<IAnswer>) => {
+    setDeletingAnswer: (state, action: PayloadAction<IAnswerOption>) => {
       state.deletingAnswer = action.payload;
     },
     setDeletingQuestion: (state, action: PayloadAction<IQuestion>) => {

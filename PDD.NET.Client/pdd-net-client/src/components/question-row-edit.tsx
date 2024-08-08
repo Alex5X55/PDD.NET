@@ -5,13 +5,10 @@ import EditIcon from "./edit-icon";
 import { useAppDispatch } from "../services/hooks";
 import { setIsShowModal } from "../services/modal/reducer";
 import AnswerOptionRowEdit from "./answer-option-row-edit";
+import { Link } from "react-router-dom";
 
 const QuestionRowEdit: React.FC<IQuestion> = (question) => {
   const dispatch = useAppDispatch();
-
-  const handleEditClick = (id: number) => {
-    console.log("Edit:", id);
-  };
 
   const handleDeleteClick = (id: number) => {
     dispatch(setIsShowModal(true));
@@ -27,7 +24,9 @@ const QuestionRowEdit: React.FC<IQuestion> = (question) => {
         <td>{question.category?.text}</td>
         <td></td>
         <td>
-          <EditIcon onClick={() => handleEditClick(question.id)} />
+          <Link to={`/question/edit/${question.id}`}>
+            <EditIcon />
+          </Link>
           <TrashIcon onClick={() => handleDeleteClick(question.id)} />
         </td>
       </tr>
