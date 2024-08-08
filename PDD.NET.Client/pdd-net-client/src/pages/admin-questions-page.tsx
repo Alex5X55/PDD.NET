@@ -6,11 +6,16 @@ import {
   getAllQuestionsLoading,
 } from "../services/question/selectors";
 import Preloader from "../components/preloader/preloader";
-import { loadAllQuestions } from "../services/question/actions";
+import { deleteQuestion, loadAllQuestions } from "../services/question/actions";
 import QuestionRowEdit from "../components/question-row-edit";
 import ConfirmationDialog from "../components/confirmation-dialog";
-import { getIsShowModal } from "../services/modal/selectors";
-import { setIsShowModal } from "../services/modal/reducer";
+import {
+  getDeletingAnswerOption,
+  getDeletingQuestion,
+  getIsShowModal,
+} from "../services/modal/selectors";
+import { resetDeletingItems, setIsShowModal } from "../services/modal/reducer";
+import { deleteAnswerOption } from "../services/answer-option/actions";
 
 const AdminQuestionsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +29,35 @@ const AdminQuestionsPage: React.FC = () => {
 
   const isShowModal = useAppSelector(getIsShowModal);
 
-  const onHide = () => {
+  const deletingQuestion = useAppSelector(getDeletingQuestion);
+  const deletingAnswerOption = useAppSelector(getDeletingAnswerOption);
+
+  const onApproveHandler = async () => {
+    if (deletingQuestion) {
+      try {
+        await dispatch(deleteQuestion(deletingQuestion.id)).unwrap();
+      } catch (error) {
+        console.error("Ошибка при удалении вопроса:", error);
+      } finally {
+        dispatch(loadAllQuestions());
+      }
+    } else if (deletingAnswerOption) {
+      try {
+        await dispatch(deleteAnswerOption(deletingAnswerOption.id)).unwrap();
+      } catch (error) {
+        console.error("Ошибка при удалении варианта ответа:", error);
+      } finally {
+        dispatch(loadAllQuestions());
+      }
+    }
+
     dispatch(setIsShowModal(false));
+    dispatch(resetDeletingItems());
+  };
+
+  const onRejectHandler = () => {
+    dispatch(setIsShowModal(false));
+    dispatch(resetDeletingItems());
   };
 
   return (
@@ -61,11 +93,11 @@ const AdminQuestionsPage: React.FC = () => {
       )}
       <ConfirmationDialog
         show={isShowModal}
-        onHide={onHide}
+        onHide={onRejectHandler}
         title="Подтверждение удаления"
         body="Вы уверены, что хотите удалить этот элемент?"
-        onApproveClick={onHide}
-        onRejectClick={onHide}
+        onApproveClick={onApproveHandler}
+        onRejectClick={onRejectHandler}
       />
     </div>
   );

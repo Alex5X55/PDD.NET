@@ -2,6 +2,11 @@ import React from "react";
 import { IConfirmationDialog } from "../types/types";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { useAppSelector } from "../services/hooks";
+import {
+  getDeletingAnswerOption,
+  getDeletingQuestion,
+} from "../services/modal/selectors";
 
 const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
   title,
@@ -11,6 +16,9 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
   show,
   onHide,
 }) => {
+  const deletingQuestion = useAppSelector(getDeletingQuestion);
+  const deletingAnswerOption = useAppSelector(getDeletingAnswerOption);
+
   return (
     <Modal
       show={show}
@@ -23,7 +31,10 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
         <Modal.Title id="contained-modal-title-vcenter">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{body}</p>
+        <p>
+          {body} Текст элемента:{" "}
+          {deletingQuestion?.text || deletingAnswerOption?.text}
+        </p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onRejectClick}>

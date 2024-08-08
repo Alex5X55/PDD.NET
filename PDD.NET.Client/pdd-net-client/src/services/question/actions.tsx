@@ -4,6 +4,7 @@ import {
   getQuestions,
   getExamQuestions,
   getQuestionsByCategory,
+  removeQuestion,
 } from "../../utils/questions-api";
 
 export const loadQuestionsByCategory = createAsyncThunk<IQuestion[], number>(
@@ -24,5 +25,16 @@ export const loadAllQuestions = createAsyncThunk<IQuestion[]>(
   "questions/loadAllQuestions",
   async (questionCategoryId) => {
     return await getQuestions();
+  },
+);
+
+export const deleteQuestion = createAsyncThunk<void, number>(
+  "questions/deleteQuestion",
+  async (questionId, { rejectWithValue }) => {
+    try {
+      await removeQuestion(questionId);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   },
 );

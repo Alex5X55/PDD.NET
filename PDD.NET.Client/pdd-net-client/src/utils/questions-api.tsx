@@ -30,3 +30,11 @@ export const getQuestions = async (): Promise<IQuestion[]> => {
   });
   return getResponse(res);
 };
+
+export const removeQuestion = async (questionId: number) => {
+  const res = await fetch(`${baseApiConfig.baseUrl}/questions/${questionId}`, {
+    method: "DELETE",
+    headers: baseApiConfig.headers,
+  });
+  return getResponse(res);
+};

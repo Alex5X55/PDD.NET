@@ -3,14 +3,15 @@ import { IQuestion } from "../types/types";
 import TrashIcon from "./trash-icon";
 import EditIcon from "./edit-icon";
 import { useAppDispatch } from "../services/hooks";
-import { setIsShowModal } from "../services/modal/reducer";
+import { setDeletingQuestion, setIsShowModal } from "../services/modal/reducer";
 import AnswerOptionRowEdit from "./answer-option-row-edit";
 import { Link } from "react-router-dom";
 
 const QuestionRowEdit: React.FC<IQuestion> = (question) => {
   const dispatch = useAppDispatch();
 
-  const handleDeleteClick = (id: number) => {
+  const handleDeleteClick = (question: IQuestion) => {
+    dispatch(setDeletingQuestion(question));
     dispatch(setIsShowModal(true));
   };
 
@@ -27,7 +28,7 @@ const QuestionRowEdit: React.FC<IQuestion> = (question) => {
           <Link to={`/question/edit/${question.id}`}>
             <EditIcon />
           </Link>
-          <TrashIcon onClick={() => handleDeleteClick(question.id)} />
+          <TrashIcon onClick={() => handleDeleteClick(question)} />
         </td>
       </tr>
       {question.answerOptions.length > 0 ? (

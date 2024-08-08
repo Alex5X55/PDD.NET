@@ -14,7 +14,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     {
         return await Context.Set<Question>()
             .Include(q => q.Category)
-            .Include(c => c.AnswerOptions)
+            .Include(c => c.AnswerOptions.Where(ao => !ao.IsDeleted))
             .AsNoTracking()
             .Where(x => !x.IsDeleted)
             .ToListAsync(cancellationToken);
@@ -31,7 +31,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     {
         return await Context.Set<Question>()
             .Include(q => q.Category)
-            .Include(c => c.AnswerOptions)
+            .Include(c => c.AnswerOptions.Where(ao => !ao.IsDeleted))
             .AsNoTracking()
             .Where(x => x.CategoryId == categoryId && !x.IsDeleted)
             .ToListAsync(cancellationToken);

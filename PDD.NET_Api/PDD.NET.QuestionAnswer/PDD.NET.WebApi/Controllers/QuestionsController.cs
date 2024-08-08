@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Features.Questions.Commands.DeleteQuestion;
 using PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionById;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId;
@@ -52,6 +53,20 @@ namespace PDD.NET.WebApi.Controllers
         {
             var questions = await _mediator.Send(new GetQuestionByIdRequest(id), cancellationToken);
             return Ok(questions);
+        }
+        
+        
+        /// <summary>
+        /// Удалить вопрос по Id
+        /// </summary>
+        /// <param name="id">Id вопроса</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<Unit>> DeleteQuestionById(int id, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new DeleteQuestionRequest(id), cancellationToken);
+            return Ok();
         }
     }
 }
