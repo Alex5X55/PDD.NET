@@ -1,6 +1,17 @@
 version: '3.4'
 
 services:
+  postgres-user-answer:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: user_answer_db
+    ports:
+      - "5433:5432"  # Порт для базы данных user-answer
+    volumes:
+      - postgres_user_answer_data:/var/lib/postgresql/data
+
   user-answer-service:
     image: user-answer-service
     build:
@@ -8,7 +19,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5194:8080"
-      
+    depends_on:
+      - postgres-user-answer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+
   authorization:
     image: authorization
     build:
@@ -16,6 +32,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5200:8080"
+    depends_on:
+      - postgres-user-answer  # временно, если требуется доступ к базе данных
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Временные переменные окружения, строки подключения не заданы
+      # - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
 
   question-answer-service:
     image: question-answer-service
@@ -23,7 +45,13 @@ services:
       context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
       dockerfile: Dockerfile
     ports:
-      - "5211:8080"  
+      - "5211:8080"
+    depends_on:
+      - postgres-user-answer  # временно, если требуется доступ к базе данных
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Временные переменные окружения, строки подключения не заданы
+      # - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
 
   apigateway:
     image: apigateway
@@ -46,3 +74,6 @@ services:
       - apigateway
     ports:
       - "9000:3000"
+
+volumes:
+  postgres_user_answer_data:
