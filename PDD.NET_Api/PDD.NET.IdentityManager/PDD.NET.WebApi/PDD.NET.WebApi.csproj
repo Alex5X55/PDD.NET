@@ -8,12 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="PDD_NET_DB%28SQLite%29.db" />
-    <None Remove="PDD_NET_DB%28SQLite%29.db-shm" />
-    <None Remove="PDD_NET_DB%28SQLite%29.db-wal" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

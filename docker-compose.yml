@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: user_answer_db
     ports:
-      - "5433:5432"  # Порт для базы данных user-answer
+      - "5433:5432" 
     volumes:
       - postgres_user_answer_data:/var/lib/postgresql/data
 
@@ -22,8 +22,30 @@ services:
     depends_on:
       - postgres-user-answer
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+
+  postgres-identity-user:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_user_db
+    ports:
+      - "5434:5432" 
+    volumes:
+      - postgres_identity_user_data:/var/lib/postgresql/data
+
+  postgres-identity-auth:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_auth_db
+    ports:
+      - "5435:5432"  
+    volumes:
+      - postgres_identity_auth_data:/var/lib/postgresql/data      
 
   authorization:
     image: authorization
@@ -33,11 +55,12 @@ services:
     ports:
       - "5200:8080"
     depends_on:
-      - postgres-user-answer  # временно, если требуется доступ к базе данных
+      - postgres-identity-user
+      - postgres-identity-auth 
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      # Временные переменные окружения, строки подключения не заданы
-      # - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+      # - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
+      - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
 
   question-answer-service:
     image: question-answer-service
@@ -46,10 +69,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5211:8080"
-    depends_on:
-      - postgres-user-answer  # временно, если требуется доступ к базе данных
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+    # depends_on:
+    #   - postgres-user-answer  # временно, если требуется доступ к базе данных
+    # environment:
+      # - ASPNETCORE_ENVIRONMENT=Development
       # Временные переменные окружения, строки подключения не заданы
       # - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
 
@@ -77,3 +100,5 @@ services:
 
 volumes:
   postgres_user_answer_data:
+  postgres_identity_user_data:
+  postgres_identity_auth_data:
