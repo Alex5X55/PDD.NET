@@ -15,8 +15,6 @@ namespace PDD.NET.WebApi.Controllers;
 [Route("api/authorization/manager")]
 public class AuthController : ControllerBase
 {
-    // Identity package
-    //private readonly UserManager<IdentityUser> _userManager;
     private readonly IJwtService _jwtService;
     private readonly IMediator _mediator;
 
@@ -32,7 +30,7 @@ public class AuthController : ControllerBase
     /// <param name="request">Запрос на создание пользователя</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Пользователя</returns>
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<ActionResult<CreateUserResponse>> Register(CreateUserRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
@@ -41,12 +39,12 @@ public class AuthController : ControllerBase
 
 
     /// <summary>
-    /// Залогиниться в систему
+    /// Залогиниться в систему, сгенерировать токены доступа
     /// </summary>
     /// <param name="user"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginUserDTO user, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
@@ -60,7 +58,7 @@ public class AuthController : ControllerBase
                     Success = false
                 });
             }
-            bool isPasswordCorrect = Verify(user.Password, existingUser.PasswordHash);
+            bool isPasswordCorrect = VerifyPassword(user.Password, existingUser.PasswordHash);
             if (isPasswordCorrect)
             {
                 AuthResult authResult = await _jwtService.GenerateToken(existingUser);
@@ -88,14 +86,14 @@ public class AuthController : ControllerBase
         на вход: токен
         выход: валидный ли он*/
     /// <summary>
-    /// Тестовая валидация токена
+    /// Тестовая валидация токенов
     /// </summary>
     /// <param name="tokenRequest"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("validatetoken")]
+    [HttpPost("Validate")]
     //[HttpPost, Authorize]
-    public async Task<IActionResult> ValidateTokenTest([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> Validate([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
         if (!await _jwtService.ValidateTokenTest(tokenRequest))
         {
@@ -105,15 +103,15 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Отозвать токен доступа
+    /// Отозвать refresh токен
     /// </summary>
     /// <param name="tokenRequest"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost]
     //[HttpPost, Authorize]
-    [Route("revoketoken")]
-    public async Task<IActionResult> RevokeToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    [Route("Revoke")]
+    public async Task<IActionResult> Revoke([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
         var revoked = await _jwtService.RevokeToken(tokenRequest);
         
@@ -129,18 +127,19 @@ public class AuthController : ControllerBase
         return Ok(revoked);
     }
 
+    //если рефреш токен не просрочен - ничего не делаем, в противном случае генерируем новый рефреш токен и авторизационный токен.
     /// <summary>
-    /// Обновить токен доступа.
+    /// Проверить и обновить токен доступа
     /// </summary>
     /// <param name="tokenRequest"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("refreshtoken")]
-    public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    [HttpPost("Verify")]
+    public async Task<IActionResult> Verify([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
-            var verified = await _jwtService.RefreshToken(tokenRequest);
+            var verified = await _jwtService.VerifyRefreshToken(tokenRequest);
             //
             if (!verified.Success)
             {
@@ -166,5 +165,5 @@ public class AuthController : ControllerBase
             Success = false
         });
     }
-    private static bool Verify(string password, string hashedPassword) => BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
+    private static bool VerifyPassword(string password, string hashedPassword) => BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
 }

@@ -11,7 +11,7 @@ namespace PDD.NET.Persistence.Services;
 public interface IJwtService
 {
     Task<AuthResult> GenerateToken(GetUserAuthResponse user);
-    Task<RefreshTokenResponseDTO?> RefreshToken(TokenRequestDTO tokenRequest);
+    Task<RefreshTokenResponseDTO?> VerifyRefreshToken(TokenRequestDTO tokenRequest);
     Task<RefreshTokenResponseDTO?> RevokeToken(TokenRequestDTO tokenRequest);
     Task<bool> ValidateTokenTest(TokenRequestDTO tokenRequest);
 }

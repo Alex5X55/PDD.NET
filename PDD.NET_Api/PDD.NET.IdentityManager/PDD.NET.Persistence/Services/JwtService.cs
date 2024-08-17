@@ -23,8 +23,8 @@ public class JwtService : IJwtService
     private readonly TokenValidationParameters _tokenValidationParameters;
     private readonly IMediator _mediator;
 
-    private const long REFRESH_LIVE_S = 1200;
-    private const long ACCESS_LIVE_S = 600;
+    private const long REFRESH_LIVE_S = 2400;
+    private const long ACCESS_LIVE_S = 1200;
 
     public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, AuthDbContext context, TokenValidationParameters tokenValidationParameters
         , IMediator mediator
@@ -79,7 +79,7 @@ public class JwtService : IJwtService
             ExpiredAt = DateTime.UtcNow.AddSeconds(value: REFRESH_LIVE_S),
             Token = GetRandomString() + Guid.NewGuid() //random string - типичный подход.
         };
-        //refreshToken.User = user;
+
         RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Id == refreshToken.Id);
         if (storedToken == null)
         {
@@ -100,12 +100,10 @@ public class JwtService : IJwtService
             RefreshToken = refreshToken.Token,
             Success = true,
         };
-
     }
 
     //is used to get the user principal from the expired access token.
-    //если рефреш протух - выкидываем. если нет - выписываем новые токены. если access протух - выкидываем.
-    public async Task<RefreshTokenResponseDTO?> RefreshToken(TokenRequestDTO tokenRequest)
+    public async Task<RefreshTokenResponseDTO?> VerifyRefreshToken(TokenRequestDTO tokenRequest)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -246,7 +244,7 @@ public class JwtService : IJwtService
             var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(localRefreshToken.UserId), CancellationToken.None);
 
             localRefreshToken.IsRevoked = true;
-
+            localRefreshToken.Token = null;
             _context.Entry(localRefreshToken).State = EntityState.Modified;
             //_entitySet.Update(storedToken);
             await _context.SaveChangesAsync();
@@ -309,6 +307,7 @@ public class JwtService : IJwtService
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
             ValidateLifetime = true
+            //ClockSkew = TimeSpan.Zero
         };
         var tokenHandler = new JwtSecurityTokenHandler();
         SecurityToken securityToken;
