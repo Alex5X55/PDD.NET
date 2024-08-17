@@ -22,56 +22,10 @@ public class AuthController : ControllerBase
 
     public AuthController(IJwtService jwtService, IMediator mediator)
     {
-        //_userManager = userManager;
         _jwtService = jwtService;
         _mediator = mediator;
     }
 
-    /*    [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserDTO user)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityUser existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-                if (existingUser != null)
-                {
-                    return BadRequest(new RegisterResponseDTO()
-                    {
-                        Errors = new List<string>() { "Email already Registered" },
-                        Success = false
-                    });
-                }
-
-                IdentityUser newUser = new IdentityUser()
-                {
-                    Email = user.Email,
-                    UserName = user.Username,
-                };
-
-                IdentityResult? created = await _userManager.CreateAsync(newUser, user.Password);
-                if (created.Succeeded)
-                {
-                    AuthResult authResult = await _jwtService.GenerateToken(newUser);
-                    //return a token
-                    return Ok(authResult);
-                }
-                else
-                {
-                    return BadRequest(new RegisterResponseDTO()
-                    {
-                        Errors = created.Errors.Select(e => e.Description).ToList(),
-                        Success = false
-                    });
-                }
-            }
-
-            return BadRequest(new RegisterResponseDTO()
-            {
-                Errors = new List<string>() { "Invalid payload" },
-                Success = false
-            });
-        }*/
     /// <summary>
     /// Создать пользователя по запросу
     /// </summary>
@@ -86,6 +40,12 @@ public class AuthController : ControllerBase
     }
 
 
+    /// <summary>
+    /// Залогиниться в систему
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserDTO user, CancellationToken cancellationToken)
     {
@@ -127,28 +87,60 @@ public class AuthController : ControllerBase
     /*  Валидация токена.
         на вход: токен
         выход: валидный ли он*/
+    /// <summary>
+    /// Тестовая валидация токена
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("validatetoken")]
     //[HttpPost, Authorize]
-    public async Task<IActionResult> ValidateToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    public async Task<IActionResult> ValidateTokenTest([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
+        if (!await _jwtService.ValidateTokenTest(tokenRequest))
+        {
+            return BadRequest();
+        }
         return Ok();
     }
 
-    //Отозвать токен
+    /// <summary>
+    /// Отозвать токен доступа
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost]
     //[HttpPost, Authorize]
     [Route("revoketoken")]
-    public IActionResult Revoke()
+    public async Task<IActionResult> RevokeToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
-        return Ok();
+        var revoked = await _jwtService.RevokeToken(tokenRequest);
+        
+        if (!revoked.Success)
+        {
+            return BadRequest(new AuthResult()
+            {
+                // Errors = new List<string> { "invalid Token" },
+                Errors = revoked.Errors,
+                Success = false
+            });
+        }
+        return Ok(revoked);
     }
 
+    /// <summary>
+    /// Обновить токен доступа.
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("refreshtoken")]
     public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
-            var verified = await _jwtService.UpdateToken(tokenRequest);
+            var verified = await _jwtService.RefreshToken(tokenRequest);
             //
             if (!verified.Success)
             {

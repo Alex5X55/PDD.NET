@@ -12,7 +12,6 @@ using MediatR;
 using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
-using System.Security.Cryptography;
 
 namespace PDD.NET.Persistence.Services;
 
@@ -24,8 +23,8 @@ public class JwtService : IJwtService
     private readonly TokenValidationParameters _tokenValidationParameters;
     private readonly IMediator _mediator;
 
-    private const long REFRESH_LIVE = 100;
-    private const long ACCESS_LIVE = 99;
+    private const long REFRESH_LIVE_S = 1200;
+    private const long ACCESS_LIVE_S = 600;
 
     public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, AuthDbContext context, TokenValidationParameters tokenValidationParameters
         , IMediator mediator
@@ -57,7 +56,7 @@ public class JwtService : IJwtService
             //Issuer - издатель, кто создает токен, какой сервис
             //Audience - кто принимает токен
             //Expires-Gets or sets the value of the 'expiration' claim. This value should be in UTC.
-            Expires = DateTime.UtcNow.AddSeconds(value: ACCESS_LIVE),
+            Expires = DateTime.UtcNow.AddSeconds(value: ACCESS_LIVE_S),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             //HmacSha256Signature - алгоритм для кодирования
         };
@@ -77,7 +76,7 @@ public class JwtService : IJwtService
             UserId = user.Id,
             CreatedAt = DateTime.UtcNow,
             //ExpiredAt = DateTime.UtcNow.AddMonths(1),
-            ExpiredAt = DateTime.UtcNow.AddSeconds(value: REFRESH_LIVE),
+            ExpiredAt = DateTime.UtcNow.AddSeconds(value: REFRESH_LIVE_S),
             Token = GetRandomString() + Guid.NewGuid() //random string - типичный подход.
         };
         //refreshToken.User = user;
@@ -95,8 +94,6 @@ public class JwtService : IJwtService
         }
         await _context.SaveChangesAsync();
 
-
-
         return new AuthResult()
         {
             Token = jwtToken,
@@ -106,13 +103,9 @@ public class JwtService : IJwtService
 
     }
 
-/*    public async Task<RefreshTokenResponseDTO?> VerifyToken(TokenRequestDTO tokenRequest)
-    {
-    }*/
-
     //is used to get the user principal from the expired access token.
     //если рефреш протух - выкидываем. если нет - выписываем новые токены. если access протух - выкидываем.
-    public async Task<RefreshTokenResponseDTO?> UpdateToken(TokenRequestDTO tokenRequest)
+    public async Task<RefreshTokenResponseDTO?> RefreshToken(TokenRequestDTO tokenRequest)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -134,25 +127,7 @@ public class JwtService : IJwtService
             //пользователь токена в соотв с id
             var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(localRefreshToken.UserId), CancellationToken.None);
 
-            //мы это делаем вручную
-            /*            var tokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateAudience = false, //потребитель токена
-                            //you might want to validate the audience and issuer depending on your use case
-                            ValidateIssuer = false,// издатель токена
-                            ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
-                            ValidateLifetime = false //here we are saying that we don't care about the token's expiration date
-                        };
-                        var tokenHandler = new JwtSecurityTokenHandler();
-                        SecurityToken securityToken;
-                        //tokenRequest.Token - уточнить.
-                        var principal = tokenHandler.ValidateToken(tokenRequest.Token, tokenValidationParameters, out securityToken);
-                        var jwtSecurityToken = securityToken as JwtSecurityToken;
-                        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                            throw new SecurityTokenException("Invalid token");*/
-
-            /*            Функция ValidateToken() ожидает, что вы передадите основную информацию для проверки токена: идентификатор эмитента токена, аудиторию и ключи подписи эмитента.
+            /* Функция ValidateToken() ожидает, что вы передадите основную информацию для проверки токена: идентификатор эмитента токена, аудиторию и ключи подписи эмитента.
              https://auth0.com/blog/how-to-validate-jwt-dotnet/
              */
             ClaimsPrincipal? tokenVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters, out var validatedToken);
@@ -250,6 +225,54 @@ public class JwtService : IJwtService
         }
     }
 
+    public async Task<RefreshTokenResponseDTO?> RevokeToken(TokenRequestDTO tokenRequest)
+    {
+        try
+        {
+            ////////////////поиск refresh токена в локальной базе
+            RefreshToken? localRefreshToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+
+            if (localRefreshToken == null)
+            {
+                return new RefreshTokenResponseDTO()
+                {
+                    Success = false,
+                    Errors = new List<string>{
+                     "Token does not found"
+                    }
+                };
+            }
+
+            var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(localRefreshToken.UserId), CancellationToken.None);
+
+            localRefreshToken.IsRevoked = true;
+
+            _context.Entry(localRefreshToken).State = EntityState.Modified;
+            //_entitySet.Update(storedToken);
+            await _context.SaveChangesAsync();
+            _context.Entry(localRefreshToken).State = EntityState.Detached;
+
+            // return token
+            return new RefreshTokenResponseDTO()
+            {
+                Email = userFullResponse.Email,
+                Id = localRefreshToken.UserId,
+                Success = true,
+            };
+
+        }
+        catch (Exception e)
+        {
+            return new RefreshTokenResponseDTO()
+            {
+                Errors = new List<string>{
+                    e.Message
+                },
+                Success = false
+            };
+        }
+    }
+
     private DateTime UTCtoDateTime(long unixTimeStamp)
     {
         var datetimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -275,8 +298,33 @@ public class JwtService : IJwtService
         */
     }
 
-    public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+    //Validate access token
+    public async Task<bool> ValidateTokenTest(TokenRequestDTO tokenRequest)
     {
-        throw new NotImplementedException();
+        //мы это делаем вручную
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false, //проверка потребителя токена
+            ValidateIssuer = false,// проверка издателя токена
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
+            ValidateLifetime = true
+        };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        SecurityToken securityToken;
+
+        var principal = tokenHandler.ValidateToken(tokenRequest.Token, tokenValidationParameters, out securityToken);
+        var jwtSecurityToken = securityToken as JwtSecurityToken;
+
+        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            throw new SecurityTokenException("Invalid token");
+        //var username = jwtSecurityToken.Payload[JwtRegisteredClaimNames.Email].ToString(); ; //this is mapped to the Name claim by default
+
+        RefreshToken? localRefreshToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
+        var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(localRefreshToken.UserId), CancellationToken.None);
+
+        if (userFullResponse is null || localRefreshToken is null || localRefreshToken.ExpiredAt <= DateTime.UtcNow)
+            throw new SecurityTokenException("Invalid token");
+        return true;
     }
 }
