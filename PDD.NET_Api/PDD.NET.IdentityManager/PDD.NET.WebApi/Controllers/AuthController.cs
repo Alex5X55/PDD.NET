@@ -86,7 +86,7 @@ public class AuthController : ControllerBase
     }
 
 
-    [HttpPost("Login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserDTO user, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
@@ -100,7 +100,7 @@ public class AuthController : ControllerBase
                     Success = false
                 });
             }
-            bool isPasswordCorrect = Verify( user.Password, existingUser.PasswordHash);
+            bool isPasswordCorrect = Verify(user.Password, existingUser.PasswordHash);
             if (isPasswordCorrect)
             {
                 AuthResult authResult = await _jwtService.GenerateToken(existingUser);
@@ -128,7 +128,17 @@ public class AuthController : ControllerBase
         на вход: токен
         выход: валидный ли он*/
     [HttpPost("validatetoken")]
+    //[HttpPost, Authorize]
     public async Task<IActionResult> ValidateToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    {
+        return Ok();
+    }
+
+    //Отозвать токен
+    [HttpPost]
+    //[HttpPost, Authorize]
+    [Route("revoketoken")]
+    public IActionResult Revoke()
     {
         return Ok();
     }
@@ -138,7 +148,7 @@ public class AuthController : ControllerBase
     {
         if (ModelState.IsValid)
         {
-            var verified = await _jwtService.VerifyToken(tokenRequest);
+            var verified = await _jwtService.UpdateToken(tokenRequest);
             //
             if (!verified.Success)
             {
