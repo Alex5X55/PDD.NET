@@ -24,9 +24,6 @@ public class JwtService : IJwtService
     private readonly TokenValidationParameters _tokenValidationParameters;
     private readonly IMediator _mediator;
 
-    private const long REFRESH_LIVE = 100;
-    private const long ACCESS_LIVE = 99;
-
     public JwtService(IOptionsMonitor<JwtConfig> jwtConfig, AuthDbContext context, TokenValidationParameters tokenValidationParameters
         , IMediator mediator
         )
@@ -57,7 +54,7 @@ public class JwtService : IJwtService
             //Issuer - издатель, кто создает токен, какой сервис
             //Audience - кто принимает токен
             //Expires-Gets or sets the value of the 'expiration' claim. This value should be in UTC.
-            Expires = DateTime.UtcNow.AddSeconds(value: ACCESS_LIVE),
+            Expires = DateTime.UtcNow.AddSeconds(value: _jwtConfig.LifeTimeAccessMin),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             //HmacSha256Signature - алгоритм для кодирования
         };
@@ -77,7 +74,7 @@ public class JwtService : IJwtService
             UserId = user.Id,
             CreatedAt = DateTime.UtcNow,
             //ExpiredAt = DateTime.UtcNow.AddMonths(1),
-            ExpiredAt = DateTime.UtcNow.AddSeconds(value: REFRESH_LIVE),
+            ExpiredAt = DateTime.UtcNow.AddSeconds(value: _jwtConfig.LifeTimeRefreshMin),
             Token = GetRandomString() + Guid.NewGuid() //random string - типичный подход.
         };
         //refreshToken.User = user;
