@@ -7,3 +7,6 @@ export const getDeletingAnswerOption = (state: RootState) =>
 
 export const getDeletingQuestion = (state: RootState) =>
   state.modal.deletingQuestion;
+
+export const getDeletingQuestionCategory = (state: RootState) =>
+  state.modal.deletingQuestionCategory;

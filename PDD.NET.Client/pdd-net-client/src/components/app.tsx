@@ -20,6 +20,7 @@ import AdminQuestionCategoriesPage from "../pages/admin-question-categories-page
 import AdminUserStatisticsPage from "../pages/admin-user-statistics-page";
 import QuestionEditPage from "../pages/question-edit-page";
 import AnswerOptionEditPage from "../pages/answer-option-edit-page";
+import QuestionCategoryEditPage from "../pages/question-category-edit-page";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -52,6 +53,15 @@ function App() {
           <Route
             path="/answer-option/edit"
             element={<AnswerOptionEditPage />}
+          />
+
+          <Route
+            path="/question-category/edit/:questionCategoryId"
+            element={<QuestionCategoryEditPage />}
+          />
+          <Route
+            path="/question-category/edit"
+            element={<QuestionCategoryEditPage />}
           />
 
           <Route

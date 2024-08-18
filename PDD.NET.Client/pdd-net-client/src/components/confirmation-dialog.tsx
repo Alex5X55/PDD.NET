@@ -6,6 +6,7 @@ import { useAppSelector } from "../services/hooks";
 import {
   getDeletingAnswerOption,
   getDeletingQuestion,
+  getDeletingQuestionCategory,
 } from "../services/modal/selectors";
 
 const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
@@ -18,6 +19,7 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
 }) => {
   const deletingQuestion = useAppSelector(getDeletingQuestion);
   const deletingAnswerOption = useAppSelector(getDeletingAnswerOption);
+  const deletingQuestionCategory = useAppSelector(getDeletingQuestionCategory);
 
   return (
     <Modal
@@ -33,7 +35,9 @@ const ConfirmationDialog: React.FC<IConfirmationDialog> = ({
       <Modal.Body>
         <p>
           {body} Текст элемента:{" "}
-          {deletingQuestion?.text || deletingAnswerOption?.text}
+          {deletingQuestion?.text ||
+            deletingAnswerOption?.text ||
+            deletingQuestionCategory?.text}
         </p>
       </Modal.Body>
       <Modal.Footer>

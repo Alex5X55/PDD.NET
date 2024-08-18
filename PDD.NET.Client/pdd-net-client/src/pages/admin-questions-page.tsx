@@ -16,6 +16,8 @@ import {
 } from "../services/modal/selectors";
 import { resetDeletingItems, setIsShowModal } from "../services/modal/reducer";
 import { deleteAnswerOption } from "../services/answer-option/actions";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const AdminQuestionsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -63,12 +65,24 @@ const AdminQuestionsPage: React.FC = () => {
   return (
     <div className="container">
       <header className="jumbotron mt-5">
-        <h1 className="display-4 mb-4">Вопросы</h1>
+        <h1 className="display-4 mb-4">Вопросы и варианты ответов</h1>
       </header>
       <p className="lead">
-        В этом разделе вы можете получить все вопросы, а также редактировать
-        вопросы и варианты ответов.
+        В этом разделе вы можете увидеть список всех вопросов и вариантов
+        ответов, а также редактировать вопросы и варианты ответов.
       </p>
+      <div className="mb-2">
+        <Link to={`/question/edit`} className="m-2">
+          <Button variant="primary" size="lg">
+            Добавить вопрос
+          </Button>
+        </Link>
+        <Link to={`/answer-option/edit`}>
+          <Button variant="primary" size="lg">
+            Добавить вариант ответа
+          </Button>
+        </Link>
+      </div>
       {isLoading && <Preloader />}
       {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {allQuestions.length > 0 ? (
