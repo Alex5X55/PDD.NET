@@ -2,9 +2,9 @@ namespace PDD.NET.Domain.Entities;
 
 public class JwtConfig
 {
-    public string? Secret { get; }
+    public required string Secret { get; set; }
 
-    public int LifeTimeAccessMin { get;}
+    public int LifeTimeAccessMin { get;  set; }
 
-    public int LifeTimeRefreshMin { get; }
+    public int LifeTimeRefreshMin { get;  set; }
 }
