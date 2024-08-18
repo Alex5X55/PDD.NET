@@ -15,70 +15,22 @@ namespace PDD.NET.WebApi.Controllers;
 [Route("api/authorization/manager")]
 public class AuthController : ControllerBase
 {
-    // Identity package
-    //private readonly UserManager<IdentityUser> _userManager;
     private readonly IJwtService _jwtService;
     private readonly IMediator _mediator;
 
     public AuthController(IJwtService jwtService, IMediator mediator)
     {
-        //_userManager = userManager;
         _jwtService = jwtService;
         _mediator = mediator;
     }
 
-    /*    [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterUserDTO user)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityUser existingUser = await _userManager.FindByEmailAsync(user.Email);
-
-                if (existingUser != null)
-                {
-                    return BadRequest(new RegisterResponseDTO()
-                    {
-                        Errors = new List<string>() { "Email already Registered" },
-                        Success = false
-                    });
-                }
-
-                IdentityUser newUser = new IdentityUser()
-                {
-                    Email = user.Email,
-                    UserName = user.Username,
-                };
-
-                IdentityResult? created = await _userManager.CreateAsync(newUser, user.Password);
-                if (created.Succeeded)
-                {
-                    AuthResult authResult = await _jwtService.GenerateToken(newUser);
-                    //return a token
-                    return Ok(authResult);
-                }
-                else
-                {
-                    return BadRequest(new RegisterResponseDTO()
-                    {
-                        Errors = created.Errors.Select(e => e.Description).ToList(),
-                        Success = false
-                    });
-                }
-            }
-
-            return BadRequest(new RegisterResponseDTO()
-            {
-                Errors = new List<string>() { "Invalid payload" },
-                Success = false
-            });
-        }*/
     /// <summary>
     /// Создать пользователя по запросу
     /// </summary>
     /// <param name="request">Запрос на создание пользователя</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Пользователя</returns>
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<ActionResult<CreateUserResponse>> Register(CreateUserRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);
@@ -86,6 +38,12 @@ public class AuthController : ControllerBase
     }
 
 
+    /// <summary>
+    /// Залогиниться в систему, сгенерировать токены доступа
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginUserDTO user, CancellationToken cancellationToken)
     {
@@ -100,7 +58,7 @@ public class AuthController : ControllerBase
                     Success = false
                 });
             }
-            bool isPasswordCorrect = Verify( user.Password, existingUser.PasswordHash);
+            bool isPasswordCorrect = VerifyPassword(user.Password, existingUser.PasswordHash);
             if (isPasswordCorrect)
             {
                 AuthResult authResult = await _jwtService.GenerateToken(existingUser);
@@ -127,18 +85,61 @@ public class AuthController : ControllerBase
     /*  Валидация токена.
         на вход: токен
         выход: валидный ли он*/
-    [HttpPost("validatetoken")]
-    public async Task<IActionResult> ValidateToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    /// <summary>
+    /// Тестовая валидация токенов
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost("Validate")]
+    //[HttpPost, Authorize]
+    public async Task<IActionResult> Validate([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
+        if (!await _jwtService.ValidateTokenTest(tokenRequest))
+        {
+            return BadRequest();
+        }
         return Ok();
     }
 
-    [HttpPost("refreshtoken")]
-    public async Task<IActionResult> RefreshToken([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    /// <summary>
+    /// Отозвать refresh токен
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost]
+    //[HttpPost, Authorize]
+    [Route("Revoke")]
+    public async Task<IActionResult> Revoke([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
+    {
+        var revoked = await _jwtService.RevokeToken(tokenRequest);
+        
+        if (!revoked.Success)
+        {
+            return BadRequest(new AuthResult()
+            {
+                // Errors = new List<string> { "invalid Token" },
+                Errors = revoked.Errors,
+                Success = false
+            });
+        }
+        return Ok(revoked);
+    }
+
+    //если рефреш токен не просрочен - ничего не делаем, в противном случае генерируем новый рефреш токен и авторизационный токен.
+    /// <summary>
+    /// Проверить и обновить токен доступа
+    /// </summary>
+    /// <param name="tokenRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost("Verify")]
+    public async Task<IActionResult> Verify([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
-            var verified = await _jwtService.VerifyToken(tokenRequest);
+            var verified = await _jwtService.VerifyRefreshToken(tokenRequest);
             //
             if (!verified.Success)
             {
@@ -164,5 +165,5 @@ public class AuthController : ControllerBase
             Success = false
         });
     }
-    private static bool Verify(string password, string hashedPassword) => BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
+    private static bool VerifyPassword(string password, string hashedPassword) => BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
 }
