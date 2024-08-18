@@ -29,10 +29,19 @@ public class DatabaseContext : DbContext
             .HasMany<AnswerOption>(ur => ur.AnswerOptions)
             .WithOne(u => u.Question)
             .HasForeignKey(ur => ur.QuestionId);
+
+        modelBuilder.Entity<AnswerOption>()
+        .HasKey(a => a.Id); // Устанавливаем ключ
+
+        modelBuilder.Entity<AnswerOption>()
+            .Property(a => a.Id)
+            .ValueGeneratedNever(); // Указываем, что значение не будет генерироваться автоматически
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
+
+        Database.AutoTransactionBehavior = AutoTransactionBehavior.Never;
     }
 }

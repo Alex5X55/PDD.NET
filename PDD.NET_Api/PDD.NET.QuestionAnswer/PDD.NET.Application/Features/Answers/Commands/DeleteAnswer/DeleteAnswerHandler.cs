@@ -8,13 +8,11 @@ namespace PDD.NET.Application.Features.Answers.Commands.DeleteAnswer;
 
 public sealed class DeleteAnswerHandler : IRequestHandler<DeleteAnswerRequest, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
 
-    public DeleteAnswerHandler(IUnitOfWork unitOfWork, IAnswerRepository answerRepository, IMapper mapper)
+    public DeleteAnswerHandler(IAnswerRepository answerRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _answerRepository = answerRepository;
         _mapper = mapper;
     }
@@ -29,7 +27,6 @@ public sealed class DeleteAnswerHandler : IRequestHandler<DeleteAnswerRequest, U
 
         answer.IsDeleted = true;
         _answerRepository.Update(answer);
-        await _unitOfWork.Save(cancellationToken);
 
         return Unit.Value;
     }

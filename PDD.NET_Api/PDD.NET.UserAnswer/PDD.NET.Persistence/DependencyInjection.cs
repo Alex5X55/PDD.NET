@@ -10,8 +10,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Sqlite");
-        services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite(connectionString));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<DatabaseContext>(opt => opt.UseNpgsql(connectionString));
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

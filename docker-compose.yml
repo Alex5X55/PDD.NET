@@ -1,6 +1,36 @@
 version: '3.4'
 
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+ 
+  question-answer-service:
+    image: question-answer-service
+    build:
+      context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
+      dockerfile: Dockerfile
+    ports:
+      - "5211:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - ConnectionStrings__MongoDb=mongodb://mongodb:27017
+  
+  postgres-user-answer:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: user_answer_db
+    ports:
+      - "5433:5432" 
+    volumes:
+      - postgres_user_answer_data:/var/lib/postgresql/data
+
   user-answer-service:
     image: user-answer-service
     build:
@@ -8,7 +38,33 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5194:8080"
-      
+    depends_on:
+      - postgres-user-answer
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+
+  postgres-identity-user:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_user_db
+    ports:
+      - "5434:5432" 
+    volumes:
+      - postgres_identity_user_data:/var/lib/postgresql/data
+
+  postgres-identity-auth:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_auth_db
+    ports:
+      - "5435:5432"  
+    volumes:
+      - postgres_identity_auth_data:/var/lib/postgresql/data      
+
   authorization:
     image: authorization
     build:
@@ -16,14 +72,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5200:8080"
+    depends_on:
+      - postgres-identity-user
+      - postgres-identity-auth 
+    environment:
+      - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
+      - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
 
-  question-answer-service:
-    image: question-answer-service
-    build:
-      context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
-      dockerfile: Dockerfile
-    ports:
-      - "5211:8080"  
+ 
 
   apigateway:
     image: apigateway
@@ -46,3 +102,9 @@ services:
       - apigateway
     ports:
       - "9000:3000"
+
+volumes:
+  postgres_user_answer_data:
+  postgres_identity_user_data:
+  postgres_identity_auth_data:
+  mongodb_data:

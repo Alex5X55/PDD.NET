@@ -2,4 +2,4 @@
 
 namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
 
-public sealed record CreateAnswerRequest(string Text, int QuestionId, bool IsRight) : IRequest<CreateAnswerResponse>;
+public sealed record CreateAnswerRequest(int Id, string Text, int QuestionId, bool IsRight) : IRequest<CreateAnswerResponse>;
