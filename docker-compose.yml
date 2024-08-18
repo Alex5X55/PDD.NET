@@ -1,6 +1,25 @@
 version: '3.4'
 
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+ 
+  question-answer-service:
+    image: question-answer-service
+    build:
+      context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
+      dockerfile: Dockerfile
+    ports:
+      - "5211:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - ConnectionStrings__MongoDb=mongodb://mongodb:27017
+  
   postgres-user-answer:
     image: postgres:latest
     environment:
@@ -22,7 +41,6 @@ services:
     depends_on:
       - postgres-user-answer
     environment:
-      # - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
 
   postgres-identity-user:
@@ -58,23 +76,10 @@ services:
       - postgres-identity-user
       - postgres-identity-auth 
     environment:
-      # - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
       - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
 
-  question-answer-service:
-    image: question-answer-service
-    build:
-      context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
-      dockerfile: Dockerfile
-    ports:
-      - "5211:8080"
-    # depends_on:
-    #   - postgres-user-answer  # временно, если требуется доступ к базе данных
-    # environment:
-      # - ASPNETCORE_ENVIRONMENT=Development
-      # Временные переменные окружения, строки подключения не заданы
-      # - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+ 
 
   apigateway:
     image: apigateway
@@ -102,3 +107,4 @@ volumes:
   postgres_user_answer_data:
   postgres_identity_user_data:
   postgres_identity_auth_data:
+  mongodb_data:

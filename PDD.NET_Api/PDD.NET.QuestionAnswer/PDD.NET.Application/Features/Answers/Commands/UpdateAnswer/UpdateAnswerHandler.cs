@@ -8,13 +8,11 @@ namespace PDD.NET.Application.Features.Answers.Commands.UpdateAnswer;
 
 public sealed class UpdateAnswerHandler : IRequestHandler<UpdateAnswerInternalRequest, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
 
-    public UpdateAnswerHandler(IUnitOfWork unitOfWork, IAnswerRepository answerRepository, IMapper mapper)
+    public UpdateAnswerHandler( IAnswerRepository answerRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _answerRepository = answerRepository;
         _mapper = mapper;
     }
@@ -30,7 +28,6 @@ public sealed class UpdateAnswerHandler : IRequestHandler<UpdateAnswerInternalRe
         answer.Text = request.Text;
         answer.IsRight = request.IsRight;
         _answerRepository.Update(answer);
-        await _unitOfWork.Save(cancellationToken);
 
         return Unit.Value;
     }
