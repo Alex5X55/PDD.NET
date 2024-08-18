@@ -38,15 +38,22 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
           <Route path="/admin/questions" element={<AdminQuestionsPage />} />
+
           <Route
             path="/question/edit/:questionId"
             element={<QuestionEditPage />}
           />
           <Route path="/question/edit" element={<QuestionEditPage />} />
+
           <Route
             path="/answer-option/edit/:answerOptionId"
             element={<AnswerOptionEditPage />}
           />
+          <Route
+            path="/answer-option/edit"
+            element={<AnswerOptionEditPage />}
+          />
+
           <Route
             path="/admin/question-categories"
             element={<AdminQuestionCategoriesPage />}
