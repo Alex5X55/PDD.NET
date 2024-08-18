@@ -42,6 +42,7 @@ function App() {
             path="/question/edit/:questionId"
             element={<QuestionEditPage />}
           />
+          <Route path="/question/edit" element={<QuestionEditPage />} />
           <Route
             path="/answer-option/edit/:answerOptionId"
             element={<AnswerOptionEditPage />}
