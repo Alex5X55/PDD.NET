@@ -4,7 +4,7 @@ namespace PDD.NET.Domain.Entities;
 
 public class User : BaseEntity
 {
-    public string Login { get; set; }
+    public string Login { get; set; } //= default!;
 
     public string Email { get; set; }
 
