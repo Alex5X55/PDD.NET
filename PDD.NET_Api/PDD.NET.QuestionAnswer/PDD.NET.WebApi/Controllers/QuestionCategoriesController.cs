@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategories;
 using PDD.NET.Application.Features.QuestionCategories.Queries.GetAllQuestionCategories;
 
 namespace PDD.NET.WebAPI.Controllers;
@@ -28,5 +29,18 @@ public class QuestionCategoriesController : ControllerBase
     {
         var response = await _mediator.Send(new GetAllQuestionCategoriesRequest(), cancellationToken);
         return Ok(response);
+    }
+    
+    /// <summary>
+    /// Удалить категорию по Id
+    /// </summary>
+    /// <param name="id">Id категории</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult<Unit>> DeleteQuestionCategory(int id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteQuestionCategoryRequest(id), cancellationToken);
+        return Ok();
     }
 }

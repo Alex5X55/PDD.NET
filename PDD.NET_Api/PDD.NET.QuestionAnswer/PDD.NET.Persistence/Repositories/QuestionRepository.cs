@@ -16,7 +16,7 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
             .Include(q => q.Category)
             .Include(c => c.AnswerOptions.Where(ao => !ao.IsDeleted))
             .AsNoTracking()
-            .Where(x => !x.IsDeleted)
+            .Where(x => !x.IsDeleted && !x.Category.IsDeleted)
             .ToListAsync(cancellationToken);
     }
 
