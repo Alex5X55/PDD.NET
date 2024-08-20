@@ -34,11 +34,14 @@ const QuestionRowEdit: React.FC<IQuestion> = (question) => {
       {question.answerOptions.length > 0 ? (
         <>
           {question.answerOptions.map((item) => (
-            <AnswerOptionRowEdit {...item} key={item.id} />
+            <AnswerOptionRowEdit
+              {...item}
+              key={`answer-option-row-edit-${item.id}`}
+            />
           ))}
         </>
       ) : (
-        <tr key={question.id}>
+        <tr key={`not-found-${question.id}`}>
           <td></td>
           <td>Варианты ответов не найдены</td>
           <td></td>

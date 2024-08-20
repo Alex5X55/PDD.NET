@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IQuestion, IQuestionCategory } from "../../types/types";
 import {
+  ICreateQuestionResponse,
+  IQuestion,
+  IQuestionCategory,
+} from "../../types/types";
+import {
+  createQuestion,
   loadAllQuestions,
   loadExamQuestions,
   loadQuestionsByCategory,
@@ -21,6 +26,10 @@ interface QuestionState {
   allQuestions: IQuestion[];
   allQuestionsLoading: boolean;
   allQuestionsError: string | null;
+
+  newQuestion: ICreateQuestionResponse | null;
+  createQuestionLoading: boolean;
+  createQuestionError: string | null;
 }
 
 const initialState: QuestionState = {
@@ -38,6 +47,10 @@ const initialState: QuestionState = {
   allQuestions: [],
   allQuestionsLoading: false,
   allQuestionsError: null,
+
+  newQuestion: null,
+  createQuestionLoading: false,
+  createQuestionError: null,
 };
 
 export const questionSlice = createSlice({
@@ -75,6 +88,10 @@ export const questionSlice = createSlice({
     },
     resetCurrentQuestionNumber: (state) => {
       state.currentQuestionNumber = 0;
+    },
+    resetQuestionState: (state) => {
+      state.newQuestion = null;
+      state.createQuestionError = null;
     },
   },
   extraReducers: (builder) => {
@@ -114,6 +131,18 @@ export const questionSlice = createSlice({
       .addCase(loadAllQuestions.rejected, (state, action) => {
         state.allQuestionsLoading = false;
         state.allQuestionsError = action?.error?.message as string;
+      })
+      .addCase(createQuestion.pending, (state) => {
+        state.createQuestionLoading = true;
+        state.createQuestionError = null;
+      })
+      .addCase(createQuestion.fulfilled, (state, action) => {
+        state.newQuestion = action.payload;
+        state.createQuestionLoading = false;
+      })
+      .addCase(createQuestion.rejected, (state, action) => {
+        state.createQuestionLoading = false;
+        state.createQuestionError = action?.error?.message as string;
       });
   },
 });
@@ -124,4 +153,5 @@ export const {
   setPrevQuestion,
   setCurrentQuestionNumber,
   resetCurrentQuestionNumber,
+  resetQuestionState,
 } = questionSlice.actions;

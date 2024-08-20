@@ -1,6 +1,10 @@
 import getResponse from "./api-utils";
 import { baseApiConfig } from "../data/api-config";
-import { IQuestion } from "../types/types";
+import {
+  ICreateQuestionRequest,
+  ICreateQuestionResponse,
+  IQuestion,
+} from "../types/types";
 
 export const getQuestionsByCategory = async (
   questionCategoryId: number,
@@ -27,6 +31,17 @@ export const getQuestions = async (): Promise<IQuestion[]> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
     method: "GET",
     headers: baseApiConfig.headers,
+  });
+  return getResponse(res);
+};
+
+export const addQuestion = async (
+  requestData: ICreateQuestionRequest,
+): Promise<ICreateQuestionResponse> => {
+  const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
+    method: "POST",
+    headers: baseApiConfig.headers,
+    body: JSON.stringify(requestData),
   });
   return getResponse(res);
 };

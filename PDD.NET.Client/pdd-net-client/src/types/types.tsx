@@ -44,6 +44,12 @@ export interface IAnswerOption {
   isRight: boolean;
 }
 
+export interface ICreateAnswerOptionRequest {
+  text: string;
+  questionId: number;
+  isRight: boolean;
+}
+
 export interface IQuestion {
   id: number;
   categoryId: number;
@@ -51,6 +57,19 @@ export interface IQuestion {
   text: string;
   category: IQuestionCategory;
   answerOptions: Array<IAnswerOption>;
+}
+
+export interface ICreateQuestionRequest {
+  categoryId: number;
+  imageData: string;
+  text: string;
+}
+
+export interface ICreateQuestionResponse {
+  id: number;
+  categoryId: number;
+  imageData: string;
+  text: string;
 }
 
 export interface IAnswer {

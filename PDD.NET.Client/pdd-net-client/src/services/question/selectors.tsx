@@ -29,3 +29,11 @@ export const getAllQuestionsLoading = (state: RootState) =>
 
 export const getAllQuestionsError = (state: RootState) =>
   state.question.allQuestionsError;
+
+export const createQuestionLoading = (state: RootState) =>
+  state.question.createQuestionLoading;
+
+export const createQuestionError = (state: RootState) =>
+  state.question.createQuestionError;
+
+export const getNewQuestion = (state: RootState) => state.question.newQuestion;

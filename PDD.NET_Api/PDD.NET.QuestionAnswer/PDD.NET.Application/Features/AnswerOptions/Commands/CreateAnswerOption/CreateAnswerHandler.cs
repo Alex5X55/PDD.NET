@@ -20,6 +20,8 @@ public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, C
 
     public async Task<CreateAnswerResponse> Handle(CreateAnswerRequest request, CancellationToken cancellationToken)
     {
+        // TODO: Добавить проверку на существование вопроса
+        
         var answerOption = _mapper.Map<AnswerOption>(request);
         _answerRepository.Create(answerOption);
         await _unitOfWork.Save(cancellationToken);

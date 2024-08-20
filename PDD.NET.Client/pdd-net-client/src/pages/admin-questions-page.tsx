@@ -88,7 +88,7 @@ const AdminQuestionsPage: React.FC = () => {
       {allQuestions.length > 0 ? (
         <table className="table table-striped">
           <thead>
-            <tr>
+            <tr key={"thead"}>
               <th scope="col">Id</th>
               <th scope="col">Текст вопроса/варианта ответа</th>
               <th scope="col">Категория</th>
@@ -98,7 +98,7 @@ const AdminQuestionsPage: React.FC = () => {
           </thead>
           <tbody>
             {allQuestions.map((item) => (
-              <QuestionRowEdit {...item} key={item.id} />
+              <QuestionRowEdit {...item} key={`question-row-edit-${item.id}`} />
             ))}
           </tbody>
         </table>

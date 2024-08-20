@@ -1,10 +1,15 @@
-import { IQuestion } from "../../types/types";
+import {
+  ICreateQuestionRequest,
+  ICreateQuestionResponse,
+  IQuestion,
+} from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   getQuestions,
   getExamQuestions,
   getQuestionsByCategory,
   removeQuestion,
+  addQuestion,
 } from "../../utils/questions-api";
 
 export const loadQuestionsByCategory = createAsyncThunk<IQuestion[], number>(
@@ -27,6 +32,11 @@ export const loadAllQuestions = createAsyncThunk<IQuestion[]>(
     return await getQuestions();
   },
 );
+
+export const createQuestion = createAsyncThunk<
+  ICreateQuestionResponse,
+  ICreateQuestionRequest
+>("questionCategories/createQuestion", addQuestion);
 
 export const deleteQuestion = createAsyncThunk<void, number>(
   "questions/deleteQuestion",

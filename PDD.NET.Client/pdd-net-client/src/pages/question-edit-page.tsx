@@ -2,12 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
-import { getAllQuestions } from "../services/question/selectors";
+import {
+  createQuestionError,
+  createQuestionLoading,
+  getAllQuestions,
+  getNewQuestion,
+} from "../services/question/selectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { loadAllQuestions } from "../services/question/actions";
+import { createQuestion, loadAllQuestions } from "../services/question/actions";
 import { getQuestionCategories } from "../services/question-category/selectors";
 import { loadQuestionCategories } from "../services/question-category/actions";
 import { Button } from "react-bootstrap";
+import Preloader from "../components/preloader/preloader";
+import { resetQuestionState } from "../services/question/reducer";
 
 const QuestionEditPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +34,7 @@ const QuestionEditPage: React.FC = () => {
 
   const [text, setText] = useState(question?.text || "");
   const [imageData, setImageData] = useState(question?.imageData || "");
-  const [categoryId, setCategoryId] = useState(question?.category?.id || "");
+  const [categoryId, setCategoryId] = useState(question?.category?.id || 0);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -40,7 +47,7 @@ const QuestionEditPage: React.FC = () => {
       setIsNewRecord(false);
       setText(question.text);
       setImageData(question.imageData);
-      setCategoryId(question.category?.id || "");
+      setCategoryId(question.category?.id || 0);
     }
   }, [question]);
 
@@ -53,7 +60,7 @@ const QuestionEditPage: React.FC = () => {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategoryId(e.target.value);
+    setCategoryId(parseInt(e.target.value || "", 10) || 0);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,20 +69,31 @@ const QuestionEditPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const isLoading = useAppSelector(createQuestionLoading);
+  const error = useAppSelector(createQuestionError);
+  const newQuestion = useAppSelector(getNewQuestion);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const questionData = {
-      id: questionIdNumber,
-      text,
-      imageData,
-      categoryId,
-    };
-
-    //dispatch(saveQuestion(questionData));
-
-    navigate("/admin/questions");
+    if (isNewRecord) {
+      await dispatch(
+        createQuestion({
+          text: text,
+          imageData: imageData,
+          categoryId: categoryId,
+        }),
+      );
+    }
   };
+
+  useEffect(() => {
+    if (newQuestion) {
+      dispatch(loadAllQuestions());
+      dispatch(resetQuestionState());
+      navigate(`/admin/questions`);
+    }
+  }, [newQuestion]);
 
   return (
     <div className="container">
@@ -88,6 +106,8 @@ const QuestionEditPage: React.FC = () => {
         На этой странице вы можете{" "}
         {isNewRecord ? "создать вопрос." : "редактировать параметры вопроса."}
       </p>
+      {isLoading && <Preloader />}
+      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       <div className="container mb-3">
         <Card className="mt-4">
           {question?.imageData && (

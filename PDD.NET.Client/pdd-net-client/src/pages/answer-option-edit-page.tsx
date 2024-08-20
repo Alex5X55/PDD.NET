@@ -6,6 +6,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getAllQuestions } from "../services/question/selectors";
 import { loadAllQuestions } from "../services/question/actions";
 import { Button } from "react-bootstrap";
+import {
+  createAnswerOptionError,
+  createAnswerOptionLoading,
+  getNewAnswerOption,
+} from "../services/answer-option/selectors";
+import Preloader from "../components/preloader/preloader";
+import { createAnswerOption } from "../services/answer-option/actions";
+import { resetAnswerOptionState } from "../services/answer-option/reducer";
 
 const AnswerOptionEditPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +45,7 @@ const AnswerOptionEditPage: React.FC = () => {
   const [isNewRecord, setIsNewRecord] = useState(true);
   const [text, setText] = useState(answerOption?.text || "");
   const [isRight, setIsRight] = useState(answerOption?.isRight || false);
-  const [questionId, setQuestionId] = useState(answerOption?.questionId || "");
+  const [questionId, setQuestionId] = useState(answerOption?.questionId || 0);
 
   useEffect(() => {
     if (allQuestions.length === 0) {
@@ -50,7 +58,7 @@ const AnswerOptionEditPage: React.FC = () => {
       setIsNewRecord(false);
       setText(answerOption.text);
       setIsRight(answerOption.isRight);
-      setQuestionId(answerOption?.questionId || "");
+      setQuestionId(answerOption?.questionId || 0);
     }
   }, [answerOption]);
 
@@ -63,23 +71,34 @@ const AnswerOptionEditPage: React.FC = () => {
   };
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setQuestionId(e.target.value);
+    setQuestionId(parseInt(e.target.value || "", 10) || 0);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const isLoading = useAppSelector(createAnswerOptionLoading);
+  const error = useAppSelector(createAnswerOptionError);
+  const newAnswerOption = useAppSelector(getNewAnswerOption);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // const updatedAnswerOption: IAnswerOption = {
-    //   id: answerOptionIdNumber,
-    //   questionId: questionId,
-    //   text,
-    //   isRight,
-    // };
-
-    //dispatch(saveQuestion(updatedAnswerOption));
-
-    navigate(`/admin/questions`);
+    if (isNewRecord) {
+      await dispatch(
+        createAnswerOption({
+          text: text,
+          questionId: questionId,
+          isRight: isRight,
+        }),
+      );
+    }
   };
+
+  useEffect(() => {
+    if (newAnswerOption) {
+      dispatch(loadAllQuestions());
+      dispatch(resetAnswerOptionState());
+      navigate(`/admin/questions`);
+    }
+  }, [newAnswerOption]);
 
   return (
     <div className="container">
@@ -94,6 +113,8 @@ const AnswerOptionEditPage: React.FC = () => {
           ? "создать новый вариант ответа."
           : "редактировать параметры варианта ответа."}
       </p>
+      {isLoading && <Preloader />}
+      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       <div className="container mb-3">
         <Card className="mt-4">
           <Card.Body>

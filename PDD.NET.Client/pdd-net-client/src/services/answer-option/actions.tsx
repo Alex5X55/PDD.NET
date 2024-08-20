@@ -1,5 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { removeAnswerOption } from "../../utils/answer-options-api";
+import {
+  createAnswerOptionEndpoint,
+  removeAnswerOption,
+} from "../../utils/answer-options-api";
+import { IAnswerOption, ICreateAnswerOptionRequest } from "../../types/types";
+
+export const createAnswerOption = createAsyncThunk<
+  IAnswerOption,
+  ICreateAnswerOptionRequest
+>("questionCategories/createAnswerOption", createAnswerOptionEndpoint);
 
 export const deleteAnswerOption = createAsyncThunk<void, number>(
   "answerOptions/deleteAnswerOption",
