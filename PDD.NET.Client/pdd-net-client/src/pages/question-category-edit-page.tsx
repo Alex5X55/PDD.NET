@@ -4,8 +4,21 @@ import Form from "react-bootstrap/Form";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { getQuestionCategories } from "../services/question-category/selectors";
-import { loadQuestionCategories } from "../services/question-category/actions";
+import {
+  createQuestionCategoryError,
+  createQuestionCategoryLoading,
+  getNewQuestionCategory,
+  getQuestionCategories,
+} from "../services/question-category/selectors";
+import {
+  createQuestionCategory,
+  loadQuestionCategories,
+} from "../services/question-category/actions";
+import Preloader from "../components/preloader/preloader";
+import {
+  pushNewQuestionCategory,
+  resetQuestionCategoryState,
+} from "../services/question-category/reducer";
 
 const QuestionCategoryEditPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +41,7 @@ const QuestionCategoryEditPage: React.FC = () => {
   const [text, setText] = useState(questionCategory?.text || "");
 
   useEffect(() => {
+    dispatch(resetQuestionCategoryState());
     if (allQuestionCategories.length === 0) {
       dispatch(loadQuestionCategories());
     }
@@ -44,20 +58,24 @@ const QuestionCategoryEditPage: React.FC = () => {
     setText(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const isLoading = useAppSelector(createQuestionCategoryLoading);
+  const error = useAppSelector(createQuestionCategoryError);
+  const newQuestionCategory = useAppSelector(getNewQuestionCategory);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // const updatedAnswerOption: IAnswerOption = {
-    //   id: answerOptionIdNumber,
-    //   questionId: questionId,
-    //   text,
-    //   isRight,
-    // };
-
-    //dispatch(saveQuestion(updatedAnswerOption));
-
-    navigate(`/admin/question-categories`);
+    if (isNewRecord) {
+      await dispatch(createQuestionCategory({ text: text }));
+    }
   };
+
+  useEffect(() => {
+    if (newQuestionCategory) {
+      dispatch(pushNewQuestionCategory(newQuestionCategory));
+      navigate(`/admin/question-categories`);
+    }
+  }, [newQuestionCategory]);
 
   return (
     <div className="container">
@@ -70,6 +88,8 @@ const QuestionCategoryEditPage: React.FC = () => {
         На этой странице вы можете{" "}
         {isNewRecord ? "создать новую категорию." : "редактировать категорию."}
       </p>
+      {isLoading && <Preloader />}
+      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       <div className="container mb-3">
         <Card className="mt-4">
           <Card.Body>

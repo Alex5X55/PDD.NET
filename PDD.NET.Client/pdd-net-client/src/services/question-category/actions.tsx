@@ -1,6 +1,11 @@
-import { IQuestionCategory } from "../../types/types";
+import {
+  ICreateQuestionCategoryRequest,
+  ICreateQuestionCategoryResponse,
+  IQuestionCategory,
+} from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  addQuestionCategory,
   getAllQuestionCategories,
   removeQuestionCategory,
 } from "../../utils/question-categories-api";
@@ -11,6 +16,11 @@ export const loadQuestionCategories = createAsyncThunk<IQuestionCategory[]>(
     return await getAllQuestionCategories();
   },
 );
+
+export const createQuestionCategory = createAsyncThunk<
+  ICreateQuestionCategoryResponse,
+  ICreateQuestionCategoryRequest
+>("questionCategories/createQuestionCategory", addQuestionCategory);
 
 export const deleteQuestionCategory = createAsyncThunk<void, number>(
   "questionCategories/deleteQuestionCategory",

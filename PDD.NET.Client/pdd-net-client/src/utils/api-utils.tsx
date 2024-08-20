@@ -3,7 +3,9 @@ async function getResponse<T>(res: Response): Promise<T> {
   if (res.ok) {
     return jsonData;
   }
-  throw new Error(jsonData.message || `Ошибка ${res.status}`);
+  throw new Error(
+    jsonData?.details[0] || jsonData.message || `Ошибка ${res.status}`,
+  );
 }
 
 export default getResponse;

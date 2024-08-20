@@ -24,6 +24,15 @@ export interface IQuestionCategory {
   text: string;
 }
 
+export interface ICreateQuestionCategoryRequest {
+  text: string;
+}
+
+export interface ICreateQuestionCategoryResponse {
+  id: number;
+  text: string;
+}
+
 export interface IQuestionCategoriesList {
   categories: Array<IQuestionCategory>;
 }

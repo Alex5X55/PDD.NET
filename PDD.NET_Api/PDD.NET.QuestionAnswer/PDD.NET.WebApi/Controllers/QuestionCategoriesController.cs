@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Features.QuestionCategories.Commands.CreateQuestionCategory;
 using PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategories;
 using PDD.NET.Application.Features.QuestionCategories.Queries.GetAllQuestionCategories;
 
@@ -28,6 +29,19 @@ public class QuestionCategoriesController : ControllerBase
     public async Task<ActionResult<IEnumerable<GetAllQuestionCategoriesResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetAllQuestionCategoriesRequest(), cancellationToken);
+        return Ok(response);
+    }
+    
+    /// <summary>
+    /// Создать категорию вопроса по запросу
+    /// </summary>
+    /// <param name="request">Запрос на создание категории вопроса</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Сущность Категории вопроса</returns>
+    [HttpPost]
+    public async Task<ActionResult<CreateQuestionCategoryResponse>> CreateAnswerOptions(CreateQuestionCategoryRequest request, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(request, cancellationToken);
         return Ok(response);
     }
     
