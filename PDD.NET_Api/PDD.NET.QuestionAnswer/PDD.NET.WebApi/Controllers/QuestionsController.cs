@@ -1,5 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Features.Questions.Commands.CreateQuestion;
+using PDD.NET.Application.Features.Questions.Commands.DeleteQuestion;
+using PDD.NET.Application.Features.Questions.Commands.UpdateQuestion;
 using PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionById;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId;
@@ -52,6 +55,46 @@ namespace PDD.NET.WebApi.Controllers
         {
             var questions = await _mediator.Send(new GetQuestionByIdRequest(id), cancellationToken);
             return Ok(questions);
+        }
+        
+        /// <summary>
+        /// Создать вопрос по запросу
+        /// </summary>
+        /// <param name="request">Запрос на создание вопроса</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Сущность вопроса</returns>
+        [HttpPost]
+        public async Task<ActionResult<CreateQuestionResponse>> CreateQuestion(CreateQuestionRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(request, cancellationToken);
+            return Ok(response);
+        }
+        
+        /// <summary>
+        /// Обновить информацию вопроса по запросу
+        /// </summary>
+        /// <param name="id">Id вопроса</param>
+        /// <param name="request">Запрос на обновление информации по вопросу</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("{id:int}")]
+        public async Task<ActionResult<Unit>> UpdateQuestionOptions(int id, UpdateQuestionRequest request, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new UpdateQuestionInternalRequest(id, request.CategoryId, request.Text, request.ImageData), cancellationToken);
+            return Ok(response);
+        }
+        
+        /// <summary>
+        /// Удалить вопрос по Id
+        /// </summary>
+        /// <param name="id">Id вопроса</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<Unit>> DeleteQuestionById(int id, CancellationToken cancellationToken)
+        {
+            var response = await _mediator.Send(new DeleteQuestionRequest(id), cancellationToken);
+            return Ok(response);
         }
     }
 }

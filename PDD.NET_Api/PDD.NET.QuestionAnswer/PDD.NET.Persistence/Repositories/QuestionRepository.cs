@@ -12,6 +12,12 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
     public override async Task<List<Question>> GetAll(CancellationToken cancellationToken)
     {
+        // return await Context.Set<Question>()
+        //     .Include(q => q.Category)
+        //     .Include(c => c.AnswerOptions.Where(ao => !ao.IsDeleted))
+        //     .AsNoTracking()
+        //     .Where(x => !x.IsDeleted && !x.Category.IsDeleted)
+        //     .ToListAsync(cancellationToken);
 
         List<Question> questions = await Context.Set<Question>().Where(x => !x.IsDeleted).ToListAsync(cancellationToken);
         List<AnswerOption> answers = await Context.Set<AnswerOption>().Where(x => !x.IsDeleted).ToListAsync(cancellationToken);
@@ -34,6 +40,12 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
     }
     public async Task<List<Question>> GetQuestionsByCategoryId(int categoryId, CancellationToken cancellationToken)
     {
+        // return await Context.Set<Question>()
+        //     .Include(q => q.Category)
+        //     .Include(c => c.AnswerOptions.Where(ao => !ao.IsDeleted))
+        //     .AsNoTracking()
+        //     .Where(x => x.CategoryId == categoryId && !x.IsDeleted)
+        //     .ToListAsync(cancellationToken);
 
         List<Question> questions = await Context.Set<Question>().Where(x => !x.IsDeleted && x.CategoryId == categoryId).ToListAsync(cancellationToken);
 

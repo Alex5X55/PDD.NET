@@ -31,7 +31,7 @@ public class DatabaseContext : DbContext
             .HasForeignKey(ur => ur.QuestionId);
 
         modelBuilder.Entity<AnswerOption>()
-        .HasKey(a => a.Id); // Устанавливаем ключ
+            .HasKey(a => a.Id); // Устанавливаем ключ
 
         modelBuilder.Entity<AnswerOption>()
             .Property(a => a.Id)

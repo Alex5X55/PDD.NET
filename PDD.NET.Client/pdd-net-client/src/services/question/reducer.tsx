@@ -1,6 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IQuestion, IQuestionCategory } from "../../types/types";
-import { loadExamQuestions, loadQuestionsByCategory } from "./actions";
+import {
+  IQuestionResponse,
+  IQuestion,
+  IQuestionCategory,
+} from "../../types/types";
+import {
+  createQuestion,
+  loadAllQuestions,
+  loadExamQuestions,
+  loadQuestionsByCategory,
+  updateQuestion,
+} from "./actions";
 
 interface QuestionState {
   currentQuestionCategory: IQuestionCategory | null;
@@ -13,6 +23,17 @@ interface QuestionState {
 
   currentExamQuestionsLoading: boolean;
   currentExamQuestionsError: string | null;
+
+  allQuestions: IQuestion[];
+  allQuestionsLoading: boolean;
+  allQuestionsError: string | null;
+
+  questionResponse: IQuestionResponse | null;
+  createQuestionLoading: boolean;
+  createQuestionError: string | null;
+
+  updateQuestionLoading: boolean;
+  updateQuestionError: string | null;
 }
 
 const initialState: QuestionState = {
@@ -26,6 +47,17 @@ const initialState: QuestionState = {
 
   currentExamQuestionsLoading: false,
   currentExamQuestionsError: null,
+
+  allQuestions: [],
+  allQuestionsLoading: false,
+  allQuestionsError: null,
+
+  questionResponse: null,
+  createQuestionLoading: false,
+  createQuestionError: null,
+
+  updateQuestionLoading: false,
+  updateQuestionError: null,
 };
 
 export const questionSlice = createSlice({
@@ -64,6 +96,11 @@ export const questionSlice = createSlice({
     resetCurrentQuestionNumber: (state) => {
       state.currentQuestionNumber = 0;
     },
+    resetQuestionState: (state) => {
+      state.questionResponse = null;
+      state.createQuestionError = null;
+      state.updateQuestionError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -90,6 +127,42 @@ export const questionSlice = createSlice({
       .addCase(loadExamQuestions.rejected, (state, action) => {
         state.currentExamQuestionsLoading = false;
         state.currentExamQuestionsError = action?.error?.message as string;
+      })
+      .addCase(loadAllQuestions.pending, (state) => {
+        state.allQuestionsLoading = true;
+        state.allQuestionsError = null;
+      })
+      .addCase(loadAllQuestions.fulfilled, (state, action) => {
+        state.allQuestions = action.payload;
+        state.allQuestionsLoading = false;
+      })
+      .addCase(loadAllQuestions.rejected, (state, action) => {
+        state.allQuestionsLoading = false;
+        state.allQuestionsError = action?.error?.message as string;
+      })
+      .addCase(createQuestion.pending, (state) => {
+        state.createQuestionLoading = true;
+        state.createQuestionError = null;
+      })
+      .addCase(createQuestion.fulfilled, (state, action) => {
+        state.questionResponse = action.payload;
+        state.createQuestionLoading = false;
+      })
+      .addCase(createQuestion.rejected, (state, action) => {
+        state.createQuestionLoading = false;
+        state.createQuestionError = action?.error?.message as string;
+      })
+      .addCase(updateQuestion.pending, (state) => {
+        state.updateQuestionLoading = true;
+        state.updateQuestionError = null;
+      })
+      .addCase(updateQuestion.fulfilled, (state, action) => {
+        state.questionResponse = action.payload;
+        state.updateQuestionLoading = false;
+      })
+      .addCase(updateQuestion.rejected, (state, action) => {
+        state.updateQuestionLoading = false;
+        state.updateQuestionError = action?.error?.message as string;
       });
   },
 });
@@ -100,4 +173,5 @@ export const {
   setPrevQuestion,
   setCurrentQuestionNumber,
   resetCurrentQuestionNumber,
+  resetQuestionState,
 } = questionSlice.actions;

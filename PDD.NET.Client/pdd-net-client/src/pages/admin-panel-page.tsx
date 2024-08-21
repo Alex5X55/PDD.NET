@@ -15,7 +15,7 @@ const AdminPanelPage: React.FC = () => {
       <div className="d-grid gap-2">
         <Link to={`/admin/questions`}>
           <Button variant="primary" size="lg">
-            Вопросы
+            Вопросы и варианты ответов
           </Button>
         </Link>
         <Link to={`/admin/question-categories`}>

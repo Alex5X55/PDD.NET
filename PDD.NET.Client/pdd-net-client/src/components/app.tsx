@@ -18,6 +18,9 @@ import AdminPanelPage from "../pages/admin-panel-page";
 import AdminQuestionsPage from "../pages/admin-questions-page";
 import AdminQuestionCategoriesPage from "../pages/admin-question-categories-page";
 import AdminUserStatisticsPage from "../pages/admin-user-statistics-page";
+import QuestionEditPage from "../pages/question-edit-page";
+import AnswerOptionEditPage from "../pages/answer-option-edit-page";
+import QuestionCategoryEditPage from "../pages/question-category-edit-page";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -36,6 +39,31 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
           <Route path="/admin/questions" element={<AdminQuestionsPage />} />
+
+          <Route
+            path="/question/edit/:questionId"
+            element={<QuestionEditPage />}
+          />
+          <Route path="/question/edit" element={<QuestionEditPage />} />
+
+          <Route
+            path="/answer-option/edit/:answerOptionId"
+            element={<AnswerOptionEditPage />}
+          />
+          <Route
+            path="/answer-option/edit"
+            element={<AnswerOptionEditPage />}
+          />
+
+          <Route
+            path="/question-category/edit/:questionCategoryId"
+            element={<QuestionCategoryEditPage />}
+          />
+          <Route
+            path="/question-category/edit"
+            element={<QuestionCategoryEditPage />}
+          />
+
           <Route
             path="/admin/question-categories"
             element={<AdminQuestionCategoriesPage />}

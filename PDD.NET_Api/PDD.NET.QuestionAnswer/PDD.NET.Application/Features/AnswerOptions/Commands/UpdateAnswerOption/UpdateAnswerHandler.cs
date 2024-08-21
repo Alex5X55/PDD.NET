@@ -27,6 +27,7 @@ public sealed class UpdateAnswerHandler : IRequestHandler<UpdateAnswerInternalRe
 
         answer.Text = request.Text;
         answer.IsRight = request.IsRight;
+        answer.QuestionId = request.QuestionId;
         _answerRepository.Update(answer);
 
         return Unit.Value;
