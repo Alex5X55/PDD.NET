@@ -38,6 +38,13 @@ public class QuestionRepository : BaseRepository<Question>, IQuestionRepository
 
         return questions;
     }
+
+    public override  void Create(Question entity)
+    {
+        var maxId = Context.Set<Question>().Select(x=>x.Id).Max();
+        entity.Id = maxId + 1;
+        base.Create(entity);
+    }
     public async Task<List<Question>> GetQuestionsByCategoryId(int categoryId, CancellationToken cancellationToken)
     {
         // return await Context.Set<Question>()
