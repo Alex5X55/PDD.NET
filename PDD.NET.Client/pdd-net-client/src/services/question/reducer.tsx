@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  ICreateQuestionResponse,
+  IQuestionResponse,
   IQuestion,
   IQuestionCategory,
 } from "../../types/types";
@@ -9,6 +9,7 @@ import {
   loadAllQuestions,
   loadExamQuestions,
   loadQuestionsByCategory,
+  updateQuestion,
 } from "./actions";
 
 interface QuestionState {
@@ -27,9 +28,12 @@ interface QuestionState {
   allQuestionsLoading: boolean;
   allQuestionsError: string | null;
 
-  newQuestion: ICreateQuestionResponse | null;
+  questionResponse: IQuestionResponse | null;
   createQuestionLoading: boolean;
   createQuestionError: string | null;
+
+  updateQuestionLoading: boolean;
+  updateQuestionError: string | null;
 }
 
 const initialState: QuestionState = {
@@ -48,9 +52,12 @@ const initialState: QuestionState = {
   allQuestionsLoading: false,
   allQuestionsError: null,
 
-  newQuestion: null,
+  questionResponse: null,
   createQuestionLoading: false,
   createQuestionError: null,
+
+  updateQuestionLoading: false,
+  updateQuestionError: null,
 };
 
 export const questionSlice = createSlice({
@@ -90,7 +97,7 @@ export const questionSlice = createSlice({
       state.currentQuestionNumber = 0;
     },
     resetQuestionState: (state) => {
-      state.newQuestion = null;
+      state.questionResponse = null;
       state.createQuestionError = null;
     },
   },
@@ -137,12 +144,24 @@ export const questionSlice = createSlice({
         state.createQuestionError = null;
       })
       .addCase(createQuestion.fulfilled, (state, action) => {
-        state.newQuestion = action.payload;
+        state.questionResponse = action.payload;
         state.createQuestionLoading = false;
       })
       .addCase(createQuestion.rejected, (state, action) => {
         state.createQuestionLoading = false;
         state.createQuestionError = action?.error?.message as string;
+      })
+      .addCase(updateQuestion.pending, (state) => {
+        state.updateQuestionLoading = true;
+        state.updateQuestionError = null;
+      })
+      .addCase(updateQuestion.fulfilled, (state, action) => {
+        state.questionResponse = action.payload;
+        state.updateQuestionLoading = false;
+      })
+      .addCase(updateQuestion.rejected, (state, action) => {
+        state.updateQuestionLoading = false;
+        state.updateQuestionError = action?.error?.message as string;
       });
   },
 });

@@ -2,8 +2,9 @@ import getResponse from "./api-utils";
 import { baseApiConfig } from "../data/api-config";
 import {
   ICreateQuestionRequest,
-  ICreateQuestionResponse,
+  IQuestionResponse,
   IQuestion,
+  IUpdateQuestionRequest,
 } from "../types/types";
 
 export const getQuestionsByCategory = async (
@@ -37,12 +38,26 @@ export const getQuestions = async (): Promise<IQuestion[]> => {
 
 export const addQuestion = async (
   requestData: ICreateQuestionRequest,
-): Promise<ICreateQuestionResponse> => {
+): Promise<IQuestionResponse> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
     method: "POST",
     headers: baseApiConfig.headers,
     body: JSON.stringify(requestData),
   });
+  return getResponse(res);
+};
+
+export const updateQuestionEndpoint = async (
+  requestData: IUpdateQuestionRequest,
+): Promise<IQuestionResponse> => {
+  const res = await fetch(
+    `${baseApiConfig.baseUrl}/questions/${requestData.id}`,
+    {
+      method: "POST",
+      headers: baseApiConfig.headers,
+      body: JSON.stringify(requestData),
+    },
+  );
   return getResponse(res);
 };
 

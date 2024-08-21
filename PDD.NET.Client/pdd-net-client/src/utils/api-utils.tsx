@@ -3,9 +3,13 @@ async function getResponse<T>(res: Response): Promise<T> {
   if (res.ok) {
     return jsonData;
   }
-  throw new Error(
-    jsonData?.details[0] || jsonData.message || `Ошибка ${res.status}`,
-  );
+  const errorMessage = jsonData.details
+    ? jsonData.details[0]
+    : jsonData.message
+      ? jsonData.message
+      : `Ошибка ${res.status}`;
+
+  throw new Error(errorMessage);
 }
 
 export default getResponse;

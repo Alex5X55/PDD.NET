@@ -6,10 +6,16 @@ import {
   createQuestionError,
   createQuestionLoading,
   getAllQuestions,
-  getNewQuestion,
+  getQuestionResponse,
+  updateQuestionError,
+  updateQuestionLoading,
 } from "../services/question/selectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { createQuestion, loadAllQuestions } from "../services/question/actions";
+import {
+  createQuestion,
+  loadAllQuestions,
+  updateQuestion,
+} from "../services/question/actions";
 import { getQuestionCategories } from "../services/question-category/selectors";
 import { loadQuestionCategories } from "../services/question-category/actions";
 import { Button } from "react-bootstrap";
@@ -38,8 +44,11 @@ const QuestionEditPage: React.FC = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
+    dispatch(resetQuestionState());
     if (allQuestions.length === 0) dispatch(loadAllQuestions());
     if (allQuestionCategories.length === 0) dispatch(loadQuestionCategories());
+
+    setCategoryId(allQuestionCategories ? allQuestionCategories[0].id : 0);
   }, [dispatch]);
 
   useEffect(() => {
@@ -69,9 +78,13 @@ const QuestionEditPage: React.FC = () => {
     }
   };
 
-  const isLoading = useAppSelector(createQuestionLoading);
-  const error = useAppSelector(createQuestionError);
-  const newQuestion = useAppSelector(getNewQuestion);
+  const questionResponse = useAppSelector(getQuestionResponse);
+
+  const isCreateLoading = useAppSelector(createQuestionLoading);
+  const createError = useAppSelector(createQuestionError);
+
+  const isUpdateLoading = useAppSelector(updateQuestionLoading);
+  const updateError = useAppSelector(updateQuestionError);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,16 +97,25 @@ const QuestionEditPage: React.FC = () => {
           categoryId: categoryId,
         }),
       );
+    } else {
+      await dispatch(
+        updateQuestion({
+          id: question?.id || 0,
+          text: text,
+          imageData: imageData,
+          categoryId: categoryId,
+        }),
+      );
     }
   };
 
   useEffect(() => {
-    if (newQuestion) {
+    if (questionResponse) {
       dispatch(loadAllQuestions());
       dispatch(resetQuestionState());
       navigate(`/admin/questions`);
     }
-  }, [newQuestion]);
+  }, [questionResponse]);
 
   return (
     <div className="container">
@@ -106,8 +128,10 @@ const QuestionEditPage: React.FC = () => {
         На этой странице вы можете{" "}
         {isNewRecord ? "создать вопрос." : "редактировать параметры вопроса."}
       </p>
-      {isLoading && <Preloader />}
-      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
+      {(isCreateLoading || isUpdateLoading) && <Preloader />}
+      {(createError || updateError) && (
+        <h1 className="display-4 mb-4">Ошибка: {createError || updateError}</h1>
+      )}
       <div className="container mb-3">
         <Card className="mt-4">
           {question?.imageData && (

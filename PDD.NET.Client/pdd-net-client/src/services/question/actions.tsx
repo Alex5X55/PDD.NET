@@ -1,7 +1,8 @@
 import {
   ICreateQuestionRequest,
-  ICreateQuestionResponse,
+  IQuestionResponse,
   IQuestion,
+  IUpdateQuestionRequest,
 } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
@@ -10,6 +11,7 @@ import {
   getQuestionsByCategory,
   removeQuestion,
   addQuestion,
+  updateQuestionEndpoint,
 } from "../../utils/questions-api";
 
 export const loadQuestionsByCategory = createAsyncThunk<IQuestion[], number>(
@@ -21,22 +23,23 @@ export const loadQuestionsByCategory = createAsyncThunk<IQuestion[], number>(
 
 export const loadExamQuestions = createAsyncThunk<IQuestion[]>(
   "questions/loadExamQuestions",
-  async (questionCategoryId) => {
-    return await getExamQuestions();
-  },
+  getExamQuestions,
 );
 
 export const loadAllQuestions = createAsyncThunk<IQuestion[]>(
   "questions/loadAllQuestions",
-  async (questionCategoryId) => {
-    return await getQuestions();
-  },
+  getQuestions,
 );
 
 export const createQuestion = createAsyncThunk<
-  ICreateQuestionResponse,
+  IQuestionResponse,
   ICreateQuestionRequest
 >("questionCategories/createQuestion", addQuestion);
+
+export const updateQuestion = createAsyncThunk<
+  IQuestionResponse,
+  IUpdateQuestionRequest
+>("questionCategories/updateQuestion", updateQuestionEndpoint);
 
 export const deleteQuestion = createAsyncThunk<void, number>(
   "questions/deleteQuestion",

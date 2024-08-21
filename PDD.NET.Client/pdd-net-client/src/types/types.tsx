@@ -65,7 +65,14 @@ export interface ICreateQuestionRequest {
   text: string;
 }
 
-export interface ICreateQuestionResponse {
+export interface IQuestionResponse {
+  id: number;
+  categoryId: number;
+  imageData: string;
+  text: string;
+}
+
+export interface IUpdateQuestionRequest {
   id: number;
   categoryId: number;
   imageData: string;
