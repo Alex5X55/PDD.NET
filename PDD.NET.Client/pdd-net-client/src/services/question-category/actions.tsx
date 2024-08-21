@@ -1,13 +1,15 @@
 import {
   ICreateQuestionCategoryRequest,
-  ICreateQuestionCategoryResponse,
+  IQuestionCategoryResponse,
   IQuestionCategory,
+  IUpdateQuestionCategoryRequest,
 } from "../../types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   addQuestionCategory,
   getAllQuestionCategories,
   removeQuestionCategory,
+  updateQuestionCategoryEndpoint,
 } from "../../utils/question-categories-api";
 
 export const loadQuestionCategories = createAsyncThunk<IQuestionCategory[]>(
@@ -18,9 +20,14 @@ export const loadQuestionCategories = createAsyncThunk<IQuestionCategory[]>(
 );
 
 export const createQuestionCategory = createAsyncThunk<
-  ICreateQuestionCategoryResponse,
+  IQuestionCategoryResponse,
   ICreateQuestionCategoryRequest
 >("questionCategories/createQuestionCategory", addQuestionCategory);
+
+export const updateQuestionCategory = createAsyncThunk<
+  IQuestionCategoryResponse,
+  IUpdateQuestionCategoryRequest
+>("questionCategories/updateQuestionCategory", updateQuestionCategoryEndpoint);
 
 export const deleteQuestionCategory = createAsyncThunk<void, number>(
   "questionCategories/deleteQuestionCategory",

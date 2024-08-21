@@ -99,6 +99,7 @@ export const questionSlice = createSlice({
     resetQuestionState: (state) => {
       state.questionResponse = null;
       state.createQuestionError = null;
+      state.updateQuestionError = null;
     },
   },
   extraReducers: (builder) => {

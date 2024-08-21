@@ -28,7 +28,12 @@ export interface ICreateQuestionCategoryRequest {
   text: string;
 }
 
-export interface ICreateQuestionCategoryResponse {
+export interface IUpdateQuestionCategoryRequest {
+  id: number;
+  text: string;
+}
+
+export interface IQuestionCategoryResponse {
   id: number;
   text: string;
 }

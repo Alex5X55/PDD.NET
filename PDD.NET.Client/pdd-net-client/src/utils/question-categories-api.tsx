@@ -2,8 +2,9 @@ import getResponse from "./api-utils";
 import { baseApiConfig } from "../data/api-config";
 import {
   ICreateQuestionCategoryRequest,
-  ICreateQuestionCategoryResponse,
+  IQuestionCategoryResponse,
   IQuestionCategory,
+  IUpdateQuestionCategoryRequest,
 } from "../types/types";
 
 export const getAllQuestionCategories = async (): Promise<
@@ -17,12 +18,26 @@ export const getAllQuestionCategories = async (): Promise<
 
 export const addQuestionCategory = async (
   requestData: ICreateQuestionCategoryRequest,
-): Promise<ICreateQuestionCategoryResponse> => {
+): Promise<IQuestionCategoryResponse> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/question-categories`, {
     method: "POST",
     headers: baseApiConfig.headers,
     body: JSON.stringify(requestData),
   });
+  return getResponse(res);
+};
+
+export const updateQuestionCategoryEndpoint = async (
+  requestData: IUpdateQuestionCategoryRequest,
+): Promise<IQuestionCategoryResponse> => {
+  const res = await fetch(
+    `${baseApiConfig.baseUrl}/question-categories/${requestData.id}`,
+    {
+      method: "POST",
+      headers: baseApiConfig.headers,
+      body: JSON.stringify(requestData),
+    },
+  );
   return getResponse(res);
 };
 
