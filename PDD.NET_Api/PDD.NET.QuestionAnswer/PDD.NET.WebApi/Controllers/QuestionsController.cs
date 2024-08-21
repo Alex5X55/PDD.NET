@@ -73,11 +73,12 @@ namespace PDD.NET.WebApi.Controllers
         /// <summary>
         /// Обновить информацию вопроса по запросу
         /// </summary>
-        /// <param name="id">Запрос на обновление информации по вопросу</param>
+        /// <param name="id">Id вопроса</param>
+        /// <param name="request">Запрос на обновление информации по вопросу</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("{id:int}")]
-        public async Task<ActionResult<Unit>> UpdateAnswerOptions(int id, UpdateQuestionRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<Unit>> UpdateQuestionOptions(int id, UpdateQuestionRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new UpdateQuestionInternalRequest(id, request.CategoryId, request.Text, request.ImageData), cancellationToken);
             return Ok(response);
@@ -92,8 +93,8 @@ namespace PDD.NET.WebApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<Unit>> DeleteQuestionById(int id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new DeleteQuestionRequest(id), cancellationToken);
-            return Ok();
+            var response = await _mediator.Send(new DeleteQuestionRequest(id), cancellationToken);
+            return Ok(response);
         }
     }
 }

@@ -55,6 +55,13 @@ export interface ICreateAnswerOptionRequest {
   isRight: boolean;
 }
 
+export interface IUpdateAnswerOptionRequest {
+  id: number;
+  text: string;
+  questionId: number;
+  isRight: boolean;
+}
+
 export interface IQuestion {
   id: number;
   categoryId: number;

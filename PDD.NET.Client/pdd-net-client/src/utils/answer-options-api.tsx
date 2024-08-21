@@ -1,6 +1,10 @@
 import getResponse from "./api-utils";
 import { baseApiConfig } from "../data/api-config";
-import { IAnswerOption, ICreateAnswerOptionRequest } from "../types/types";
+import {
+  IAnswerOption,
+  ICreateAnswerOptionRequest,
+  IUpdateAnswerOptionRequest,
+} from "../types/types";
 
 export const createAnswerOptionEndpoint = async (
   requestData: ICreateAnswerOptionRequest,
@@ -10,6 +14,20 @@ export const createAnswerOptionEndpoint = async (
     headers: baseApiConfig.headers,
     body: JSON.stringify(requestData),
   });
+  return getResponse(res);
+};
+
+export const updateAnswerOptionEndpoint = async (
+  requestData: IUpdateAnswerOptionRequest,
+): Promise<IAnswerOption> => {
+  const res = await fetch(
+    `${baseApiConfig.baseUrl}/answer-options/${requestData.id}`,
+    {
+      method: "POST",
+      headers: baseApiConfig.headers,
+      body: JSON.stringify(requestData),
+    },
+  );
   return getResponse(res);
 };
 

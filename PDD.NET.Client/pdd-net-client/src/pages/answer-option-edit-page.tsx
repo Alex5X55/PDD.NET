@@ -9,10 +9,15 @@ import { Button } from "react-bootstrap";
 import {
   createAnswerOptionError,
   createAnswerOptionLoading,
-  getNewAnswerOption,
+  getAnswerOptionResponse,
+  updateAnswerOptionError,
+  updateAnswerOptionLoading,
 } from "../services/answer-option/selectors";
 import Preloader from "../components/preloader/preloader";
-import { createAnswerOption } from "../services/answer-option/actions";
+import {
+  createAnswerOption,
+  updateAnswerOption,
+} from "../services/answer-option/actions";
 import { resetAnswerOptionState } from "../services/answer-option/reducer";
 
 const AnswerOptionEditPage: React.FC = () => {
@@ -51,6 +56,8 @@ const AnswerOptionEditPage: React.FC = () => {
     if (allQuestions.length === 0) {
       dispatch(loadAllQuestions());
     }
+
+    setQuestionId(allQuestions.length !== 0 ? allQuestions[0].id : 0);
   }, [dispatch, allQuestions]);
 
   useEffect(() => {
@@ -74,9 +81,13 @@ const AnswerOptionEditPage: React.FC = () => {
     setQuestionId(parseInt(e.target.value || "", 10) || 0);
   };
 
-  const isLoading = useAppSelector(createAnswerOptionLoading);
-  const error = useAppSelector(createAnswerOptionError);
-  const newAnswerOption = useAppSelector(getNewAnswerOption);
+  const answerOptionResponse = useAppSelector(getAnswerOptionResponse);
+
+  const isCreateLoading = useAppSelector(createAnswerOptionLoading);
+  const createError = useAppSelector(createAnswerOptionError);
+
+  const isUpdateLoading = useAppSelector(updateAnswerOptionLoading);
+  const updateError = useAppSelector(updateAnswerOptionError);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,16 +100,25 @@ const AnswerOptionEditPage: React.FC = () => {
           isRight: isRight,
         }),
       );
+    } else {
+      await dispatch(
+        updateAnswerOption({
+          id: answerOptionIdNumber,
+          text: text,
+          questionId: questionId,
+          isRight: isRight,
+        }),
+      );
     }
   };
 
   useEffect(() => {
-    if (newAnswerOption) {
+    if (answerOptionResponse) {
       dispatch(loadAllQuestions());
       dispatch(resetAnswerOptionState());
       navigate(`/admin/questions`);
     }
-  }, [newAnswerOption]);
+  }, [answerOptionResponse]);
 
   return (
     <div className="container">
@@ -113,8 +133,10 @@ const AnswerOptionEditPage: React.FC = () => {
           ? "создать новый вариант ответа."
           : "редактировать параметры варианта ответа."}
       </p>
-      {isLoading && <Preloader />}
-      {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
+      {(isCreateLoading || isUpdateLoading) && <Preloader />}
+      {(createError || updateError) && (
+        <h1 className="display-4 mb-4">Ошибка: {createError || updateError}</h1>
+      )}
       <div className="container mb-3">
         <Card className="mt-4">
           <Card.Body>

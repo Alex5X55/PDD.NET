@@ -78,8 +78,8 @@ namespace PDD.NET.WebApi.Controllers
         [HttpPost("{id:int}")]
         public async Task<ActionResult<Unit>> UpdateAnswerOptions(int id, UpdateAnswerRequest request, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new UpdateAnswerInternalRequest(id, request.Text, request.IsRight), cancellationToken);
-            return Ok();
+            var response = await _mediator.Send(new UpdateAnswerInternalRequest(id, request.Text, request.IsRight, request.QuestionId), cancellationToken);
+            return Ok(response);
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace PDD.NET.WebApi.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<Unit>> DeleteAnswerOptions(int id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new DeleteAnswerRequest(id), cancellationToken);
-            return Ok();
+            var response = await _mediator.Send(new DeleteAnswerRequest(id), cancellationToken);
+            return Ok(response);
         }
     }
 }

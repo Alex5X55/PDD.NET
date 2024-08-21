@@ -44,7 +44,7 @@ const CategoryQuestionsLayout: React.FC = () => {
           </Routes>
         </>
       ) : (
-        <div>Вопрос не найден</div>
+        <div>Вопросы не найдены</div>
       )}
     </div>
   );

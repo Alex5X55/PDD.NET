@@ -1,17 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAnswerOption } from "../../types/types";
-import { createAnswerOption } from "./actions";
+import { createAnswerOption, updateAnswerOption } from "./actions";
 
 interface IAnswerOptionState {
-  newAnswerOption: IAnswerOption | null;
+  answerOptionResponse: IAnswerOption | null;
+
   createAnswerOptionLoading: boolean;
   createAnswerOptionError: string | null;
+
+  updateAnswerOptionLoading: boolean;
+  updateAnswerOptionError: string | null;
 }
 
 const initialState: IAnswerOptionState = {
-  newAnswerOption: null,
+  answerOptionResponse: null,
+
   createAnswerOptionLoading: false,
   createAnswerOptionError: null,
+
+  updateAnswerOptionLoading: false,
+  updateAnswerOptionError: null,
 };
 
 export const answerOptionsSlice = createSlice({
@@ -19,8 +27,9 @@ export const answerOptionsSlice = createSlice({
   initialState,
   reducers: {
     resetAnswerOptionState: (state) => {
-      state.newAnswerOption = null;
+      state.answerOptionResponse = null;
       state.createAnswerOptionError = null;
+      state.updateAnswerOptionError = null;
     },
   },
   extraReducers: (builder) => {
@@ -30,12 +39,24 @@ export const answerOptionsSlice = createSlice({
         state.createAnswerOptionError = null;
       })
       .addCase(createAnswerOption.fulfilled, (state, action) => {
-        state.newAnswerOption = action.payload;
+        state.answerOptionResponse = action.payload;
         state.createAnswerOptionLoading = false;
       })
       .addCase(createAnswerOption.rejected, (state, action) => {
         state.createAnswerOptionLoading = false;
         state.createAnswerOptionError = action?.error?.message as string;
+      })
+      .addCase(updateAnswerOption.pending, (state) => {
+        state.updateAnswerOptionLoading = true;
+        state.updateAnswerOptionError = null;
+      })
+      .addCase(updateAnswerOption.fulfilled, (state, action) => {
+        state.answerOptionResponse = action.payload;
+        state.updateAnswerOptionLoading = false;
+      })
+      .addCase(updateAnswerOption.rejected, (state, action) => {
+        state.updateAnswerOptionLoading = false;
+        state.updateAnswerOptionError = action?.error?.message as string;
       });
   },
 });
