@@ -8,13 +8,11 @@ namespace PDD.NET.Application.Features.QuestionCategories.Commands.UpdateQuestio
 
 public sealed class UpdateQuestionCategoryHandler : IRequestHandler<UpdateQuestionCategoryInternalRequest, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IQuestionCategoryRepository _questionCategoryRepository;
     private readonly IMapper _mapper;
 
-    public UpdateQuestionCategoryHandler(IUnitOfWork unitOfWork, IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
+    public UpdateQuestionCategoryHandler(IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _questionCategoryRepository = questionCategoryRepository;
         _mapper = mapper;
     }
@@ -30,8 +28,6 @@ public sealed class UpdateQuestionCategoryHandler : IRequestHandler<UpdateQuesti
         questionCategory.Text = request.Text;
         _questionCategoryRepository.Update(questionCategory);
         
-        await _unitOfWork.Save(cancellationToken);
-
         return Unit.Value;
     }
 }

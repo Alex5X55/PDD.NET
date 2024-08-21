@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using PDD.NET.Application.Common.Exceptions;
-using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
+namespace PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 
 public sealed class GetUserAuthHandler : IRequestHandler<GetUserAuthRequest, GetUserAuthResponse>
 {

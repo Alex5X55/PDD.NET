@@ -9,13 +9,11 @@ namespace PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestio
 
 public sealed class DeleteQuestionCategoryHandler : IRequestHandler<DeleteQuestionCategoryRequest, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IQuestionCategoryRepository _questionCategoryRepository;
     private readonly IMapper _mapper;
 
-    public DeleteQuestionCategoryHandler(IUnitOfWork unitOfWork, IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
+    public DeleteQuestionCategoryHandler(IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _questionCategoryRepository = questionCategoryRepository;
         _mapper = mapper;
     }
@@ -30,8 +28,6 @@ public sealed class DeleteQuestionCategoryHandler : IRequestHandler<DeleteQuesti
 
         questionCategory.IsDeleted = true;
         _questionCategoryRepository.Update(questionCategory);
-
-        await _unitOfWork.Save(cancellationToken);
 
         return Unit.Value;
     }

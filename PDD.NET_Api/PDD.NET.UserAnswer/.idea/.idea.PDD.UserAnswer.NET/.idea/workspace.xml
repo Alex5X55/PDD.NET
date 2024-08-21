@@ -6,14 +6,86 @@
     <projectFile profileName="https">PDD.NET.WebApi/PDD.NET.WebApi.csproj</projectFile>
     <projectFile pubXmlPath="PDD.NET.WebApi/Properties/PublishProfiles/FolderProfile.pubxml">PDD.NET.WebApi/PDD.NET.WebApi.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e77db5c2-5ab2-440f-911f-cac325375b94" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/components/confirmation-dialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/components/confirmation-dialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/components/question-row-edit.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/components/question-row-edit.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/pages/admin-questions-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/pages/admin-questions-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/services/modal/reducer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/services/modal/reducer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/services/modal/selectors.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../PDD.NET.Client/pdd-net-client/src/services/modal/selectors.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/Controllers/QuestionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/Controllers/QuestionsController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Services/IPasswordHash.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Services/PasswordHash.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Auth/Request/LoginUserDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Auth/Request/LoginUserDTO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Commands/CreateUser/CreateUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Commands/CreateUser/CreateUserHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Commands/CreateUser/CreateUserRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Commands/CreateUser/CreateUserRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/Features/Users/Queries/GetUserAuthInfo/GetUserAuthResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/PDD.NET.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Application/PDD.NET.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Domain/Entities/JwtConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Domain/Entities/JwtConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Domain/Entities/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Domain/Entities/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/DatabaseContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/DatabaseContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/FakeDataFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/FakeDataFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/PDD.NET.Persistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/PDD.NET.Persistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/PDD_NET_DB (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/Services/IJwtService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/Services/IJwtService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/Services/JwtService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.Persistence/Services/JwtService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/Controllers/TodoController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD.NET.WebApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD.NET.WebApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB (SQLite).db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB (SQLite).db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB_Auth (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB_Auth (SQLite).db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/PDD_NET_DB_Auth (SQLite).db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/app.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.IdentityManager/PDD.NET.WebApi/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Common/Constants/ProjectConstants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Common/Constants/ProjectConstants.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/CreateAnswerOption/CreateAnswerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/CreateAnswerOption/CreateAnswerHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/CreateAnswerOption/CreateAnswerRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/CreateAnswerOption/CreateAnswerRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/DeleteAnswerOption/DeleteAnswerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/DeleteAnswerOption/DeleteAnswerHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/UpdateAnswerOption/UpdateAnswerHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Commands/UpdateAnswerOption/UpdateAnswerHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Queries/GetAnswerOptionFullInfo/GetAnswerFullInfoResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/AnswerOptions/Queries/GetAnswerOptionFullInfo/GetAnswerFullInfoResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/CreateQuestionCategory/CreateQuestionCategoryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/CreateQuestionCategory/CreateQuestionCategoryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/DeleteQuestionCategories/DeleteQuestionCategoryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/DeleteQuestionCategories/DeleteQuestionCategoryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/UpdateQuestionCategory/UpdateQuestionCategoryHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/QuestionCategories/Commands/UpdateQuestionCategory/UpdateQuestionCategoryHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/CreateQuestion/CreateQuestionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/CreateQuestion/CreateQuestionHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/DeleteQuestion/DeleteQuestionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/DeleteQuestion/DeleteQuestionHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/UpdateQuestion/UpdateQuestionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Commands/UpdateQuestion/UpdateQuestionHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Queries/GetAllQuestions/GetAllQuestionResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Features/Questions/Queries/GetAllQuestions/GetAllQuestionResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Application/Repositories/IUnitOfWork.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Domain/Common/BaseEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Domain/Common/BaseEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Domain/Entities/AnswerOption.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Domain/Entities/AnswerOption.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/DatabaseContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/DatabaseContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Migrations/20240724141823_Init.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Migrations/20240724141823_Init.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Migrations/DatabaseContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/PDD.NET.Persistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/PDD.NET.Persistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/PDD_NET_DB_Question_Answer (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/AnswerRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/AnswerRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/BaseRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/BaseRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/QuestionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/QuestionRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.Persistence/Repositories/UnitOfWork.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/PDD_NET_DB_Question_Answer (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/PDD_NET_DB_Question_Answer (SQLite).db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/PDD_NET_DB_Question_Answer (SQLite).db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../PDD.NET.QuestionAnswer/PDD.NET.WebApi/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PDD.UserAnswer.NET/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PDD.UserAnswer.NET/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.Persistence/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PDD.NET.Persistence/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.Persistence/PDD.NET.Persistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PDD.NET.Persistence/PDD.NET.Persistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.Persistence/PDD_NET_DB (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.WebApi/PDD_NET_DB (SQLite).db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.WebApi/PDD_NET_DB (SQLite).db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.WebApi/PDD_NET_DB (SQLite).db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/PDD.NET.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDD.NET.WebApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/PDD.NET.WebApi/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +95,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2kNhDWpWfOQ8mdkBQ4ZNsHzgw9F" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,7 +106,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "task__63",
+    "git-widget-placeholder": "Merging task__63",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }

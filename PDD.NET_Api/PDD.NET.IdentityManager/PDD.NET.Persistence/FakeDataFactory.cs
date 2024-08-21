@@ -13,7 +13,7 @@ public static class FakeDataFactory
                 Login = "Admin",
                 Email = "admin@admin.ru",
                 LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
+                PasswordHash = "$2a$11$7YlKi9IEUEWAFw2BaRVBSeykjJ4Aa5lrbBlsjo7JmGM5ulT5uKV5."
             },
             new User()
             {
@@ -21,7 +21,7 @@ public static class FakeDataFactory
                 Login = "TestUser",
                 Email = "test-user@mail.ru",
                 LastLoginOn = DateTime.Now,
-                PasswordHash = "********"
+                PasswordHash = "$2a$11$7YlKi9IEUEWAFw2BaRVBSeykjJ4Aa5lrbBlsjo7JmGM5ulT5uKV5."
             }
         };
 

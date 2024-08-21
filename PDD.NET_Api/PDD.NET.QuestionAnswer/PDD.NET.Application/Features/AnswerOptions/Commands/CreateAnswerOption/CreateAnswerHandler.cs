@@ -7,13 +7,11 @@ namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
 
 public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, CreateAnswerResponse>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
 
-    public CreateAnswerHandler(IUnitOfWork unitOfWork, IAnswerRepository answerRepository, IMapper mapper)
+    public CreateAnswerHandler(IAnswerRepository answerRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _answerRepository = answerRepository;
         _mapper = mapper;
     }
@@ -24,7 +22,6 @@ public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, C
         
         var answerOption = _mapper.Map<AnswerOption>(request);
         _answerRepository.Create(answerOption);
-        await _unitOfWork.Save(cancellationToken);
 
         return _mapper.Map<CreateAnswerResponse>(answerOption);
     }

@@ -1,6 +1,4 @@
-﻿using PDD.NET.Application.Features.Questions.Queries;
-
-namespace PDD.NET.Application.Features.Answers.Queries.GetAnswerFullInfo;
+﻿namespace PDD.NET.Application.Features.Answers.Queries.GetAnswerFullInfo;
 
 public sealed record GetAnswerFullInfoResponse
 {

@@ -10,10 +10,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructureConfig(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Sqlite");
-        services.AddDbContext<DatabaseContext>(opt => opt.UseSqlite(connectionString));
-
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        var connectionString = configuration.GetConnectionString("MongoDb");
+        services.AddDbContext<DatabaseContext>(opt =>
+        {
+            opt.UseMongoDB(connectionString, "PDD_NET_DB_Question_Answer");
+        }
+        );
 
         services.AddScoped<IAnswerRepository, AnswerRepository>();
         services.AddScoped<IQuestionRepository, QuestionRepository>();

@@ -7,13 +7,11 @@ namespace PDD.NET.Application.Features.QuestionCategories.Commands.CreateQuestio
 
 public sealed class CreateQuestionCategoryHandler : IRequestHandler<CreateQuestionCategoryRequest, CreateQuestionCategoryResponse>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IQuestionCategoryRepository _questionCategoryRepository;
     private readonly IMapper _mapper;
 
-    public CreateQuestionCategoryHandler(IUnitOfWork unitOfWork, IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
+    public CreateQuestionCategoryHandler(IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
     {
-        _unitOfWork = unitOfWork;
         _questionCategoryRepository = questionCategoryRepository;
         _mapper = mapper;
     }
@@ -23,8 +21,6 @@ public sealed class CreateQuestionCategoryHandler : IRequestHandler<CreateQuesti
         var questionCategory = _mapper.Map<QuestionCategory>(request);
         _questionCategoryRepository.Create(questionCategory);
         
-        await _unitOfWork.Save(cancellationToken);
-
         return _mapper.Map<CreateQuestionCategoryResponse>(questionCategory);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
+﻿using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
+
+namespace PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 
 public sealed record GetUserAuthResponse
 {
