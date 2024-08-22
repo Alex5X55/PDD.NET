@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
+using PDD.NET.Persistence;
 using System.Net;
 using System.Text.Json;
 
@@ -33,6 +35,8 @@ public static class ErrorHandlerExtensions
                     message = contextFeature.Error.Message,
                     details = (contextFeature.Error as BadRequestException)?.Errors
                 };
+
+                //logger.LogError($"{context.Response.StatusCode.ToString()} {contextFeature.Error.Message}");
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
             });

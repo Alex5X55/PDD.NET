@@ -33,7 +33,7 @@ public static class DependencyInjection
         {
             opt.EnableSensitiveDataLogging();
             opt.UseNpgsql(connectionStringAuth);
-            opt.EnableDetailedErrors();
+            //opt.EnableDetailedErrors();
         });
 
         //JWT Config

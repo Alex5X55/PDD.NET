@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
+using PDD.NET.Application.Features.Users.Queries.GetUserFullInfo;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
@@ -11,12 +13,14 @@ public sealed class CreateUserHandler : IRequestHandler<CreateUserRequest, Creat
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<CreateUserHandler> _logger;
 
-    public CreateUserHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper)
+    public CreateUserHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, ILogger<CreateUserHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _userRepository = userRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<CreateUserResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
@@ -31,6 +35,8 @@ public sealed class CreateUserHandler : IRequestHandler<CreateUserRequest, Creat
         user.PasswordHash = Generate(request.Password);
         _userRepository.Create(user);
         await _unitOfWork.Save(cancellationToken);
+
+        _logger.LogInformation($"User {user.Id} created by API request");
 
         return _mapper.Map<CreateUserResponse>(user);
     }
