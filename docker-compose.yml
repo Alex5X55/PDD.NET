@@ -1,15 +1,35 @@
 version: '3.4'
 
 services:
+## 0 RabbitMQ
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: 02.rabbit
+    restart: always
+    hostname: rabbitmqhost
+    environment: 
+        RABBITMQ_DEFAULT_USER: guest
+        RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+        - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+ 
+## 1 question-answer-service
+#MongoDb
   mongodb:
     image: mongo:latest
+    container_name: 1.db1.mongodb-question-answer
+    restart: always
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
- 
+#Service 
   question-answer-service:
     image: question-answer-service
+    container_name: 1.api.question-answer-service
     build:
       context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
       dockerfile: Dockerfile
@@ -20,8 +40,12 @@ services:
     environment:
       - ConnectionStrings__MongoDb=mongodb://mongodb:27017
   
+## 2 user-answer-service
+#Postgres
   postgres-user-answer:
     image: postgres:latest
+    container_name: 2.db1.postgres-user-answer
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -30,9 +54,10 @@ services:
       - "5433:5432" 
     volumes:
       - postgres_user_answer_data:/var/lib/postgresql/data
-
+#Service
   user-answer-service:
     image: user-answer-service
+    container_name: 2.api.user-answer-service
     build:
       context: ./PDD.NET_Api/PDD.NET.UserAnswer
       dockerfile: Dockerfile
@@ -40,56 +65,70 @@ services:
       - "5194:8080"
     depends_on:
       - postgres-user-answer
+      - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
-      
+  
+## 3 analytics-service
+#Postgres      
   postgres-analytics:
     image: postgres:latest
+    container_name: 3.db1.postgres-analytics
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: analytics_db
     ports:
-      - "5533:5532" 
+      - "5434:5432" 
     volumes:
       - postgres_analytics_data:/var/lib/postgresql/data
-      
+#Service      
   analytics-service:
     image: analytics-service
+    container_name: 3.api.analytics-service
     build:
       context: ./PDD.NET_Api/PDD.NET.Analytics
       dockerfile: Dockerfile
     ports:
       - "5294:8080"
     depends_on:
-      - postgres-user-answer
+      - postgres-analytics
+      - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-analytics;Database=analytics_db;Username=postgres;Password=postgres;
 
+## 4 authorization service
+#Postgres 1
   postgres-identity-user:
     image: postgres:latest
+    container_name: 4.db1.postgres-identity-user
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: identity_user_db
     ports:
-      - "5434:5432" 
+      - "5435:5432" 
     volumes:
       - postgres_identity_user_data:/var/lib/postgresql/data
-
+#Postgres 2
   postgres-identity-auth:
     image: postgres:latest
+    container_name: 4.db2.postgres-identity-auth
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: identity_auth_db
     ports:
-      - "5435:5432"  
+      - "5436:5432"  
     volumes:
       - postgres_identity_auth_data:/var/lib/postgresql/data      
-
+#Service
   authorization:
     image: authorization
+    container_name: 4.api.authorization
     build:
       context: ./PDD.NET_Api/PDD.NET.IdentityManager
       dockerfile: Dockerfile
@@ -102,10 +141,10 @@ services:
       - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
       - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
 
- 
-
+## 4 Gateway service
   apigateway:
     image: apigateway
+    container_name: 01.apigateway
     build:
       context: ./PDD.NET_Api/PDD.NET.Gateway
       dockerfile: Dockerfile
@@ -116,9 +155,11 @@ services:
       - postgres-analytics
     ports:
       - "5288:8080"
-      
+
+## 5 React      
   react-app:
     image: react-app
+    container_name: 00.react-app
     build:
       context: ./PDD.NET.Client/pdd-net-client
       dockerfile: Dockerfile
@@ -133,3 +174,4 @@ volumes:
   postgres_identity_auth_data:
   postgres_analytics_data:
   mongodb_data:
+  rabbitmq_data:
