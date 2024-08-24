@@ -37,7 +37,7 @@ public class JwtService : IJwtService
     public async Task<AuthResult> GenerateToken(GetUserAuthResponse user)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
-        //серкретный ключ, который поможет закодировать или закодировать токен
+        //СЃРµСЂРєСЂРµС‚РЅС‹Р№ РєР»СЋС‡, РєРѕС‚РѕСЂС‹Р№ РїРѕРјРѕР¶РµС‚ Р·Р°РєРѕРґРёСЂРѕРІР°С‚СЊ РёР»Рё Р·Р°РєРѕРґРёСЂРѕРІР°С‚СЊ С‚РѕРєРµРЅ
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
         var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
@@ -45,22 +45,22 @@ public class JwtService : IJwtService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim("id", user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//можно определять по id роль.
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//РјРѕР¶РЅРѕ РѕРїСЂРµРґРµР»СЏС‚СЊ РїРѕ id СЂРѕР»СЊ.
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
-            //Issuer - издатель, кто создает токен, какой сервис
-            //Audience - кто принимает токен
+            //Issuer - РёР·РґР°С‚РµР»СЊ, РєС‚Рѕ СЃРѕР·РґР°РµС‚ С‚РѕРєРµРЅ, РєР°РєРѕР№ СЃРµСЂРІРёСЃ
+            //Audience - РєС‚Рѕ РїСЂРёРЅРёРјР°РµС‚ С‚РѕРєРµРЅ
             //Expires-Gets or sets the value of the 'expiration' claim. This value should be in UTC.
             Expires = DateTime.UtcNow.AddSeconds(value: _jwtConfig.LifeTimeAccessMin),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            //HmacSha256Signature - алгоритм для кодирования
+            //HmacSha256Signature - Р°Р»РіРѕСЂРёС‚Рј РґР»СЏ РєРѕРґРёСЂРѕРІР°РЅРёСЏ
         };
 
         // Create token
         SecurityToken? token = jwtTokenHandler.CreateToken(tokenDescriptor);
-        // сериализует класс токена в строку
+        // СЃРµСЂРёР°Р»РёР·СѓРµС‚ РєР»Р°СЃСЃ С‚РѕРєРµРЅР° РІ СЃС‚СЂРѕРєСѓ
         string jwtToken = jwtTokenHandler.WriteToken(token);
 
         // Create refresh token
@@ -74,7 +74,7 @@ public class JwtService : IJwtService
             CreatedAt = DateTime.UtcNow,
             //ExpiredAt = DateTime.UtcNow.AddMonths(1),
             ExpiredAt = DateTime.UtcNow.AddSeconds(value: _jwtConfig.LifeTimeRefreshMin),
-            Token = GetRandomString() + Guid.NewGuid() //random string - типичный подход.
+            Token = GetRandomString() + Guid.NewGuid() //random string - С‚РёРїРёС‡РЅС‹Р№ РїРѕРґС…РѕРґ.
         };
 
         RefreshToken? storedToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Id == refreshToken.Id);
@@ -106,7 +106,7 @@ public class JwtService : IJwtService
 
         try
         {
-            ////////////////поиск refresh токена в локальной базе
+            ////////////////РїРѕРёСЃРє refresh С‚РѕРєРµРЅР° РІ Р»РѕРєР°Р»СЊРЅРѕР№ Р±Р°Р·Рµ
             RefreshToken? localRefreshToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
 
             if (localRefreshToken == null)
@@ -119,17 +119,17 @@ public class JwtService : IJwtService
                     }
                 };
             }
-            //пользователь токена в соотв с id
+            //РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ С‚РѕРєРµРЅР° РІ СЃРѕРѕС‚РІ СЃ id
             var userFullResponse = await _mediator.Send(new GetUserFullInfoRequest(localRefreshToken.UserId), CancellationToken.None);
 
-            /* Функция ValidateToken() ожидает, что вы передадите основную информацию для проверки токена: идентификатор эмитента токена, аудиторию и ключи подписи эмитента.
+            /* Р¤СѓРЅРєС†РёСЏ ValidateToken() РѕР¶РёРґР°РµС‚, С‡С‚Рѕ РІС‹ РїРµСЂРµРґР°РґРёС‚Рµ РѕСЃРЅРѕРІРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РґР»СЏ РїСЂРѕРІРµСЂРєРё С‚РѕРєРµРЅР°: РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ СЌРјРёС‚РµРЅС‚Р° С‚РѕРєРµРЅР°, Р°СѓРґРёС‚РѕСЂРёСЋ Рё РєР»СЋС‡Рё РїРѕРґРїРёСЃРё СЌРјРёС‚РµРЅС‚Р°.
              https://auth0.com/blog/how-to-validate-jwt-dotnet/
              */
             ClaimsPrincipal? tokenVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, _tokenValidationParameters, out var validatedToken);
 
             //REQUIRED. JWT ID. Jti-A unique identifier for the token, which can be used to prevent reuse of the token. These tokens MUST only be used once, unless conditions for reuse were negotiated between the parties; any such negotiation is beyond the scope of this specification https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             var jti = tokenVerification.Claims.FirstOrDefault(t => t.Type == JwtRegisteredClaimNames.Jti).Value;
-            //сравниваем Jti id сохраненного токена и верифицируемого
+            //СЃСЂР°РІРЅРёРІР°РµРј Jti id СЃРѕС…СЂР°РЅРµРЅРЅРѕРіРѕ С‚РѕРєРµРЅР° Рё РІРµСЂРёС„РёС†РёСЂСѓРµРјРѕРіРѕ
             if (localRefreshToken.JwtId != jti)
             {
                 return new RefreshTokenResponseDTO()
@@ -148,7 +148,7 @@ public class JwtService : IJwtService
             DateTime expireDate = UTCtoDateTime(utcExpireDate);
 
             Console.WriteLine($"expireDate: {expireDate} - now: {DateTime.Now}");
-            //Проверка просрочен refresh токен или нет
+            //РџСЂРѕРІРµСЂРєР° РїСЂРѕСЃСЂРѕС‡РµРЅ refresh С‚РѕРєРµРЅ РёР»Рё РЅРµС‚
             if (expireDate > DateTime.Now)
             {
                 return new RefreshTokenResponseDTO()
@@ -181,7 +181,7 @@ public class JwtService : IJwtService
                     }
                 };
             }
-            ////////////////Отозван
+            ////////////////РћС‚РѕР·РІР°РЅ
             if (localRefreshToken.IsRevoked)
             {
                 return new RefreshTokenResponseDTO()
@@ -224,7 +224,7 @@ public class JwtService : IJwtService
     {
         try
         {
-            ////////////////поиск refresh токена в локальной базе
+            ////////////////РїРѕРёСЃРє refresh С‚РѕРєРµРЅР° РІ Р»РѕРєР°Р»СЊРЅРѕР№ Р±Р°Р·Рµ
             RefreshToken? localRefreshToken = await _entitySet.AsNoTracking().FirstOrDefaultAsync(t => t.Token == tokenRequest.RefreshToken);
 
             if (localRefreshToken == null)
@@ -283,7 +283,7 @@ public class JwtService : IJwtService
         Random random = new Random();
         string chars = "ABCDEFGHIJKLMNOPRSTUVYZWX0123456789";
         return new string(Enumerable.Repeat(chars, 35).Select(n => n[new Random().Next(n.Length)]).ToArray());
-        /*аналоговнет
+        /*Р°РЅР°Р»РѕРіРѕРІРЅРµС‚
                 var randomNumber = new byte[32];
                 using (var rng = RandomNumberGenerator.Create())
                 {
@@ -296,11 +296,11 @@ public class JwtService : IJwtService
     //Validate access token
     public async Task<bool> ValidateTokenTest(TokenRequestDTO tokenRequest)
     {
-        //мы это делаем вручную
+        //РјС‹ СЌС‚Рѕ РґРµР»Р°РµРј РІСЂСѓС‡РЅСѓСЋ
         var tokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = false, //проверка потребителя токена
-            ValidateIssuer = false,// проверка издателя токена
+            ValidateAudience = false, //РїСЂРѕРІРµСЂРєР° РїРѕС‚СЂРµР±РёС‚РµР»СЏ С‚РѕРєРµРЅР°
+            ValidateIssuer = false,// РїСЂРѕРІРµСЂРєР° РёР·РґР°С‚РµР»СЏ С‚РѕРєРµРЅР°
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
             ValidateLifetime = true

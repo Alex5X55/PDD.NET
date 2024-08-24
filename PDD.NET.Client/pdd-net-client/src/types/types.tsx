@@ -123,3 +123,27 @@ export interface IExamHistoryResponse {
   userId: number;
   isSuccess: boolean;
 }
+
+export interface IRegisterRequest {
+  login: string;
+  password: string;
+  email: string;
+}
+
+export interface IRegisterResponse {
+  id: number;
+  login: string;
+  email: string;
+}
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponse {
+  token: string;
+  refreshToken: string;
+  success: boolean;
+  errors: string[];
+}
