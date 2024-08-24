@@ -113,3 +113,13 @@ export interface IConfirmationDialog {
   show: boolean;
   onHide: () => void;
 }
+
+export interface ICreateExamHistoryRequest {
+  userId: number;
+  isSuccess: boolean;
+}
+
+export interface IExamHistoryResponse {
+  userId: number;
+  isSuccess: boolean;
+}

@@ -28,8 +28,8 @@ public static class FakeDataFactory
     public static IEnumerable<ExamHistory> ExamHistories =>
         new List<ExamHistory>()
         {
-            new ExamHistory() { UserId = 1, IsSeccess = true },
-            new ExamHistory() { UserId = 2, IsSeccess = false },
+            new ExamHistory() { UserId = 1, IsSuccess = true },
+            new ExamHistory() { UserId = 2, IsSuccess = false },
         };
 
     public static IEnumerable<AnswerOption> AnswerOptions => new List<AnswerOption>()

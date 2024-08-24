@@ -4,6 +4,7 @@ import { questionCategoriesSlice } from "./question-category/reducer";
 import { answerSlice } from "./answer/reducer";
 import { modalSlice } from "./modal/reducer";
 import { answerOptionsSlice } from "./answer-option/reducer";
+import { examHistorySlice } from "./exam-history/reducer";
 
 export const rootReducer = combineReducers({
   questionCategories: questionCategoriesSlice.reducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   answerOptions: answerOptionsSlice.reducer,
   answer: answerSlice.reducer,
   modal: modalSlice.reducer,
+  examHistory: examHistorySlice.reducer,
 });

@@ -4,5 +4,5 @@ public class CreateExamHistoryResponse
 {
     public int UserId { get; set; }
     
-    public bool IsSeccess { get; set; }
+    public bool IsSuccess { get; set; }
 }
