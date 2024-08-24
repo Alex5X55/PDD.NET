@@ -1,10 +1,16 @@
 import React, { FormEvent, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useForm } from "../hooks/use-form";
 import { ILoginRequest } from "../types/types";
-import { useAppDispatch } from "../services/hooks";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { login } from "../services/auth/actions";
+import {
+  getLoginError,
+  getLoginLoading,
+  getLoginResponse,
+} from "../services/auth/selectors";
+import Preloader from "../components/preloader/preloader";
+import { Navigate } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +21,9 @@ const LoginPage: React.FC = () => {
   });
 
   const [validated, setValidated] = useState(false);
+
+  const isLoginLoading = useAppSelector(getLoginLoading);
+  const loginError = useAppSelector(getLoginError);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +40,11 @@ const LoginPage: React.FC = () => {
     }
     setValidated(true);
   };
+
+  const loginResponse = useAppSelector(getLoginResponse);
+  if (loginResponse?.success) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
@@ -75,9 +89,8 @@ const LoginPage: React.FC = () => {
           </Button>
         </div>
       </Form>
-      <div className="d-flex justify-content-center">
-        <Link to="/restore-password">Восстановить пароль</Link>
-      </div>
+      {isLoginLoading && <Preloader />}
+      {loginError && <h1 className="display-4 mb-4">Ошибка: {loginError}</h1>}
     </Container>
   );
 };

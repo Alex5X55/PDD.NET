@@ -2,8 +2,15 @@ import React, { useState, FormEvent } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { IRegisterForm } from "../types/types";
 import { useForm } from "../hooks/use-form";
-import { useAppDispatch } from "../services/hooks";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
 import { register } from "../services/auth/actions";
+import {
+  getRegisterError,
+  getRegisterLoading,
+  getRegisterResponse,
+} from "../services/auth/selectors";
+import Preloader from "../components/preloader/preloader";
+import { Navigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +23,9 @@ const RegisterPage: React.FC = () => {
   });
 
   const [validated, setValidated] = useState(false);
+
+  const isRegisterLoading = useAppSelector(getRegisterLoading);
+  const registerError = useAppSelector(getRegisterError);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +46,11 @@ const RegisterPage: React.FC = () => {
     }
     setValidated(true);
   };
+
+  const registerResponse = useAppSelector(getRegisterResponse);
+  if (registerResponse?.login) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
@@ -108,6 +123,10 @@ const RegisterPage: React.FC = () => {
           </Button>
         </div>
       </Form>
+      {isRegisterLoading && <Preloader />}
+      {registerError && (
+        <h1 className="display-4 mb-4">Ошибка: {registerError}</h1>
+      )}
     </Container>
   );
 };
