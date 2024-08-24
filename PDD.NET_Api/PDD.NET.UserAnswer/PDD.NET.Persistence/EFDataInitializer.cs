@@ -13,16 +13,23 @@ public class EFDataInitializer : IDataInitializer
 
     public void InitData()
     {
-        Context.Database.EnsureDeleted();
+        try
+        {
+            Context.Database.EnsureDeleted();
 
-        Context.Database.EnsureCreated();
+            Context.Database.EnsureCreated();
 
-        Context.AddRange(FakeDataFactory.Users);
-        
-        Context.AddRange(FakeDataFactory.ExamHistories);
+            Context.AddRange(FakeDataFactory.Users);
 
-       // Context.AddRange(FakeDataFactory.UserInAnswerHistories);
+            Context.AddRange(FakeDataFactory.ExamHistories);
 
-        Context.SaveChanges();
+            // Context.AddRange(FakeDataFactory.UserInAnswerHistories);
+
+            Context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 }

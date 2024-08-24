@@ -17,7 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
-            .AddApplicationConfig()
+            .AddApplicationConfig(Configuration)
             .AddInfrastructureConfig(Configuration)
             .AddPresentationConfig()
             .AddCors(options =>
@@ -30,6 +30,9 @@ public class Startup
                                .AllowAnyMethod();
                     });
             });
+
+
+   
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataInitializer dataInitializer)

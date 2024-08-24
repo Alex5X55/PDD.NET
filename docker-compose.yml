@@ -1,7 +1,35 @@
 version: '3.4'
 
 services:
-## 0 RabbitMQ
+
+## 00 React      
+  react-app:
+    image: react-app
+    container_name: 00.react-app
+    build:
+      context: ./PDD.NET.Client/pdd-net-client
+      dockerfile: Dockerfile
+    depends_on:
+      - apigateway
+    ports:
+      - "9000:3000"
+
+## 01 Gateway service
+  apigateway:
+    image: apigateway
+    container_name: 01.apigateway
+    build:
+      context: ./PDD.NET_Api/PDD.NET.Gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - question-answer-service
+      - user-answer-service
+      - authorization
+      - postgres-analytics
+    ports:
+      - "5288:8080"
+
+## 02 RabbitMQ
   rabbit:
     image: rabbitmq:3-management
     container_name: 02.rabbit
@@ -141,32 +169,7 @@ services:
       - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
       - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
 
-## 4 Gateway service
-  apigateway:
-    image: apigateway
-    container_name: 01.apigateway
-    build:
-      context: ./PDD.NET_Api/PDD.NET.Gateway
-      dockerfile: Dockerfile
-    depends_on:
-      - question-answer-service
-      - user-answer-service
-      - authorization
-      - postgres-analytics
-    ports:
-      - "5288:8080"
 
-## 5 React      
-  react-app:
-    image: react-app
-    container_name: 00.react-app
-    build:
-      context: ./PDD.NET.Client/pdd-net-client
-      dockerfile: Dockerfile
-    depends_on:
-      - apigateway
-    ports:
-      - "9000:3000"
 
 volumes:
   postgres_user_answer_data:

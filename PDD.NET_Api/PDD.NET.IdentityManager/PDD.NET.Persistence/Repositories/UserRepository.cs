@@ -10,6 +10,12 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
+    public override void Create(User entity)
+    {
+        var maxId = Context.Set<User>().Select(x => x.Id).Max();
+        entity.Id = maxId + 1;
+        base.Create(entity);
+    }
     public async Task<User> GetUserFullInfo(int id, CancellationToken cancellationToken)
     {
         return await Context.Set<User>()
