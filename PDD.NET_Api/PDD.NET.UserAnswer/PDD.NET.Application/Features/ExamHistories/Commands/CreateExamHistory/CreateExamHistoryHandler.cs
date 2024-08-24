@@ -15,11 +15,12 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
     private readonly ISendEndpointProvider _sendEndpointProvider;
 
 
-    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper)
+    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider)
     {
         _unitOfWork = unitOfWork;
         _examHistoryRepository = examHistoryRepository;
         _mapper = mapper;
+        _sendEndpointProvider = sendEndpointProvider;
     }
 
     public async Task<CreateExamHistoryResponse> Handle(CreateExamHistoryRequest request, CancellationToken cancellationToken)

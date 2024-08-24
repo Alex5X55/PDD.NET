@@ -21,13 +21,9 @@ public static class DependencyInjection
 
         #region Rabbit
 
-        var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST");
-        var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USER");
-        var rabbitMqPass = Environment.GetEnvironmentVariable("RABBITMQ_PASS");
-
-        //Console.WriteLine(rabbitMqHost);
-        //Console.WriteLine(rabbitMqUser);
-        //Console.WriteLine(rabbitMqPass);
+        var rabbitMqHost = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
+        var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "rabbit";
+        var rabbitMqPass = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? "rabbit";
 
         services.AddMassTransit(x =>
         {
@@ -40,9 +36,6 @@ public static class DependencyInjection
                 });
             });
         });
-
-
-
         #endregion
 
         return services;

@@ -17,6 +17,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     public virtual void Create(T entity)
     {
         Context.Add(entity);
+        Context.SaveChanges();
     }
 
     public virtual void Update(T entity)
