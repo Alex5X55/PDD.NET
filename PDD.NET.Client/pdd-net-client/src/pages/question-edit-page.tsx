@@ -41,7 +41,6 @@ const QuestionEditPage: React.FC = () => {
   const [text, setText] = useState(question?.text || "");
   const [imageData, setImageData] = useState(question?.imageData || "");
   const [categoryId, setCategoryId] = useState(question?.category?.id || 0);
-  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     dispatch(resetQuestionState());
@@ -70,12 +69,6 @@ const QuestionEditPage: React.FC = () => {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategoryId(parseInt(e.target.value || "", 10) || 0);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setImageFile(e.target.files[0]);
-    }
   };
 
   const questionResponse = useAppSelector(getQuestionResponse);
@@ -157,10 +150,6 @@ const QuestionEditPage: React.FC = () => {
                   value={imageData}
                   onChange={handleImageDataChange}
                 />
-              </Form.Group>
-              <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Файл изображения</Form.Label>
-                <Form.Control type="file" onChange={handleFileChange} />
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Категория вопроса</Form.Label>
