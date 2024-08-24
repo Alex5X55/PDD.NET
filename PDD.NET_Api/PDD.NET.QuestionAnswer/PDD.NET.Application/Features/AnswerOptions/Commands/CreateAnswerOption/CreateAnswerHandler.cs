@@ -3,7 +3,7 @@ using MediatR;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
+namespace PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
 
 public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, CreateAnswerResponse>
 {
@@ -19,7 +19,7 @@ public sealed class CreateAnswerHandler : IRequestHandler<CreateAnswerRequest, C
     public async Task<CreateAnswerResponse> Handle(CreateAnswerRequest request, CancellationToken cancellationToken)
     {
         // TODO: Добавить проверку на существование вопроса
-        
+
         var answerOption = _mapper.Map<AnswerOption>(request);
         _answerRepository.Create(answerOption);
 

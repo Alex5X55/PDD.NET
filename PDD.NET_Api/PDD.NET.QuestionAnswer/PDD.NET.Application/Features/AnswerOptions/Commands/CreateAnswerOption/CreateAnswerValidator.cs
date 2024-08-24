@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PDD.NET.Application.Common.Constants;
 
-namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
+namespace PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
 
 public sealed class CreateAnswerValidator : AbstractValidator<CreateAnswerRequest>
 {

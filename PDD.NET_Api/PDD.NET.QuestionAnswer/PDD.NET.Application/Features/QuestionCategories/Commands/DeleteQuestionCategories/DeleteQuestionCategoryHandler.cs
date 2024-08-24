@@ -1,11 +1,10 @@
 using AutoMapper;
 using MediatR;
 using PDD.NET.Application.Common.Exceptions;
-using PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategories;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategory;
+namespace PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategories;
 
 public sealed class DeleteQuestionCategoryHandler : IRequestHandler<DeleteQuestionCategoryRequest, Unit>
 {

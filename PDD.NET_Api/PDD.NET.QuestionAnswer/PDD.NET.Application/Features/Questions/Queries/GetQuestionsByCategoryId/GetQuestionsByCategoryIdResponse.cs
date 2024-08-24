@@ -1,4 +1,6 @@
-﻿namespace PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId
+﻿using PDD.NET.Application.Features.Questions.Queries.Common;
+
+namespace PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId
 {
     public sealed record GetQuestionsByCategoryIdResponse
     {

@@ -1,4 +1,6 @@
-﻿namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
+﻿using PDD.NET.Application.Features.Questions.Queries.Common;
+
+namespace PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
 
 public sealed record GetAllQuestionResponse
 {

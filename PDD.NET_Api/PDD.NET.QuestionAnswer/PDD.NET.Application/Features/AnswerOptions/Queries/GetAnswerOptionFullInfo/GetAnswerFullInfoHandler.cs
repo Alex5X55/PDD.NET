@@ -4,7 +4,7 @@ using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Answers.Queries.GetAnswerFullInfo;
+namespace PDD.NET.Application.Features.AnswerOptions.Queries.GetAnswerOptionFullInfo;
 
 public sealed class GetAnswerFullInfoHandler : IRequestHandler<GetAnswerFullInfoRequest, GetAnswerFullInfoResponse>
 {

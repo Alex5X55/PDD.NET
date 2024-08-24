@@ -4,14 +4,14 @@ using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Answers.Commands.UpdateAnswer;
+namespace PDD.NET.Application.Features.AnswerOptions.Commands.UpdateAnswerOption;
 
 public sealed class UpdateAnswerHandler : IRequestHandler<UpdateAnswerInternalRequest, Unit>
 {
     private readonly IAnswerRepository _answerRepository;
     private readonly IMapper _mapper;
 
-    public UpdateAnswerHandler( IAnswerRepository answerRepository, IMapper mapper)
+    public UpdateAnswerHandler(IAnswerRepository answerRepository, IMapper mapper)
     {
         _answerRepository = answerRepository;
         _mapper = mapper;

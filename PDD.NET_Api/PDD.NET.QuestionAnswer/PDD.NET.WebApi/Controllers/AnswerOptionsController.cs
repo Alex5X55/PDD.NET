@@ -1,11 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
-using PDD.NET.Application.Features.Answers.Commands.DeleteAnswer;
-using PDD.NET.Application.Features.Answers.Commands.UpdateAnswer;
-using PDD.NET.Application.Features.Answers.Queries.GetAllAnswers;
-using PDD.NET.Application.Features.Answers.Queries.GetAnswer;
-using PDD.NET.Application.Features.Answers.Queries.GetAnswerFullInfo;
+using PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
+using PDD.NET.Application.Features.AnswerOptions.Commands.UpdateAnswerOption;
+using PDD.NET.Application.Features.AnswerOptions.Queries.GetAllAnswerOptions;
+
 
 namespace PDD.NET.WebApi.Controllers
 {

@@ -4,7 +4,7 @@ using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Answers.Queries.GetAnswer;
+namespace PDD.NET.Application.Features.AnswerOptions.Queries.GetAnswerOption;
 
 public sealed class GetAnswerHandler : IRequestHandler<GetAnswerRequest, GetAnswerResponse>
 {
