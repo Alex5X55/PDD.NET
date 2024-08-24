@@ -3,10 +3,14 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useForm } from "../hooks/use-form";
 import { ILoginRequest } from "../types/types";
+import { useAppDispatch } from "../services/hooks";
+import { login } from "../services/auth/actions";
 
 const LoginPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const { formState, handleFieldChange } = useForm<ILoginRequest>({
-    login: "",
+    email: "",
     password: "",
   });
 
@@ -18,7 +22,12 @@ const LoginPage: React.FC = () => {
     if (!form.checkValidity()) {
       e.stopPropagation();
     } else {
-      console.log("Form data:", formState);
+      dispatch(
+        login({
+          email: formState.email,
+          password: formState.password,
+        }),
+      );
     }
     setValidated(true);
   };
@@ -32,17 +41,17 @@ const LoginPage: React.FC = () => {
         onSubmit={handleSubmit}
         className="w-50"
       >
-        <Form.Group controlId="formUsername" className="mb-3">
+        <Form.Group controlId="formEmail" className="mb-3">
           <Form.Control
             required
-            type="text"
-            name="login"
-            value={formState.login}
+            type="email"
+            name="email"
+            value={formState.email}
             onChange={handleFieldChange}
-            placeholder="Логин"
+            placeholder="Email"
           />
           <Form.Control.Feedback type="invalid">
-            Пожалуйста, введите логин пользователя.
+            Пожалуйста, введите корректный email.
           </Form.Control.Feedback>
         </Form.Group>
 

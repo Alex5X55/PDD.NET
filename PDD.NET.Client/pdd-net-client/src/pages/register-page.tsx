@@ -1,10 +1,14 @@
 import React, { useState, FormEvent } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import { IRegisterRequest } from "../types/types";
+import { IRegisterForm } from "../types/types";
 import { useForm } from "../hooks/use-form";
+import { useAppDispatch } from "../services/hooks";
+import { register } from "../services/auth/actions";
 
 const RegisterPage: React.FC = () => {
-  const { formState, handleFieldChange } = useForm<IRegisterRequest>({
+  const dispatch = useAppDispatch();
+
+  const { formState, handleFieldChange } = useForm<IRegisterForm>({
     login: "",
     email: "",
     password: "",
@@ -22,7 +26,13 @@ const RegisterPage: React.FC = () => {
     ) {
       e.stopPropagation();
     } else {
-      console.log("Form data:", formState);
+      dispatch(
+        register({
+          login: formState.login,
+          email: formState.email,
+          password: formState.password,
+        }),
+      );
     }
     setValidated(true);
   };

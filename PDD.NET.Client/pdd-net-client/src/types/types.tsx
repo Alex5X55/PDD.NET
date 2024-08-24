@@ -1,13 +1,8 @@
-export interface IRegisterRequest {
+export interface IRegisterForm {
   login: string;
   email: string;
   password: string;
   confirmPassword: string;
-}
-
-export interface ILoginRequest {
-  login: string;
-  password: string;
 }
 
 export interface IRestorePasswordRequest {
