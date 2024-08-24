@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDD.NET.Domain.Broker
+namespace PDD.NET.Application.Broker
 {
-    public class UserAnswerSuccsesBrokerRequest
+    public class MessageDto
     {
-        public string Text { get; set; }  
+        public string Content { get; set; }
     }
 }

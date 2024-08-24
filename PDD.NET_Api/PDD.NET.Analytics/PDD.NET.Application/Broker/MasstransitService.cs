@@ -6,11 +6,9 @@ namespace PDD.NET.Application
     public class MasstransitService : IHostedService
     {
         private IBusControl _busControl;
-        //private readonly ILogger<MasstransitService> _logger;
 
-        public MasstransitService(/*ILogger<MasstransitService> logger,*/ IBusControl busControl)
+        public MasstransitService( IBusControl busControl)
         {
-            //_logger = logger;
             _busControl = busControl;
         }
 

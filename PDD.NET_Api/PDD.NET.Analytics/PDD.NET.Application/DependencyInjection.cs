@@ -2,6 +2,7 @@
 using FluentValidation;
 using MassTransit;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PDD.NET.Application.Broker;
 using PDD.NET.Application.Common.Behaviors;
@@ -10,7 +11,7 @@ namespace PDD.NET.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationConfig(this IServiceCollection services)
+    public static IServiceCollection AddApplicationConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(option =>
@@ -45,7 +46,7 @@ public static class DependencyInjection
     /// <param name="configurator"></param>
     private static void RegisterEndPoints(IRabbitMqBusFactoryConfigurator configurator)
     {
-        configurator.ReceiveEndpoint($"masstransit_event_queue_1", e =>
+        configurator.ReceiveEndpoint($"masstransit_event_queue_analitycs", e =>
         {
             e.Consumer<EventConsumer>();
             e.UseMessageRetry(r =>

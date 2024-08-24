@@ -25,7 +25,6 @@ public static class DependencyInjection
         {
             x.UsingRabbitMq((context, cfg) =>
             {
-                //cfg.Host("rabbitmqhost", 5672,"/", h =>
                 cfg.Host("localhost", 5672,"/", h =>
                 {
                     h.Username("guest");

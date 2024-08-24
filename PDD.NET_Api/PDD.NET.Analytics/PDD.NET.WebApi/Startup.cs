@@ -17,7 +17,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services
-            .AddApplicationConfig()
+            .AddApplicationConfig(Configuration)
             .AddInfrastructureConfig(Configuration)
             .AddPresentationConfig()
             .AddCors(options =>

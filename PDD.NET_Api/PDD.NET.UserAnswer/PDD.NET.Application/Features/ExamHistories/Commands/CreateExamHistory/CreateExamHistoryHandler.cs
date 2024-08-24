@@ -1,8 +1,9 @@
 using AutoMapper;
 using MassTransit;
+using MassTransit.Transports;
 using MediatR;
+using PDD.NET.Application.Broker;
 using PDD.NET.Application.Repositories;
-using PDD.NET.Domain.Broker;
 using PDD.NET.Domain.Entities;
 
 namespace PDD.NET.Application.Features.ExamHistories.Commands.CreateExamHistory;
@@ -12,15 +13,16 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
     private readonly IUnitOfWork _unitOfWork;
     private readonly IExamHistoryRepository _examHistoryRepository;
     private readonly IMapper _mapper;
-    private readonly IPublishEndpoint _publishEndpoint;
+    private readonly ISendEndpointProvider _sendEndpointProvider;
 
 
-    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
+
+    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider)
     {
         _unitOfWork = unitOfWork;
         _examHistoryRepository = examHistoryRepository;
         _mapper = mapper;
-        _publishEndpoint = publishEndpoint;
+        _sendEndpointProvider = sendEndpointProvider;
     }
 
     public async Task<CreateExamHistoryResponse> Handle(CreateExamHistoryRequest request, CancellationToken cancellationToken)
@@ -30,8 +32,11 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
         ExamHistory examHistoryOption = _mapper.Map<ExamHistory>(request);
         _examHistoryRepository.Create(examHistoryOption);
 
-        UserAnswerSuccsesBrokerRequest brokerRequest = new UserAnswerSuccsesBrokerRequest() { Text = $"test {DateTime.Now}" };
-        await _publishEndpoint.Publish(brokerRequest);
+        MessageDto brokerRequest = new MessageDto() { Content = $"test {DateTime.Now}" };
+
+        // Отправка сообщения в конкретную очередь
+        var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
+        await sendEndpoint.Send(brokerRequest);
 
         await _unitOfWork.Save(cancellationToken);
 
