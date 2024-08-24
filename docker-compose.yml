@@ -43,6 +43,10 @@ services:
       - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+      - RABBITMQ_HOST=rabbithost
+      - RABBITMQ_USER=rabbit
+      - RABBITMQ_PASS=rabbit
+
       
   postgres-analytics:
     image: postgres:latest
@@ -67,6 +71,9 @@ services:
       - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-analytics;Database=analytics_db;Username=postgres;Password=postgres;
+      - RABBITMQ_HOST=rabbithost
+      - RABBITMQ_USER=rabbit
+      - RABBITMQ_PASS=rabbit
 
   postgres-identity-user:
     image: postgres:latest
