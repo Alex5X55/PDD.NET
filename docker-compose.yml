@@ -58,7 +58,7 @@ services:
       - "5533:5432" 
     volumes:
       - postgres_analytics_data:/var/lib/postgresql/data
-      
+  
   analytics-service:
     image: analytics-service
     build:
@@ -69,11 +69,14 @@ services:
     depends_on:
       - postgres-user-answer
       - rabbit
+      - redis
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-analytics;Database=analytics_db;Username=postgres;Password=postgres;
       - RABBITMQ_HOST=rabbithost
       - RABBITMQ_USER=rabbit
       - RABBITMQ_PASS=rabbit
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
   postgres-identity-user:
     image: postgres:latest
@@ -150,6 +153,13 @@ services:
       - "5672:5672"
       - "15672:15672"    
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   postgres_user_answer_data:
   postgres_identity_user_data:
@@ -157,3 +167,5 @@ volumes:
   postgres_analytics_data:
   mongodb_data:
   rabbitmq_data:
+  redis_data:
+

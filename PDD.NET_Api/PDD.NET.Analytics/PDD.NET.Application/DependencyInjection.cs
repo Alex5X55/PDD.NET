@@ -27,7 +27,6 @@ public static class DependencyInjection
         var rabbitMqUser = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "rabbit";
         var rabbitMqPass = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? "rabbit";
 
-        //services.AddAutoMapper(typeof(MessageDtoMapperProfile));
         services.AddMassTransit(x =>
         {
             x.AddConsumer<EventConsumer>();
@@ -44,6 +43,18 @@ public static class DependencyInjection
         });
         services.AddHostedService<MasstransitService>();
         #endregion
+       
+        #region Redis
+        var redisHost = Environment.GetEnvironmentVariable("REDIS_HOST") ?? "localhost";
+        var redisPort = Environment.GetEnvironmentVariable("REDIS_PORT") ?? "6379";
+        var redisConfiguration = $"{redisHost}:{redisPort}";
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConfiguration;
+        });
+        #endregion
+
         return services;
     }
 

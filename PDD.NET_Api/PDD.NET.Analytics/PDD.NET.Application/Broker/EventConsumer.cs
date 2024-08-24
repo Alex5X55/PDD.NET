@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MassTransit;
+using Microsoft.Extensions.Caching.Distributed;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 using System;
@@ -13,18 +14,17 @@ namespace PDD.NET.Application.Broker
     class EventConsumer : IConsumer<MessageDto>
     {
         private readonly IAnalyticsDataRepository _analyticsDataRepository;
+        private readonly IDistributedCache _cache;
 
-        public EventConsumer(IAnalyticsDataRepository analyticsDataRepository)
+        public EventConsumer(IAnalyticsDataRepository analyticsDataRepository, IDistributedCache cache)
         {
             _analyticsDataRepository = analyticsDataRepository;
+            _cache = cache;
         }
 
         public async Task Consume(ConsumeContext<MessageDto> context)
         {
             await Task.Delay(TimeSpan.FromSeconds(2));
-
-            Console.WriteLine("Value: {0}", context.Message.UserId.ToString());
-            Console.WriteLine("Value: {0}", context.Message.CreatedOn);
 
             MessageDto message = context.Message;
 
@@ -36,6 +36,9 @@ namespace PDD.NET.Application.Broker
             };
 
             _analyticsDataRepository.Create(analyticsData);
+
+            Console.WriteLine("Очистка кэша после обновления данных");
+            await _cache.RemoveAsync("analytics_data_cache_key");
         }
     }
 }
