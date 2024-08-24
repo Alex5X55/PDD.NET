@@ -56,7 +56,7 @@ public sealed class DeleteUserInRoleHandler : IRequestHandler<DeleteUserInRoleRe
         _userInRoleRepository.DeleteUserInRole(userInRole);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} deleted by API request");
+        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} deleted");
 
         return Unit.Value;
     }

@@ -35,7 +35,7 @@ public sealed class UpdateUserHandler : IRequestHandler<UpdateUserInternalReques
         _userRepository.Update(user);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"User {user.Id} updated by API request");
+        _logger.LogInformation($"User {user.Id} updated");
 
         return Unit.Value;
     }

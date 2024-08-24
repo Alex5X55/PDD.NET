@@ -27,7 +27,7 @@ public sealed class GetUserHandler : IRequestHandler<GetUserRequest, GetUserResp
         {
             throw new NotFoundException(nameof(User), request.Id);
         }
-        _logger.LogInformation($"User {request.Id} returned by auth API request");
+        _logger.LogInformation($"User {request.Id} returned");
         return _mapper.Map<GetUserResponse>(user);
     }
 }

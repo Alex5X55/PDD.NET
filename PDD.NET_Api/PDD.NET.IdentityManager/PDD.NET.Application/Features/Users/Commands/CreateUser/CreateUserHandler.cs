@@ -13,7 +13,7 @@ public sealed class CreateUserHandler : IRequestHandler<CreateUserRequest, Creat
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    private readonly ILogger<CreateUserHandler> _logger;
+    private readonly ILogger _logger;
 
     public CreateUserHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper, ILogger<CreateUserHandler> logger)
     {

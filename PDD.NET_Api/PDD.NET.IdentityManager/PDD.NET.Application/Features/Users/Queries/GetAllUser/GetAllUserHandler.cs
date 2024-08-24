@@ -22,7 +22,7 @@ public sealed class GetAllUserHandler : IRequestHandler<GetAllUserRequest, IEnum
     public async Task<IEnumerable<GetAllUserResponse>> Handle(GetAllUserRequest request, CancellationToken cancellationToken)
     {
         var users = await _userRepository.GetAll(cancellationToken);
-        _logger.LogInformation($"All users returned by API request");
+        _logger.LogInformation($"All users returned");
         return _mapper.Map<IEnumerable<GetAllUserResponse>>(users);
     }
 }

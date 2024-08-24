@@ -34,7 +34,7 @@ public sealed class DeleteUserHandler : IRequestHandler<DeleteUserRequest, Unit>
         _userRepository.Update(user);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"User {user.Id} deleted by API request");
+        _logger.LogInformation($"User {user.Id} deleted");
 
         return Unit.Value;
     }

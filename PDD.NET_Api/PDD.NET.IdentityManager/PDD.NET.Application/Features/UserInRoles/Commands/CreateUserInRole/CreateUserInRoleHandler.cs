@@ -56,7 +56,7 @@ public sealed class CreateUserInRoleHandler : IRequestHandler<CreateUserInRoleRe
         _userInRoleRepository.Create(userInRole);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} created by API request");
+        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} created");
 
         return Unit.Value;
     }

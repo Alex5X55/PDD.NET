@@ -48,7 +48,7 @@ public sealed class UpdateUserDetailHandler : IRequestHandler<UpdateUserDetailIn
 
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"UserDetail {userDetail.Name} entity for {userDetail.UserId} updated by API request");
+        _logger.LogInformation($"UserDetail {userDetail.Name} entity for {userDetail.UserId} updated");
 
         return Unit.Value;
     }

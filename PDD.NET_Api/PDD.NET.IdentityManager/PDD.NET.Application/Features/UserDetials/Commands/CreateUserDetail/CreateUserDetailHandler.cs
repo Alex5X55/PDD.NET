@@ -43,7 +43,7 @@ public sealed class CreateUserDetailHandler : IRequestHandler<CreateUserDetailIn
         _userDetailRepository.Create(userDetail);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"UserDetail {userDetail.Name} entity for {userDetail.UserId} created by API request");
+        _logger.LogInformation($"UserDetail {userDetail.Name} entity for {userDetail.UserId} created");
 
         return _mapper.Map<CreateUserDetailResponse>(userDetail);
     }

@@ -27,7 +27,7 @@ public sealed class GetUserFullInfoHandler : IRequestHandler<GetUserFullInfoRequ
         {
             throw new NotFoundException(nameof(User), request.Id);
         }
-        _logger.LogInformation($"Full info user {request.Id} returned by API request");
+        _logger.LogInformation($"Full info user {request.Id} returned");
         return _mapper.Map<GetUserFullInfoResponse>(user);
     }
 }
