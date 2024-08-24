@@ -12,6 +12,12 @@ import {
   getCurrentExamQuestionsLoading,
 } from "../services/question/selectors";
 import Preloader from "../components/preloader/preloader";
+import {
+  getCreateExamHistoryError,
+  getCreateExamHistoryLoading,
+} from "../services/exam-history/selectors";
+import { resetExamHistoryState } from "../services/exam-history/reducer";
+import { createExamHistory } from "../services/exam-history/actions";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +54,7 @@ const ExamPage: React.FC = () => {
   }, [isStart, timeLeft]);
 
   const onStartHandleClick = () => {
+    dispatch(resetExamHistoryState());
     dispatch(resetCurrentAnswers());
 
     setIsStart(true);
@@ -55,7 +62,12 @@ const ExamPage: React.FC = () => {
     hasFinished.current = false;
   };
 
+  const isCreateLoading = useAppSelector(getCreateExamHistoryLoading);
+  const createError = useAppSelector(getCreateExamHistoryError);
+
   const onFinishHandleClick = () => {
+    // TODO: Пока для теста - исправить
+    dispatch(createExamHistory({ userId: 1, isSuccess: true }));
     setIsStart(false);
     alert(
       `Экзамен завершен!\nПравильных ответов: ${rightAnswersCount} из ${currentQuestions.length}`,
@@ -73,6 +85,8 @@ const ExamPage: React.FC = () => {
       <header className="jumbotron mt-5">
         <h1 className="display-4 mb-4">Экзамен</h1>
       </header>
+      {isCreateLoading && <Preloader />}
+      {createError && <h1 className="display-4 mb-4">Ошибка: {createError}</h1>}
       {!isStart ? (
         <>
           <Button

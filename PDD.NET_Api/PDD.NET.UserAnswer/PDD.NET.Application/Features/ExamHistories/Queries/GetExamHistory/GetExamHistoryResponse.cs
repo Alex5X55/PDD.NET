@@ -4,7 +4,7 @@ public sealed record GetExamHistoryResponse
 {
     public int Id { get; set; }
     
-    public bool IsSeccess { get; set; }
+    public bool IsSuccess { get; set; }
     
     public UserDTO UserDTO { get; set; }
 }

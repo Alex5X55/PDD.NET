@@ -47,7 +47,7 @@ namespace PDD.NET.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsSeccess")
+                    b.Property<bool>("IsSuccess")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("UserId")

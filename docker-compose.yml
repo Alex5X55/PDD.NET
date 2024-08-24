@@ -42,6 +42,29 @@ services:
       - postgres-user-answer
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
+      
+  postgres-analytics:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: analytics_db
+    ports:
+      - "5533:5532" 
+    volumes:
+      - postgres_analytics_data:/var/lib/postgresql/data
+      
+  analytics-service:
+    image: analytics-service
+    build:
+      context: ./PDD.NET_Api/PDD.NET.Analytics
+      dockerfile: Dockerfile
+    ports:
+      - "5294:8080"
+    depends_on:
+      - postgres-user-answer
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres-analytics;Database=analytics_db;Username=postgres;Password=postgres;
 
   postgres-identity-user:
     image: postgres:latest
@@ -90,6 +113,7 @@ services:
       - question-answer-service
       - user-answer-service
       - authorization
+      - postgres-analytics
     ports:
       - "5288:8080"
       
@@ -107,4 +131,5 @@ volumes:
   postgres_user_answer_data:
   postgres_identity_user_data:
   postgres_identity_auth_data:
+  postgres_analytics_data:
   mongodb_data:
