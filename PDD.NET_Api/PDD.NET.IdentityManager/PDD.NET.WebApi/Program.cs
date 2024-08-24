@@ -12,7 +12,7 @@ public class Program
     public static void Main(string[] args)
     {
 
-        var logConfig = LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "/nlog.config"));
+        var logConfig = LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config"));
         var logger = logConfig.GetCurrentClassLogger();
 
         logger.Info(MessageConstants.INIT_TEXT);
