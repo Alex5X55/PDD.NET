@@ -11,6 +11,7 @@ import {
 } from "../services/auth/selectors";
 import Preloader from "../components/preloader/preloader";
 import { Navigate } from "react-router-dom";
+import { resetLoginState } from "../services/auth/reducer";
 
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ const LoginPage: React.FC = () => {
   const loginError = useAppSelector(getLoginError);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    dispatch(resetLoginState());
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.checkValidity()) {

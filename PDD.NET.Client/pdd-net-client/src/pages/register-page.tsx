@@ -11,6 +11,7 @@ import {
 } from "../services/auth/selectors";
 import Preloader from "../components/preloader/preloader";
 import { Navigate } from "react-router-dom";
+import { resetRegisterState } from "../services/auth/reducer";
 
 const RegisterPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const RegisterPage: React.FC = () => {
   const registerError = useAppSelector(getRegisterError);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    dispatch(resetRegisterState());
     e.preventDefault();
     const form = e.currentTarget;
     if (

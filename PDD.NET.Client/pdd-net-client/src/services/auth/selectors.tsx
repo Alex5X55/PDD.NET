@@ -13,3 +13,5 @@ export const getLoginResponse = (state: RootState) => state.auth.loginResponse;
 export const getLoginLoading = (state: RootState) => state.auth.loginLoading;
 
 export const getLoginError = (state: RootState) => state.auth.loginError;
+
+export const getUser = (state: RootState) => state.auth.user;

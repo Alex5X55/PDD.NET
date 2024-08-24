@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ILoginResponse, IRegisterResponse } from "../../types/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ILoginResponse, IRegisterResponse, IUser } from "../../types/types";
 import { login, register } from "./actions";
 
 interface IAuthState {
@@ -10,6 +10,8 @@ interface IAuthState {
   loginResponse: ILoginResponse | null;
   loginLoading: boolean;
   loginError: string | null;
+
+  user: IUser | null;
 }
 
 const initialState: IAuthState = {
@@ -20,6 +22,8 @@ const initialState: IAuthState = {
   loginResponse: null,
   loginLoading: false,
   loginError: null,
+
+  user: null,
 };
 
 export const authSlice = createSlice({
@@ -31,6 +35,18 @@ export const authSlice = createSlice({
       state.registerResponse = null;
     },
     resetLoginState: (state) => {
+      state.loginError = null;
+      state.loginResponse = null;
+    },
+    setUser: (state, action: PayloadAction<IUser>) => {
+      state.user = action.payload;
+    },
+    resetUser: (state) => {
+      state.user = null;
+
+      state.registerError = null;
+      state.registerResponse = null;
+
       state.loginError = null;
       state.loginResponse = null;
     },
@@ -64,4 +80,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { resetRegisterState, resetLoginState } = authSlice.actions;
+export const { resetRegisterState, resetLoginState, setUser, resetUser } =
+  authSlice.actions;
