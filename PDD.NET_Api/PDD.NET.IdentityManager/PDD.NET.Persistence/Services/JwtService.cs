@@ -37,7 +37,7 @@ public class JwtService : IJwtService
     public async Task<AuthResult> GenerateToken(GetUserAuthResponse user)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
-        //серкретный ключ, который поможет закодировать или закодировать токен
+        //серкретный ключ, который поможет закодировать или раскодировать токен
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
         var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor

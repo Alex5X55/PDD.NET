@@ -10,7 +10,7 @@ public sealed class GetAllUserHandler : IRequestHandler<GetAllUserRequest, IEnum
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    private readonly ILogger<GetAllUserHandler> _logger;
+    private readonly ILogger _logger;
 
     public GetAllUserHandler(IUserRepository userRepository, IMapper mapper, ILogger<GetAllUserHandler> logger)
     {

@@ -11,7 +11,7 @@ public sealed class GetUserFullInfoHandler : IRequestHandler<GetUserFullInfoRequ
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    private readonly ILogger<GetUserFullInfoHandler> _logger;
+    private readonly ILogger _logger;
 
     public GetUserFullInfoHandler(IUserRepository userRepository, IMapper mapper, ILogger<GetUserFullInfoHandler> logger)
     {

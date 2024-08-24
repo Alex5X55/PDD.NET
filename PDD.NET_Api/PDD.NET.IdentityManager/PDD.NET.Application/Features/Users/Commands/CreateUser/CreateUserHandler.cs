@@ -37,7 +37,7 @@ public sealed class CreateUserHandler : IRequestHandler<CreateUserRequest, Creat
         _userRepository.Create(user);
         await _unitOfWork.Save(cancellationToken);
 
-        _logger.LogInformation($"User {user.Id} created by API request");
+        _logger.LogInformation($"User {user.Id} created");
 
         return _mapper.Map<CreateUserResponse>(user);
     }

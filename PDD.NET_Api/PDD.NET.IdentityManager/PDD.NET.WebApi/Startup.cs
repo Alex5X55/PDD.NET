@@ -2,10 +2,7 @@
 using PDD.NET.Persistence;
 using PDD.NET.Application.Repositories;
 using PDD.NET.WebApi.Extensions;
-using Microsoft.Extensions.Logging;
 using PDD.NET.Domain.Constants;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NLog;
 
 namespace PDD.NET.WebApi;
 

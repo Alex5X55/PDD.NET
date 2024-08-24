@@ -11,7 +11,6 @@ public class Program
     private static IConfiguration Configuration { get; set; } = null!;
     public static void Main(string[] args)
     {
-
         var logConfig = LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config"));
         var logger = logConfig.GetCurrentClassLogger();
 

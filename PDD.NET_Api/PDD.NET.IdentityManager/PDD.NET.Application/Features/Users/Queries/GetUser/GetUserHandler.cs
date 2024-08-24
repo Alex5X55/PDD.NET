@@ -11,7 +11,7 @@ public sealed class GetUserHandler : IRequestHandler<GetUserRequest, GetUserResp
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    ILogger<GetUserHandler> _logger;
+    private readonly ILogger _logger;
 
     public GetUserHandler(IUserRepository userRepository, IMapper mapper,ILogger<GetUserHandler> logger)
     {

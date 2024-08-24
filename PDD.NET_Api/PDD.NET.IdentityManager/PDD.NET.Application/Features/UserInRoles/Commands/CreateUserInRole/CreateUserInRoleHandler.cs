@@ -14,7 +14,7 @@ public sealed class CreateUserInRoleHandler : IRequestHandler<CreateUserInRoleRe
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IMapper _mapper;
-    private readonly ILogger<CreateUserInRoleHandler> _logger;
+    private readonly ILogger _logger;
 
     public CreateUserInRoleHandler(
         IUnitOfWork unitOfWork,
