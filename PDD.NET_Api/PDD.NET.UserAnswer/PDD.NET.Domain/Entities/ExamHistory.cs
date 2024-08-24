@@ -4,7 +4,7 @@ namespace PDD.NET.Domain.Entities;
 
 public class ExamHistory : BaseEntity
 {
-    public bool IsSeccess { get; set; }
+    public bool IsSuccess { get; set; }
     
     public User User { get; set; }
 
