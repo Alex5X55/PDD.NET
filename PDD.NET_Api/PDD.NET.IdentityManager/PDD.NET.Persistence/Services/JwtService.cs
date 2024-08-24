@@ -46,6 +46,7 @@ public class JwtService : IJwtService
             {
                 new Claim("id", user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//можно определять по id роль.
+                new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
