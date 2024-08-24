@@ -1,10 +1,22 @@
 import React, { useState, FormEvent } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import { IRegisterRequest } from "../types/types";
+import { IRegisterForm } from "../types/types";
 import { useForm } from "../hooks/use-form";
+import { useAppDispatch, useAppSelector } from "../services/hooks";
+import { register } from "../services/auth/actions";
+import {
+  getRegisterError,
+  getRegisterLoading,
+  getRegisterResponse,
+} from "../services/auth/selectors";
+import Preloader from "../components/preloader/preloader";
+import { Navigate } from "react-router-dom";
+import { resetRegisterState } from "../services/auth/reducer";
 
 const RegisterPage: React.FC = () => {
-  const { formState, handleFieldChange } = useForm<IRegisterRequest>({
+  const dispatch = useAppDispatch();
+
+  const { formState, handleFieldChange } = useForm<IRegisterForm>({
     login: "",
     email: "",
     password: "",
@@ -13,7 +25,11 @@ const RegisterPage: React.FC = () => {
 
   const [validated, setValidated] = useState(false);
 
+  const isRegisterLoading = useAppSelector(getRegisterLoading);
+  const registerError = useAppSelector(getRegisterError);
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    dispatch(resetRegisterState());
     e.preventDefault();
     const form = e.currentTarget;
     if (
@@ -22,10 +38,21 @@ const RegisterPage: React.FC = () => {
     ) {
       e.stopPropagation();
     } else {
-      console.log("Form data:", formState);
+      dispatch(
+        register({
+          login: formState.login,
+          email: formState.email,
+          password: formState.password,
+        }),
+      );
     }
     setValidated(true);
   };
+
+  const registerResponse = useAppSelector(getRegisterResponse);
+  if (registerResponse?.login) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
@@ -98,6 +125,10 @@ const RegisterPage: React.FC = () => {
           </Button>
         </div>
       </Form>
+      {isRegisterLoading && <Preloader />}
+      {registerError && (
+        <h1 className="display-4 mb-4">Ошибка: {registerError}</h1>
+      )}
     </Container>
   );
 };

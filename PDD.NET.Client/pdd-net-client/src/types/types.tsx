@@ -1,13 +1,8 @@
-export interface IRegisterRequest {
+export interface IRegisterForm {
   login: string;
   email: string;
   password: string;
   confirmPassword: string;
-}
-
-export interface ILoginRequest {
-  login: string;
-  password: string;
 }
 
 export interface IRestorePasswordRequest {
@@ -122,4 +117,34 @@ export interface ICreateExamHistoryRequest {
 export interface IExamHistoryResponse {
   userId: number;
   isSuccess: boolean;
+}
+
+export interface IRegisterRequest {
+  login: string;
+  password: string;
+  email: string;
+}
+
+export interface IRegisterResponse {
+  id: number;
+  login: string;
+  email: string;
+}
+
+export interface ILoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface ILoginResponse {
+  token: string;
+  refreshToken: string;
+  success: boolean;
+  errors: string[];
+}
+
+export interface IUser {
+  id: number;
+  email: string;
+  role: string;
 }
