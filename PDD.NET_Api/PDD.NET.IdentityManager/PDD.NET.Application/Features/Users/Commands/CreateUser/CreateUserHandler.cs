@@ -32,6 +32,7 @@ public sealed class CreateUserHandler : IRequestHandler<CreateUserRequest, Creat
         {
             throw new NotFoundException(nameof(User) + " пользователь с такой почтой уже существует");
         }
+        //user.Id = 33;
         user.PasswordHash = Generate(request.Password);
         _userRepository.Create(user);
         await _unitOfWork.Save(cancellationToken);
