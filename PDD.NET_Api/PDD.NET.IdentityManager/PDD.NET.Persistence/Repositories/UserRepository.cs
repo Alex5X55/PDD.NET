@@ -29,4 +29,11 @@ public class UserRepository : BaseRepository<User>, IUserRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email == email && !x.IsDeleted, cancellationToken);
     }
+
+    public override void Create(User entity)
+    {
+        var maxId = Context.Set<User>().Select(x => x.Id).Max();
+        entity.Id=++maxId;
+        Context.Add(entity);
+    }
 }
