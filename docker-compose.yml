@@ -40,6 +40,7 @@ services:
       - "5194:8080"
     depends_on:
       - postgres-user-answer
+      - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-user-answer;Database=user_answer_db;Username=postgres;Password=postgres;
       
@@ -50,7 +51,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: analytics_db
     ports:
-      - "5533:5532" 
+      - "5533:5432" 
     volumes:
       - postgres_analytics_data:/var/lib/postgresql/data
       
@@ -63,6 +64,7 @@ services:
       - "5294:8080"
     depends_on:
       - postgres-user-answer
+      - rabbit
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres-analytics;Database=analytics_db;Username=postgres;Password=postgres;
 
@@ -126,6 +128,20 @@ services:
       - apigateway
     ports:
       - "9000:3000"
+  
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: rabbit
+    restart: always
+    hostname: rabbithost
+    environment: 
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"    
 
 volumes:
   postgres_user_answer_data:
@@ -133,3 +149,4 @@ volumes:
   postgres_identity_auth_data:
   postgres_analytics_data:
   mongodb_data:
+  rabbitmq_data:
