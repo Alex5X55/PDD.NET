@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
-using PDD.NET.Application.Features.UserDetials.Commands.UpdateUserDetail;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
