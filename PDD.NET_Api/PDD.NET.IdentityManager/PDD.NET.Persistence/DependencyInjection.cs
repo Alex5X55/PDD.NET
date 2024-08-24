@@ -16,7 +16,13 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureConfig(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("PgUser");
-        services.AddDbContext<DatabaseContext>(opt => opt.UseNpgsql(connectionString));
+        services.AddDbContext<DatabaseContext>(opt =>
+        {
+            //opt.EnableSensitiveDataLogging();
+            opt.UseNpgsql(connectionString);
+            //opt.EnableDetailedErrors();
+        });
+
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
