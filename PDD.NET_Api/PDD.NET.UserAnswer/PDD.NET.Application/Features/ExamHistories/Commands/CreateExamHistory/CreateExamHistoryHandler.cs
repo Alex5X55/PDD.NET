@@ -27,20 +27,19 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
 
     public async Task<CreateExamHistoryResponse> Handle(CreateExamHistoryRequest request, CancellationToken cancellationToken)
     {
-        // TODO: Добавить проверку на существование пользователя
-
-        ExamHistory examHistoryOption = _mapper.Map<ExamHistory>(request);
-        _examHistoryRepository.Create(examHistoryOption);
-
-        MessageDto brokerRequest = new MessageDto() { UserId = examHistoryOption.UserId, IsSuccess = examHistoryOption.IsSuccess, CreatedOn = DateTime.Now };
+        ExamHistory examHistory = _mapper.Map<ExamHistory>(request);
+        _examHistoryRepository.Create(examHistory);
+        
+        // TODO
+        //MessageDto brokerRequest = new MessageDto() { UserId = examHistory.UserId, IsSuccess = examHistory.IsSuccess, CreatedOn = DateTime.Now };
 
         // Отправка сообщения в конкретную очередь
-        var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
-        await sendEndpoint.Send(brokerRequest);
+        // var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
+        // await sendEndpoint.Send(brokerRequest);
 
         await _unitOfWork.Save(cancellationToken);
-        _logger.LogInformation($"ExamHistoryOption id {examHistoryOption.Id} entity for user id {examHistoryOption.User.Id} created");
+        _logger.LogInformation($"ExamHistory id {examHistory.Id} entity for user {examHistory.Login} created");
 
-        return _mapper.Map<CreateExamHistoryResponse>(examHistoryOption);
+        return _mapper.Map<CreateExamHistoryResponse>(examHistory);
     }
 }

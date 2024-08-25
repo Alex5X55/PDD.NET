@@ -9,12 +9,4 @@ public class ExamHistoryRepository : BaseRepository<ExamHistory>, IExamHistoryRe
     public ExamHistoryRepository(DatabaseContext context) : base(context)
     {
     }
-    
-    public override async Task<ExamHistory> Get(int id, CancellationToken cancellationToken)
-    {
-        return await Context.Set<ExamHistory>()
-            .Include(eh => eh.User)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted, cancellationToken);
-    }
 }

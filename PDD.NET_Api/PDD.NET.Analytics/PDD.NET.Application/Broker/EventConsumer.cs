@@ -28,14 +28,15 @@ namespace PDD.NET.Application.Broker
 
             MessageDto message = context.Message;
 
-            AnalyticsData analyticsData = new AnalyticsData()
-            {
-                CreatedOn = message.CreatedOn,
-                UserId = message.UserId,
-                IsSeccess = message.IsSuccess
-            };
+            // TODO
+            // AnalyticsData analyticsData = new AnalyticsData()
+            // {
+            //     CreatedOn = message.CreatedOn,
+            //     UserId = message.UserId,
+            //     IsSeccess = message.IsSuccess
+            // };
 
-            _analyticsDataRepository.Create(analyticsData);
+            //_analyticsDataRepository.Create(analyticsData);
 
             Console.WriteLine("Очистка кэша после обновления данных");
             await _cache.RemoveAsync("analytics_data_cache_key");
