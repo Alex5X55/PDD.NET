@@ -34,6 +34,8 @@ interface QuestionState {
 
   updateQuestionLoading: boolean;
   updateQuestionError: string | null;
+
+  maxExamQuestionsLength: number;
 }
 
 const initialState: QuestionState = {
@@ -58,6 +60,8 @@ const initialState: QuestionState = {
 
   updateQuestionLoading: false,
   updateQuestionError: null,
+
+  maxExamQuestionsLength: 0,
 };
 
 export const questionSlice = createSlice({
@@ -72,7 +76,11 @@ export const questionSlice = createSlice({
     },
     setNextQuestion: (state) => {
       const newQuestionNumber: number = state.currentQuestionNumber + 1;
-      if (newQuestionNumber > state.currentQuestions?.length - 1) {
+      if (
+        newQuestionNumber > state.currentQuestions?.length - 1 ||
+        (state.maxExamQuestionsLength !== 0 &&
+          newQuestionNumber > state.maxExamQuestionsLength)
+      ) {
         alert("Это был последний вопрос!");
       } else {
         state.currentQuestionNumber = newQuestionNumber;
@@ -100,6 +108,12 @@ export const questionSlice = createSlice({
       state.questionResponse = null;
       state.createQuestionError = null;
       state.updateQuestionError = null;
+    },
+    setMaxExamQuestionsLength: (state, action: PayloadAction<number>) => {
+      state.maxExamQuestionsLength = action.payload;
+    },
+    resetMaxExamQuestionsLength: (state) => {
+      state.maxExamQuestionsLength = 0;
     },
   },
   extraReducers: (builder) => {
@@ -174,4 +188,6 @@ export const {
   setCurrentQuestionNumber,
   resetCurrentQuestionNumber,
   resetQuestionState,
+  setMaxExamQuestionsLength,
+  resetMaxExamQuestionsLength,
 } = questionSlice.actions;
