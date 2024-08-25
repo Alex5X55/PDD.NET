@@ -15,9 +15,7 @@ public static class DependencyInjection
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserAnswerHistoryRepository, UserAnswerHistoryRepository>();
+        
         services.AddScoped<IExamHistoryRepository, ExamHistoryRepository>();
 
         services.AddScoped<IDataInitializer, EFDataInitializer>();
