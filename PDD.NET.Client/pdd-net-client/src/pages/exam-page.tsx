@@ -54,6 +54,7 @@ const ExamPage: React.FC = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(initTimeLeft);
   const hasFinished = useRef(false);
+  const [isShowResults, setIsShowResults] = useState<boolean>(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -73,6 +74,7 @@ const ExamPage: React.FC = () => {
   }, [isStart, timeLeft]);
 
   const onStartHandleClick = () => {
+    setIsShowResults(false);
     dispatch(resetExamHistoryState());
     dispatch(resetCurrentAnswers());
 
@@ -88,9 +90,7 @@ const ExamPage: React.FC = () => {
     // TODO: Пока для теста - исправить
     dispatch(createExamHistory({ userId: 1, isSuccess: true }));
     setIsStart(false);
-    alert(
-      `Экзамен завершен!\nПравильных ответов: ${rightAnswersCount} из ${currentQuestions.length}`,
-    );
+    setIsShowResults(true);
   };
 
   const formatTime = (seconds: number) => {
@@ -116,6 +116,13 @@ const ExamPage: React.FC = () => {
             Начать экзамен
           </Button>
           <div>После нажатия на кнопку "Начать экзамен", пойдет таймер.</div>
+          {isShowResults && (
+            <>
+              <h4 className="display-8 mt-4">Экзамен завершен!</h4>
+              <div>Правильных ответов: {rightAnswersCount}</div>
+              <div>Неправильных ответов: {wrongAnswersCount}</div>
+            </>
+          )}
         </>
       ) : (
         <>
