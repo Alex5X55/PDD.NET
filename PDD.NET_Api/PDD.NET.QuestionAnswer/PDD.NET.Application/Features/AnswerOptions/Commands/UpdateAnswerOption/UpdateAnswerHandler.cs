@@ -32,7 +32,8 @@ public sealed class UpdateAnswerHandler : IRequestHandler<UpdateAnswerInternalRe
         answerOption.IsRight = request.IsRight;
         answerOption.QuestionId = request.QuestionId;
         _answerRepository.Update(answerOption);
-        _logger.LogInformation($"AnswerOption id {answerOption.Id} entity for question id {answerOption.Question.Id} updated");
+        
+        _logger.LogInformation($"AnswerOption id {answerOption.Id} entity for question id {answerOption.QuestionId} updated");
 
         return Unit.Value;
     }

@@ -28,6 +28,8 @@ const QuestionRowEdit: React.FC<IQuestion> = (question) => {
           <Link to={`/question/edit/${question.id}`}>
             <EditIcon />
           </Link>
+        </td>
+        <td>
           <TrashIcon onClick={() => handleDeleteClick(question)} />
         </td>
       </tr>
@@ -44,6 +46,7 @@ const QuestionRowEdit: React.FC<IQuestion> = (question) => {
         <tr key={`not-found-${question.id}`}>
           <td></td>
           <td>Варианты ответов не найдены</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>

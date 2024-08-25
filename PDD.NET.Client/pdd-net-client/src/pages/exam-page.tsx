@@ -19,6 +19,13 @@ import {
 import { resetExamHistoryState } from "../services/exam-history/reducer";
 import { createExamHistory } from "../services/exam-history/actions";
 import { getUser } from "../services/auth/selectors";
+import {
+  resetCurrentQuestionNumber,
+  resetMaxExamQuestionsLength,
+  setCurrentQuestionNumber,
+  setMaxExamQuestionsLength,
+} from "../services/question/reducer";
+import { loadExamQuestions } from "../services/question/actions";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -43,8 +50,16 @@ const ExamPage: React.FC = () => {
 
   // Формируем список дополнительных вопросов в зависимости от количества ошибок
   const additionalQuestions = useMemo(() => {
-    if (wrongAnswersCount === 0) return [];
-    if (wrongAnswersCount === 1) return currentQuestions.slice(20, 25);
+    if (wrongAnswersCount === 0) {
+      dispatch(setMaxExamQuestionsLength(19));
+      return [];
+    }
+    if (wrongAnswersCount === 1) {
+      dispatch(setMaxExamQuestionsLength(24));
+      return currentQuestions.slice(20, 25);
+    }
+
+    dispatch(setMaxExamQuestionsLength(29));
     return currentQuestions.slice(20, 30);
   }, [wrongAnswersCount, currentQuestions]);
 
@@ -75,6 +90,8 @@ const ExamPage: React.FC = () => {
   }, [isStart, timeLeft]);
 
   const onStartHandleClick = () => {
+    dispatch(loadExamQuestions());
+    dispatch(resetMaxExamQuestionsLength());
     setIsShowResults(false);
     dispatch(resetExamHistoryState());
     dispatch(resetCurrentAnswers());
@@ -83,6 +100,12 @@ const ExamPage: React.FC = () => {
     setTimeLeft(initTimeLeft);
     hasFinished.current = false;
   };
+
+  useEffect(() => {
+    if (currentQuestions.length > 0) {
+      dispatch(setCurrentQuestionNumber(currentQuestions[0]));
+    }
+  }, [currentQuestions]);
 
   const isCreateLoading = useAppSelector(getCreateExamHistoryLoading);
   const createError = useAppSelector(getCreateExamHistoryError);
@@ -99,11 +122,12 @@ const ExamPage: React.FC = () => {
   const onFinishHandleClick = () => {
     if (currentUser && currentUser.name) {
       dispatch(
-        createExamHistory({ name: currentUser.name, isSuccess: isSuccess }),
+        createExamHistory({ login: currentUser.name, isSuccess: isSuccess }),
       );
     }
     setIsStart(false);
     setIsShowResults(true);
+    dispatch(resetCurrentQuestionNumber());
   };
 
   const formatTime = (seconds: number) => {

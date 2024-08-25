@@ -90,9 +90,12 @@ const AdminQuestionsPage: React.FC = () => {
           <thead>
             <tr key={"thead"}>
               <th scope="col">Id</th>
-              <th scope="col">Текст вопроса/варианта ответа</th>
+              <th scope="col" className="col-8">
+                Текст вопроса/варианта ответа
+              </th>
               <th scope="col">Категория</th>
               <th scope="col">Правильный ответ?</th>
+              <th scope="col"></th>
               <th scope="col"></th>
             </tr>
           </thead>
