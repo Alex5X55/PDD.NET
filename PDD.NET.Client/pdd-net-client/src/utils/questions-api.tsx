@@ -21,7 +21,7 @@ export const getQuestionsByCategory = async (
 };
 
 export const getExamQuestions = async (): Promise<IQuestion[]> => {
-  const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
+  const res = await fetch(`${baseApiConfig.baseUrl}/questions/exam`, {
     method: "GET",
     headers: baseApiConfig.headers,
   });

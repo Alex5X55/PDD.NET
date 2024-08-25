@@ -5,7 +5,10 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import CustomNavLink from "./custom-nav-link/custom-nav-link";
 
-const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
+const QuestionNumberList: React.FC<IQuestionList> = ({
+  questions,
+  initNumberQuestion,
+}) => {
   return (
     <>
       {questions && questions.length > 0 && (
@@ -21,7 +24,7 @@ const QuestionNumberList: React.FC<IQuestionList> = ({ questions }) => {
                       to={`${item.id}`}
                       key={item.id}
                     >
-                      {index + 1}
+                      {initNumberQuestion + index + 1}
                     </Nav.Link>
                   ))}
                 </Nav>

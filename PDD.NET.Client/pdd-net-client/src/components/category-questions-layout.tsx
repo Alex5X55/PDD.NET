@@ -38,7 +38,10 @@ const CategoryQuestionsLayout: React.FC = () => {
       {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {currentQuestions.length > 0 ? (
         <>
-          <QuestionNumberList questions={currentQuestions} />
+          <QuestionNumberList
+            questions={currentQuestions}
+            initNumberQuestion={0}
+          />
           <Routes>
             <Route path=":questionId" element={<QuestionCard />} />
           </Routes>
