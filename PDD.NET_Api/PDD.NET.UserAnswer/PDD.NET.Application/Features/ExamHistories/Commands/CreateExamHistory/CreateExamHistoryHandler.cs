@@ -29,13 +29,13 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
     {
         ExamHistory examHistory = _mapper.Map<ExamHistory>(request);
         _examHistoryRepository.Create(examHistory);
-        
-        // TODO
-        //MessageDto brokerRequest = new MessageDto() { UserId = examHistory.UserId, IsSuccess = examHistory.IsSuccess, CreatedOn = DateTime.Now };
 
-        // Отправка сообщения в конкретную очередь
-        // var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
-        // await sendEndpoint.Send(brokerRequest);
+        // TODO
+        MessageDto brokerRequest = new MessageDto() { Loggin = examHistory.Login, IsSuccess = examHistory.IsSuccess, CreatedOn = DateTime.Now };
+
+        //Отправка сообщения в конкретную очередь
+        var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
+        await sendEndpoint.Send(brokerRequest);
 
         await _unitOfWork.Save(cancellationToken);
         _logger.LogInformation($"ExamHistory id {examHistory.Id} entity for user {examHistory.Login} created");
