@@ -21,11 +21,31 @@ import { createExamHistory } from "../services/exam-history/actions";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const { currentQuestions } = useQuestionNavigation(true);
+
+  // Берем первые 20 вопросов
+  const initialQuestions = useMemo(
+    () => currentQuestions.slice(0, 20),
+    [currentQuestions],
+  );
+
   const currentAnswers = useAppSelector(getCurrentAnswers);
   const rightAnswersCount = useMemo(
     () => currentAnswers.filter((item) => item.isRight).length,
     [currentAnswers],
   );
+  const wrongAnswersCount = useMemo(
+    () => currentAnswers.filter((item) => !item.isRight).length,
+    [currentAnswers],
+  );
+
+  // Формируем список дополнительных вопросов в зависимости от количества ошибок
+  const additionalQuestions = useMemo(() => {
+    if (wrongAnswersCount === 0) return [];
+    if (wrongAnswersCount === 1) return currentQuestions.slice(20, 25);
+    return currentQuestions.slice(20, 30);
+  }, [wrongAnswersCount, currentQuestions]);
 
   const isLoading = useAppSelector(getCurrentExamQuestionsLoading);
   const error = useAppSelector(getCurrentExamQuestionsError);
@@ -33,7 +53,6 @@ const ExamPage: React.FC = () => {
   const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(initTimeLeft);
-  const { currentQuestions } = useQuestionNavigation(true);
   const hasFinished = useRef(false);
 
   useEffect(() => {
@@ -113,7 +132,17 @@ const ExamPage: React.FC = () => {
               {formatTime(timeLeft)}
             </p>
           </div>
-          <QuestionNumberList questions={currentQuestions} />
+          <QuestionNumberList
+            questions={initialQuestions}
+            initNumberQuestion={0}
+          />
+          {wrongAnswersCount > 0 && <div>Дополнительные вопросы:</div>}
+          {wrongAnswersCount > 0 && (
+            <QuestionNumberList
+              questions={additionalQuestions}
+              initNumberQuestion={20}
+            />
+          )}
           <Routes>
             <Route path=":questionId" element={<QuestionCard />} />
           </Routes>

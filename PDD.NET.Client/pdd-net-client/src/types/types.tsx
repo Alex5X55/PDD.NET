@@ -94,6 +94,7 @@ export interface IAnswer {
 
 export interface IQuestionList {
   questions: Array<IQuestion>;
+  initNumberQuestion: number;
 }
 
 export interface IIconProps {
