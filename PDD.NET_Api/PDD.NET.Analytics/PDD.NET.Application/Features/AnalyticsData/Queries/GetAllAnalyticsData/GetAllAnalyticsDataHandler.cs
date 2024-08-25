@@ -14,9 +14,7 @@ public sealed class GetAllAnalyticsDataHandler : IRequestHandler<GetAllAnalytics
     private readonly ILogger _logger;
     private readonly IDistributedCache _cache;
 
-    public GetAllAnalyticsDataHandler(IAnalyticsDataRepository analyticsDataRepository, IMapper mapper, ILogger<GetAllAnalyticsDataHandler> logger)
-
-    public GetAllAnalyticsDataHandler(IAnalyticsDataRepository analyticsDataRepository, IMapper mapper, IDistributedCache cache)
+    public GetAllAnalyticsDataHandler(IAnalyticsDataRepository analyticsDataRepository, IMapper mapper, IDistributedCache cache, ILogger<GetAllAnalyticsDataHandler> logger)
     {
         _analyticsDataRepository = analyticsDataRepository;
         _mapper = mapper;

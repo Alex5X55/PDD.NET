@@ -16,9 +16,7 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
     private readonly ISendEndpointProvider _sendEndpointProvider;
     private readonly ILogger _logger;
 
-    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper,ILogger<CreateExamHistoryHandler> logger)
-
-    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider)
+    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider, ILogger<CreateExamHistoryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _examHistoryRepository = examHistoryRepository;
