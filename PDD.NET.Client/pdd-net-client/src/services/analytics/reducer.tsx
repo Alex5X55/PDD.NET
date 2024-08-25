@@ -3,13 +3,13 @@ import { getAnalyticsData } from "./actions";
 import { IAnalyticsData } from "../../types/types";
 
 interface IAnalyticsDataState {
-  analyticsDataResponse: IAnalyticsData[] | null;
+  analyticsDataResponse: IAnalyticsData[] | [];
   getAnalyticsDataLoading: boolean;
   getAnalyticsDataError: string | null;
 }
 
 const initialState: IAnalyticsDataState = {
-  analyticsDataResponse: null,
+  analyticsDataResponse: [],
   getAnalyticsDataLoading: false,
   getAnalyticsDataError: null,
 };
@@ -20,7 +20,7 @@ export const analyticsDataSlice = createSlice({
   reducers: {
     resetAnalyticsDataState: (state) => {
       state.getAnalyticsDataError = null;
-      state.analyticsDataResponse = null;
+      state.analyticsDataResponse = [];
     },
   },
   extraReducers: (builder) => {
