@@ -4,6 +4,7 @@ using PDD.NET.Application.Features.Questions.Commands.CreateQuestion;
 using PDD.NET.Application.Features.Questions.Commands.DeleteQuestion;
 using PDD.NET.Application.Features.Questions.Commands.UpdateQuestion;
 using PDD.NET.Application.Features.Questions.Queries.GetAllQuestions;
+using PDD.NET.Application.Features.Questions.Queries.GetExamQuestions;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionById;
 using PDD.NET.Application.Features.Questions.Queries.GetQuestionsByCategoryId;
 
@@ -29,6 +30,18 @@ namespace PDD.NET.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<GetAllQuestionResponse>>> GetAllQuestions(CancellationToken cancellationToken)
         {
             var questions = await _mediator.Send(new GetAllQuestionRequest(), cancellationToken);
+            return Ok(questions);
+        }
+        
+        /// <summary>
+        /// Получить вопросы для экзамена c вариантами ответов
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Список вопросов для экзамена c вариантами ответов</returns>
+        [HttpGet("exam")]
+        public async Task<ActionResult<IEnumerable<GetAllQuestionResponse>>> GetExamQuestions(CancellationToken cancellationToken)
+        {
+            var questions = await _mediator.Send(new GetExamQuestionsRequest(), cancellationToken);
             return Ok(questions);
         }
 
