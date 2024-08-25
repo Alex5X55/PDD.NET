@@ -20,7 +20,9 @@ import { resetExamHistoryState } from "../services/exam-history/reducer";
 import { createExamHistory } from "../services/exam-history/actions";
 import { getUser } from "../services/auth/selectors";
 import {
+  resetCurrentQuestionNumber,
   resetMaxExamQuestionsLength,
+  setCurrentQuestionNumber,
   setMaxExamQuestionsLength,
 } from "../services/question/reducer";
 import { loadExamQuestions } from "../services/question/actions";
@@ -49,7 +51,7 @@ const ExamPage: React.FC = () => {
   // Формируем список дополнительных вопросов в зависимости от количества ошибок
   const additionalQuestions = useMemo(() => {
     if (wrongAnswersCount === 0) {
-      dispatch(resetMaxExamQuestionsLength());
+      dispatch(setMaxExamQuestionsLength(19));
       return [];
     }
     if (wrongAnswersCount === 1) {
@@ -99,6 +101,12 @@ const ExamPage: React.FC = () => {
     hasFinished.current = false;
   };
 
+  useEffect(() => {
+    if (currentQuestions.length > 0) {
+      dispatch(setCurrentQuestionNumber(currentQuestions[0]));
+    }
+  }, [currentQuestions]);
+
   const isCreateLoading = useAppSelector(getCreateExamHistoryLoading);
   const createError = useAppSelector(getCreateExamHistoryError);
   const currentUser = useAppSelector(getUser);
@@ -119,6 +127,7 @@ const ExamPage: React.FC = () => {
     }
     setIsStart(false);
     setIsShowResults(true);
+    dispatch(resetCurrentQuestionNumber());
   };
 
   const formatTime = (seconds: number) => {
