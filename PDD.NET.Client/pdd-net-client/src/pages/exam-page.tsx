@@ -99,7 +99,7 @@ const ExamPage: React.FC = () => {
   const onFinishHandleClick = () => {
     if (currentUser && currentUser.name) {
       dispatch(
-        createExamHistory({ name: currentUser.name, isSuccess: isSuccess }),
+        createExamHistory({ login: currentUser.name, isSuccess: isSuccess }),
       );
     }
     setIsStart(false);
