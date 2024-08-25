@@ -150,3 +150,9 @@ export interface IUser {
   name: string;
   role: string;
 }
+
+export interface IAnalyticsData {
+  createdOn: string;
+  login: string;
+  isSuccess: boolean;
+}
