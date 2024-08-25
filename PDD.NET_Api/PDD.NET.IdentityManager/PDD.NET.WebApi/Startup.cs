@@ -54,6 +54,7 @@ public class Startup
         //else
         //{
             app.UseHsts();
+
         //}
         //var logger_ = new LoggerFactory().CreateLogger(nameof(ErrorHandlerExtensions));
         app.UseErrorHandler();
