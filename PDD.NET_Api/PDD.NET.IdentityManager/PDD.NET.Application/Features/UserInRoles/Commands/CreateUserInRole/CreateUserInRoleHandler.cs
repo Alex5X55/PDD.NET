@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
@@ -13,19 +14,22 @@ public sealed class CreateUserInRoleHandler : IRequestHandler<CreateUserInRoleRe
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
     public CreateUserInRoleHandler(
         IUnitOfWork unitOfWork,
         IUserInRoleRepository userInRoleRepository,
         IUserRepository userRepository,
         IRoleRepository roleRepository,
-        IMapper mapper)
+        IMapper mapper,
+        ILogger<CreateUserInRoleHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _userInRoleRepository = userInRoleRepository;
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Unit> Handle(CreateUserInRoleRequest request, CancellationToken cancellationToken)
@@ -51,6 +55,8 @@ public sealed class CreateUserInRoleHandler : IRequestHandler<CreateUserInRoleRe
         var userInRole = _mapper.Map<UserInRole>(request);
         _userInRoleRepository.Create(userInRole);
         await _unitOfWork.Save(cancellationToken);
+
+        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} created");
 
         return Unit.Value;
     }

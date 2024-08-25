@@ -1,4 +1,4 @@
-﻿namespace PDD.NET.Application.Features.Answers.Queries.GetAllAnswers;
+﻿namespace PDD.NET.Application.Features.AnswerOptions.Queries.GetAllAnswerOptions;
 
 public sealed record GetAllAnswerResponse
 {

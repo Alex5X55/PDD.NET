@@ -1,4 +1,5 @@
-﻿using PDD.NET.Application.Repositories;
+﻿using Microsoft.Extensions.Logging;
+using PDD.NET.Application.Repositories;
 using PDD.NET.Persistence.Services;
 
 namespace PDD.NET.Persistence;
@@ -7,11 +8,13 @@ public class EFDataInitializer : IDataInitializer
 {
     protected readonly DatabaseContext Context;
     protected readonly AuthDbContext ContextAuth;
+    private ILogger<EFDataInitializer> _logger;
 
-    public EFDataInitializer(DatabaseContext context, AuthDbContext contextAuth)
+    public EFDataInitializer(DatabaseContext context, AuthDbContext contextAuth, ILogger<EFDataInitializer> logger)
     {
         Context = context;
         ContextAuth = contextAuth;
+        _logger = logger;
     }
 
     public void InitData()
@@ -45,5 +48,6 @@ public class EFDataInitializer : IDataInitializer
 
         Context.SaveChanges();
         ContextAuth.SaveChanges();
+        _logger.LogInformation("Database updated");
     }
 }

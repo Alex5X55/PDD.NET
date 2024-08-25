@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
@@ -11,12 +12,14 @@ public sealed class UpdateUserHandler : IRequestHandler<UpdateUserInternalReques
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger<UpdateUserHandler> _logger;   
 
-    public UpdateUserHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper)
+    public UpdateUserHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMapper mapper,ILogger<UpdateUserHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _userRepository = userRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Unit> Handle(UpdateUserInternalRequest request, CancellationToken cancellationToken)
@@ -31,6 +34,8 @@ public sealed class UpdateUserHandler : IRequestHandler<UpdateUserInternalReques
         user.Email = request.Email;
         _userRepository.Update(user);
         await _unitOfWork.Save(cancellationToken);
+
+        _logger.LogInformation($"User {user.Id} updated");
 
         return Unit.Value;
     }

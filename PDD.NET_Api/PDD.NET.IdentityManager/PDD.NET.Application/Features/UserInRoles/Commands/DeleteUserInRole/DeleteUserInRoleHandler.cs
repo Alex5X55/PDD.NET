@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
@@ -13,13 +14,15 @@ public sealed class DeleteUserInRoleHandler : IRequestHandler<DeleteUserInRoleRe
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
     public DeleteUserInRoleHandler(
         IUnitOfWork unitOfWork,
         IUserInRoleRepository userInRoleRepository,
         IUserRepository userRepository,
         IRoleRepository roleRepository,
-        IMapper mapper
+        IMapper mapper,
+        ILogger<DeleteUserInRoleHandler> logger
     )
     {
         _unitOfWork = unitOfWork;
@@ -27,6 +30,7 @@ public sealed class DeleteUserInRoleHandler : IRequestHandler<DeleteUserInRoleRe
         _userRepository = userRepository;
         _roleRepository = roleRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Unit> Handle(DeleteUserInRoleRequest request, CancellationToken cancellationToken)
@@ -51,6 +55,8 @@ public sealed class DeleteUserInRoleHandler : IRequestHandler<DeleteUserInRoleRe
 
         _userInRoleRepository.DeleteUserInRole(userInRole);
         await _unitOfWork.Save(cancellationToken);
+
+        _logger.LogInformation($"UserInRole {userInRole.Role.Name} entity for {userInRole.Id} deleted");
 
         return Unit.Value;
     }

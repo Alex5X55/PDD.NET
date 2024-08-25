@@ -1,4 +1,4 @@
-﻿namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
+﻿namespace PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
 
 public sealed record CreateAnswerResponse
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PDD.NET.Domain.Entities;
 
-namespace PDD.NET.Application.Features.Answers.Commands.CreateAnswer;
+namespace PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
 
 public sealed class CreateAnswerMapper : Profile
 {

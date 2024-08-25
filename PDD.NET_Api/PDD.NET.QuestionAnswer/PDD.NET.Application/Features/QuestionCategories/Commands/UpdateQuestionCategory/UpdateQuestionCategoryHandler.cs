@@ -1,5 +1,6 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Common.Exceptions;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
@@ -10,11 +11,13 @@ public sealed class UpdateQuestionCategoryHandler : IRequestHandler<UpdateQuesti
 {
     private readonly IQuestionCategoryRepository _questionCategoryRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
 
-    public UpdateQuestionCategoryHandler(IQuestionCategoryRepository questionCategoryRepository, IMapper mapper)
+    public UpdateQuestionCategoryHandler(IQuestionCategoryRepository questionCategoryRepository, IMapper mapper,ILogger<UpdateQuestionCategoryHandler> logger)
     {
         _questionCategoryRepository = questionCategoryRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task<Unit> Handle(UpdateQuestionCategoryInternalRequest request, CancellationToken cancellationToken)
@@ -27,7 +30,8 @@ public sealed class UpdateQuestionCategoryHandler : IRequestHandler<UpdateQuesti
 
         questionCategory.Text = request.Text;
         _questionCategoryRepository.Update(questionCategory);
-        
+        _logger.LogInformation($"QuestionCategory id {questionCategory.Id} entity for question updated");
+
         return Unit.Value;
     }
 }

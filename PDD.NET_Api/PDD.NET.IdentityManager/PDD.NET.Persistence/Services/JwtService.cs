@@ -37,7 +37,7 @@ public class JwtService : IJwtService
     public async Task<AuthResult> GenerateToken(GetUserAuthResponse user)
     {
         JwtSecurityTokenHandler? jwtTokenHandler = new JwtSecurityTokenHandler();
-        //серкретный ключ, который поможет закодировать или закодировать токен
+        //серкретный ключ, который поможет закодировать или раскодировать токен
         byte[] key = Encoding.ASCII.GetBytes(_jwtConfig.Secret);
         var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
@@ -46,6 +46,7 @@ public class JwtService : IJwtService
             {
                 new Claim("id", user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//можно определять по id роль.
+                new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

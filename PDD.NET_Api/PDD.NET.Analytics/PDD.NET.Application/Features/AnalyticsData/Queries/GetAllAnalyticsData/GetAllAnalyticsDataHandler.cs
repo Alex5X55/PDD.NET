@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Distributed;
 using PDD.NET.Application.Repositories;
 using System.Text.Json;
@@ -10,14 +11,15 @@ public sealed class GetAllAnalyticsDataHandler : IRequestHandler<GetAllAnalytics
 {
     private readonly IAnalyticsDataRepository _analyticsDataRepository;
     private readonly IMapper _mapper;
+    private readonly ILogger _logger;
     private readonly IDistributedCache _cache;
 
-
-    public GetAllAnalyticsDataHandler(IAnalyticsDataRepository analyticsDataRepository, IMapper mapper, IDistributedCache cache)
+    public GetAllAnalyticsDataHandler(IAnalyticsDataRepository analyticsDataRepository, IMapper mapper, IDistributedCache cache, ILogger<GetAllAnalyticsDataHandler> logger)
     {
         _analyticsDataRepository = analyticsDataRepository;
         _mapper = mapper;
         _cache = cache;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<GetAllAnalyticsDataResponse>> Handle(GetAllAnalyticsDataRequest request, CancellationToken cancellationToken)
@@ -39,6 +41,8 @@ public sealed class GetAllAnalyticsDataHandler : IRequestHandler<GetAllAnalytics
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1) // Настройте время жизни кэша
         });
+
+        _logger.LogInformation($"All userAnswerHistories returned");
 
         return _mapper.Map<IEnumerable<GetAllAnalyticsDataResponse>>(userAnswerHistories);
     }

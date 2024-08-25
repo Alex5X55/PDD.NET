@@ -2,6 +2,7 @@ using AutoMapper;
 using MassTransit;
 using MediatR;
 using PDD.NET.Application.Broker;
+using Microsoft.Extensions.Logging;
 using PDD.NET.Application.Repositories;
 using PDD.NET.Domain.Entities;
 
@@ -13,13 +14,14 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
     private readonly IExamHistoryRepository _examHistoryRepository;
     private readonly IMapper _mapper;
     private readonly ISendEndpointProvider _sendEndpointProvider;
+    private readonly ILogger _logger;
 
-
-    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider)
+    public CreateExamHistoryHandler(IUnitOfWork unitOfWork, IExamHistoryRepository examHistoryRepository, IMapper mapper, ISendEndpointProvider sendEndpointProvider, ILogger<CreateExamHistoryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _examHistoryRepository = examHistoryRepository;
         _mapper = mapper;
+        _logger = logger;
         _sendEndpointProvider = sendEndpointProvider;
     }
 
@@ -37,6 +39,7 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
         await sendEndpoint.Send(brokerRequest);
 
         await _unitOfWork.Save(cancellationToken);
+        _logger.LogInformation($"ExamHistoryOption id {examHistoryOption.Id} entity for user id {examHistoryOption.User.Id} created");
 
         return _mapper.Map<CreateExamHistoryResponse>(examHistoryOption);
     }
