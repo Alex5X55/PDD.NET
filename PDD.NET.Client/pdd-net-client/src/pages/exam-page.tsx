@@ -18,6 +18,7 @@ import {
 } from "../services/exam-history/selectors";
 import { resetExamHistoryState } from "../services/exam-history/reducer";
 import { createExamHistory } from "../services/exam-history/actions";
+import { getUser } from "../services/auth/selectors";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -85,10 +86,22 @@ const ExamPage: React.FC = () => {
 
   const isCreateLoading = useAppSelector(getCreateExamHistoryLoading);
   const createError = useAppSelector(getCreateExamHistoryError);
+  const currentUser = useAppSelector(getUser);
+
+  const isSuccess = useMemo(() => {
+    return (
+      (wrongAnswersCount === 0 && rightAnswersCount === 20) ||
+      (wrongAnswersCount === 1 && rightAnswersCount === 24) ||
+      (wrongAnswersCount === 2 && rightAnswersCount === 28)
+    );
+  }, [wrongAnswersCount, rightAnswersCount]);
 
   const onFinishHandleClick = () => {
-    // TODO: Пока для теста - исправить
-    dispatch(createExamHistory({ userId: 1, isSuccess: true }));
+    if (currentUser && currentUser.id) {
+      dispatch(
+        createExamHistory({ userId: currentUser.id, isSuccess: isSuccess }),
+      );
+    }
     setIsStart(false);
     setIsShowResults(true);
   };
@@ -119,6 +132,7 @@ const ExamPage: React.FC = () => {
           {isShowResults && (
             <>
               <h4 className="display-8 mt-4">Экзамен завершен!</h4>
+              <div>Результат: {isSuccess ? "Успех" : "Неудача"}</div>
               <div>Правильных ответов: {rightAnswersCount}</div>
               <div>Неправильных ответов: {wrongAnswersCount}</div>
             </>
