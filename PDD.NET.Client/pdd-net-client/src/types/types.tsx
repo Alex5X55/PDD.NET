@@ -111,7 +111,7 @@ export interface IConfirmationDialog {
 }
 
 export interface ICreateExamHistoryRequest {
-  userId: number;
+  name: string;
   isSuccess: boolean;
 }
 
@@ -147,5 +147,6 @@ export interface ILoginResponse {
 export interface IUser {
   id: number;
   email: string;
+  name: string;
   role: string;
 }
