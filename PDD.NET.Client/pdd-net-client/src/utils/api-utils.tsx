@@ -5,9 +5,11 @@ async function getResponse<T>(res: Response): Promise<T> {
   }
   const errorMessage = jsonData.details
     ? jsonData.details[0]
-    : jsonData.message
-      ? jsonData.message
-      : `Ошибка ${res.status}`;
+    : jsonData.errors
+      ? jsonData.errors[0]
+      : jsonData.message
+        ? jsonData.message
+        : `Ошибка ${res.status}`;
 
   throw new Error(errorMessage);
 }
