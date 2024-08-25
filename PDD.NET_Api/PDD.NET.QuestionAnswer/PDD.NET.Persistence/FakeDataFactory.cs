@@ -11,7 +11,8 @@ public static class FakeDataFactory
         new QuestionCategory() { Id = 3, Text = "Дорожная разметка" },
         new QuestionCategory() { Id = 4, Text = "Специальные сигналы" },
         new QuestionCategory() { Id = 5, Text = "Светофор и Регулировщик" },
-        new QuestionCategory() { Id = 6, Text = "Начало движения, маневрирование" }
+        new QuestionCategory() { Id = 6, Text = "Начало движения, маневрирование" },
+        new QuestionCategory() { Id = 7, Text = "Скорость движения" }
     };
 
     public static IEnumerable<Question> Questions => new List<Question>()
@@ -57,11 +58,18 @@ public static class FakeDataFactory
         new Question() { Id = 28, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n26_8.jpg", Text = "В каких направлениях Вам можно продолжить движение по второй полосе?" },
         new Question() { Id = 29, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n6_7.jpg", Text = "Вы намерены продолжить движение по главной дороге. Обязаны ли Вы включить указатели левого поворота?" },
         new Question() { Id = 30, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n28_9.jpg", Text = "Разрешено ли водителю движение задним ходом для посадки пассажира на этом участке дороги?" },
+        
+        // Скорость движения
+        new Question() { Id = 31, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n35_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение на грузовом автомобиле с разрешенной максимальной массой не более 3,5 т после въезда на примыкающую слева дорогу?" },
+        new Question() { Id = 32, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n6_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение на легковом автомобиле?" },
+        new Question() { Id = 33, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n16_4.jpg", Text = "О чем информируют эти знаки?" },
+        new Question() { Id = 34, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n16_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение вне населенных пунктов на легковом автомобиле?" },
+        new Question() { Id = 35, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n15_3.jpg", Text = "Этот дорожный знак:" },
     };
 
     public static IEnumerable<AnswerOption> AnswerOptions => new List<AnswerOption>()
     {
-        
+        // Общие положения
         new AnswerOption() { Id = 3, QuestionId = 1, Text = "Автобусы (в том числе школьные).", IsRight = false },
         new AnswerOption() { Id = 4, QuestionId = 1, Text = "Автобусы, троллейбусы, трамваи, используемые при осуществлении регулярных перевозок пассажиров и багажа, движущиеся по установленному маршруту с обозначенными местами остановок.", IsRight = true },
         new AnswerOption() { Id = 5, QuestionId = 1, Text = "Любые транспортные средства, перевозящие пассажиров и багаж, движущиеся по маршруту с остановками.", IsRight = false },
@@ -188,5 +196,26 @@ public static class FakeDataFactory
         new AnswerOption() { Id = 92, QuestionId = 30, Text = "Разрешено только для посадки и высадки пассажиров.", IsRight = false },
         new AnswerOption() { Id = 93, QuestionId = 30, Text = "Запрещено в любом случае.", IsRight = false },
         new AnswerOption() { Id = 94, QuestionId = 30, Text = "Разрешено, если это не мешает движению других транспортных средств.", IsRight = true },
+        
+        // Скорость движения
+        new AnswerOption() { Id = 95, QuestionId = 31, Text = "60 км/ч.", IsRight = true },
+        new AnswerOption() { Id = 96, QuestionId = 31, Text = "70 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 97, QuestionId = 31, Text = "90 км/ч.", IsRight = false },
+
+        new AnswerOption() { Id = 98, QuestionId = 32, Text = "70 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 99, QuestionId = 32, Text = "90 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 100, QuestionId = 32, Text = "110 км/ч.", IsRight = true },
+
+        new AnswerOption() { Id = 101, QuestionId = 33, Text = "Разрешенная скорость не более 40 км/ч при влажном покрытии.", IsRight = false },
+        new AnswerOption() { Id = 102, QuestionId = 33, Text = "Рекомендуемая скорость 40 км/ч при влажном покрытии.", IsRight = true },
+        new AnswerOption() { Id = 103, QuestionId = 33, Text = "Рекомендуемая скорость не более 40 км/ч только во время дождя.", IsRight = false },
+
+        new AnswerOption() { Id = 104, QuestionId = 34, Text = "60 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 105, QuestionId = 34, Text = "90 км/ч.", IsRight = true },
+        new AnswerOption() { Id = 106, QuestionId = 34, Text = "110 км/ч.", IsRight = false },
+
+        new AnswerOption() { Id = 107, QuestionId = 35, Text = "Рекомендует двигаться со скоростью 40 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 108, QuestionId = 35, Text = "Требует двигаться со скоростью не менее 40 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 109, QuestionId = 35, Text = "Запрещает движение со скоростью более 40 км/ч.", IsRight = true },
     };
 }
