@@ -8,4 +8,11 @@ public class QuestionCategoryRepository : BaseRepository<QuestionCategory>, IQue
     public QuestionCategoryRepository(DatabaseContext context) : base(context)
     {
     }
+    
+    public override void Create(QuestionCategory entity)
+    {
+        var maxId = Context.Set<QuestionCategory>().Select(x=>x.Id).Max();
+        entity.Id = maxId + 1;
+        base.Create(entity);
+    }
 }

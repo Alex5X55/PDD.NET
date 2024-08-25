@@ -16,4 +16,11 @@ public class AnswerRepository : BaseRepository<AnswerOption>, IAnswerRepository
         answer.Question = await Context.Set<Question>().FirstOrDefaultAsync(x => !x.IsDeleted && x.Id == answer.QuestionId);
         return answer;
     }
+    
+    public override void Create(AnswerOption entity)
+    {
+        var maxId = Context.Set<AnswerOption>().Select(x=>x.Id).Max();
+        entity.Id = maxId + 1;
+        base.Create(entity);
+    }
 }
