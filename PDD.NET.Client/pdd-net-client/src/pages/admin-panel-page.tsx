@@ -23,9 +23,9 @@ const AdminPanelPage: React.FC = () => {
             Категории вопросов
           </Button>
         </Link>
-        <Link to={`/admin/user-statistics`}>
+        <Link to={`/admin/analytics`}>
           <Button variant="primary" size="lg">
-            Статистика по пользователям
+            Аналитика
           </Button>
         </Link>
       </div>
