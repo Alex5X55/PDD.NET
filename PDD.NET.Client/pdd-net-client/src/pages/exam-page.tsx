@@ -97,9 +97,9 @@ const ExamPage: React.FC = () => {
   }, [wrongAnswersCount, rightAnswersCount]);
 
   const onFinishHandleClick = () => {
-    if (currentUser && currentUser.id) {
+    if (currentUser && currentUser.name) {
       dispatch(
-        createExamHistory({ userId: currentUser.id, isSuccess: isSuccess }),
+        createExamHistory({ name: currentUser.name, isSuccess: isSuccess }),
       );
     }
     setIsStart(false);

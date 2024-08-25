@@ -51,7 +51,7 @@ export default function AppHeader() {
             )}
             {user && (
               <Nav.Link as={NavLink} to="/" end>
-                {user.email}
+                {user.name}
               </Nav.Link>
             )}
             {user && (
