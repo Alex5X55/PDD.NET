@@ -44,17 +44,18 @@ public class Startup
         _logger = logger;
         _logger?.LogInformation(MessageConstants.IS_STARTED_TEXT);
 
-        if (env.IsDevelopment())
-        {
+        //if (env.IsDevelopment())
+        //{
             app.UseCors("AllowReactApp");
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
-        else
-        {
+        //}
+        //else
+        //{
             app.UseHsts();
-        }
+
+        //}
         //var logger_ = new LoggerFactory().CreateLogger(nameof(ErrorHandlerExtensions));
         app.UseErrorHandler();
 

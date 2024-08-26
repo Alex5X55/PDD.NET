@@ -4,6 +4,7 @@ using Ocelot.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddMvc();
 builder.Services.AddCors(options =>
 {
@@ -22,7 +23,10 @@ var app = builder.Build();
 app.UseCors("AllowReactApp");
 
 app.UseRouting();
-
+app.UseSwaggerForOcelotUI(opt =>
+{
+    opt.PathToSwaggerGenerator = "/swagger/docs";
+});
 app.UseOcelot().Wait();
 
 app.Run();
