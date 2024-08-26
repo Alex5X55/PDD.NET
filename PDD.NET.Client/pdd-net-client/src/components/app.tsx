@@ -17,10 +17,10 @@ import { loadQuestionCategories } from "../services/question-category/actions";
 import AdminPanelPage from "../pages/admin-panel-page";
 import AdminQuestionsPage from "../pages/admin-questions-page";
 import AdminQuestionCategoriesPage from "../pages/admin-question-categories-page";
-import AdminUserStatisticsPage from "../pages/admin-user-statistics-page";
 import QuestionEditPage from "../pages/question-edit-page";
 import AnswerOptionEditPage from "../pages/answer-option-edit-page";
 import QuestionCategoryEditPage from "../pages/question-category-edit-page";
+import AnalyticsPage from "../pages/analytics-page";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -68,10 +68,7 @@ function App() {
             path="/admin/question-categories"
             element={<AdminQuestionCategoriesPage />}
           />
-          <Route
-            path="/admin/user-statistics"
-            element={<AdminUserStatisticsPage />}
-          />
+          <Route path="/admin/analytics" element={<AnalyticsPage />} />
           <Route path="/restore-password" element={<RestorePasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route

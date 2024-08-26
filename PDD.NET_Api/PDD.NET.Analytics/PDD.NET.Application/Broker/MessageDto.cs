@@ -13,6 +13,6 @@ namespace PDD.NET.Application.Broker
 
         public bool IsSuccess { get; set; }
 
-        public int UserId { get; set; }
+        public string Loggin { get; set; }
     }
 }

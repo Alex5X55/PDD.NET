@@ -1,15 +1,52 @@
 version: '3.4'
 
 services:
-  mongodb:
-    image: mongo:latest
+
+##0 common
+ # 01 React
+  react-app:
+    image: react-app
+    container_name: 01.react-app
+    build:
+      context: ./PDD.NET.Client/pdd-net-client
+      dockerfile: Dockerfile
+    depends_on:
+      - apigateway
     ports:
-      - "27017:27017"
+      - "9000:3000"
+ # 02 Gateway
+  apigateway:
+    image: apigateway
+    container_name: 02.apigateway
+    build:
+      context: ./PDD.NET_Api/PDD.NET.Gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - question-answer-service
+      - user-answer-service
+      - authorization
+      - postgres-analytics
+    ports:
+      - "5288:8080"
+ # 03 Rabbit
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: 03.rabbit
+    restart: always
+    hostname: rabbithost
+    environment: 
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
     volumes:
-      - mongodb_data:/data/db
- 
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"    
+##1 question-answer
+ # 11 Service
   question-answer-service:
     image: question-answer-service
+    container_name: 11.api.question-answer-service
     build:
       context: ./PDD.NET_Api/PDD.NET.QuestionAnswer
       dockerfile: Dockerfile
@@ -19,20 +56,19 @@ services:
       - mongodb
     environment:
       - ConnectionStrings__MongoDb=mongodb://mongodb:27017
-  
-  postgres-user-answer:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: user_answer_db
+ # 12 MongoDb    
+  mongodb:
+    image: mongo:latest
+    container_name: 12.db.mongodb
     ports:
-      - "5433:5432" 
+      - "27017:27017"
     volumes:
-      - postgres_user_answer_data:/var/lib/postgresql/data
-
+      - mongodb_data:/data/db
+##2 user-answer
+ # 21 Service
   user-answer-service:
     image: user-answer-service
+    container_name: 21.api.user-answer-service
     build:
       context: ./PDD.NET_Api/PDD.NET.UserAnswer
       dockerfile: Dockerfile
@@ -46,28 +82,30 @@ services:
       - RABBITMQ_HOST=rabbithost
       - RABBITMQ_USER=rabbit
       - RABBITMQ_PASS=rabbit
-
-      
-  postgres-analytics:
+ # 22 Postgres
+  postgres-user-answer:
     image: postgres:latest
+    container_name: 22.db.postgres-user-answer
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: analytics_db
+      POSTGRES_DB: user_answer_db
     ports:
-      - "5533:5432" 
+      - "5433:5432" 
     volumes:
-      - postgres_analytics_data:/var/lib/postgresql/data
-  
+      - postgres_user_answer_data:/var/lib/postgresql/data
+##3 analytics
+ # 31 Service  
   analytics-service:
     image: analytics-service
+    container_name: 31.api.analytics-service
     build:
       context: ./PDD.NET_Api/PDD.NET.Analytics
       dockerfile: Dockerfile
     ports:
       - "5294:8080"
     depends_on:
-      - postgres-user-answer
+      - postgres-analytics
       - rabbit
       - redis
     environment:
@@ -77,31 +115,31 @@ services:
       - RABBITMQ_PASS=rabbit
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-
-  postgres-identity-user:
+ # 32 Postgres
+  postgres-analytics:
     image: postgres:latest
+    container_name: 32.db.postgres-analytics
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: identity_user_db
+      POSTGRES_DB: analytics_db
     ports:
-      - "5434:5432" 
+      - "5533:5432" 
     volumes:
-      - postgres_identity_user_data:/var/lib/postgresql/data
-
-  postgres-identity-auth:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: identity_auth_db
+      - postgres_analytics_data:/var/lib/postgresql/data      
+ # 33 Redis
+  redis:
+    image: redis:latest
+    container_name: 33.db.redis
     ports:
-      - "5435:5432"  
+      - "6379:6379"
     volumes:
-      - postgres_identity_auth_data:/var/lib/postgresql/data      
-
+      - redis_data:/data
+##4 authorization
+ # 41 Service
   authorization:
     image: authorization
+    container_name: 41.api.authorization
     build:
       context: ./PDD.NET_Api/PDD.NET.IdentityManager
       dockerfile: Dockerfile
@@ -113,53 +151,31 @@ services:
     environment:
       - ConnectionStrings__PgUser=Host=postgres-identity-user;Database=identity_user_db;Username=postgres;Password=postgres;
       - ConnectionStrings__PgAuth=Host=postgres-identity-auth;Database=identity_auth_db;Username=postgres;Password=postgres;
-
- 
-
-  apigateway:
-    image: apigateway
-    build:
-      context: ./PDD.NET_Api/PDD.NET.Gateway
-      dockerfile: Dockerfile
-    depends_on:
-      - question-answer-service
-      - user-answer-service
-      - authorization
-      - postgres-analytics
+ # 42 Postrgess 1
+  postgres-identity-auth:
+    image: postgres:latest
+    container_name: 42.db.postgres-identity-auth
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_auth_db
     ports:
-      - "5288:8080"
-      
-  react-app:
-    image: react-app
-    build:
-      context: ./PDD.NET.Client/pdd-net-client
-      dockerfile: Dockerfile
-    depends_on:
-      - apigateway
-    ports:
-      - "9000:3000"
-  
-  rabbit:
-    image: rabbitmq:3-management
-    container_name: rabbit
-    restart: always
-    hostname: rabbithost
-    environment: 
-      RABBITMQ_DEFAULT_USER: rabbit
-      RABBITMQ_DEFAULT_PASS: rabbit
+      - "5435:5432"  
     volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+      - postgres_identity_auth_data:/var/lib/postgresql/data   
+ # 43 Postrgess 2
+  postgres-identity-user:
+    image: postgres:latest
+    container_name: 43.db.postgres-identity-user
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: identity_user_db
     ports:
-      - "5672:5672"
-      - "15672:15672"    
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
+      - "5434:5432" 
     volumes:
-      - redis_data:/data
-
+      - postgres_identity_user_data:/var/lib/postgresql/data
+               
 volumes:
   postgres_user_answer_data:
   postgres_identity_user_data:

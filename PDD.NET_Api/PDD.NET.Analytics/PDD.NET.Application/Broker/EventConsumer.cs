@@ -28,11 +28,12 @@ namespace PDD.NET.Application.Broker
 
             MessageDto message = context.Message;
 
+            // TODO
             AnalyticsData analyticsData = new AnalyticsData()
             {
                 CreatedOn = message.CreatedOn,
-                UserId = message.UserId,
-                IsSeccess = message.IsSuccess
+                Login = message.Loggin,
+                IsSuccess = message.IsSuccess
             };
 
             _analyticsDataRepository.Create(analyticsData);

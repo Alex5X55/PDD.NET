@@ -18,14 +18,50 @@ import {
 } from "../services/exam-history/selectors";
 import { resetExamHistoryState } from "../services/exam-history/reducer";
 import { createExamHistory } from "../services/exam-history/actions";
+import { getUser } from "../services/auth/selectors";
+import {
+  resetCurrentQuestionNumber,
+  resetMaxExamQuestionsLength,
+  setCurrentQuestionNumber,
+  setMaxExamQuestionsLength,
+} from "../services/question/reducer";
+import { loadExamQuestions } from "../services/question/actions";
 
 const ExamPage: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  const { currentQuestions } = useQuestionNavigation(true);
+
+  // Берем первые 20 вопросов
+  const initialQuestions = useMemo(
+    () => currentQuestions.slice(0, 20),
+    [currentQuestions],
+  );
+
   const currentAnswers = useAppSelector(getCurrentAnswers);
   const rightAnswersCount = useMemo(
     () => currentAnswers.filter((item) => item.isRight).length,
     [currentAnswers],
   );
+  const wrongAnswersCount = useMemo(
+    () => currentAnswers.filter((item) => !item.isRight).length,
+    [currentAnswers],
+  );
+
+  // Формируем список дополнительных вопросов в зависимости от количества ошибок
+  const additionalQuestions = useMemo(() => {
+    if (wrongAnswersCount === 0) {
+      dispatch(setMaxExamQuestionsLength(19));
+      return [];
+    }
+    if (wrongAnswersCount === 1) {
+      dispatch(setMaxExamQuestionsLength(24));
+      return currentQuestions.slice(20, 25);
+    }
+
+    dispatch(setMaxExamQuestionsLength(29));
+    return currentQuestions.slice(20, 30);
+  }, [wrongAnswersCount, currentQuestions]);
 
   const isLoading = useAppSelector(getCurrentExamQuestionsLoading);
   const error = useAppSelector(getCurrentExamQuestionsError);
@@ -33,8 +69,8 @@ const ExamPage: React.FC = () => {
   const initTimeLeft: number = 1200; // 20 минут = 1200 секунд
   const [isStart, setIsStart] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(initTimeLeft);
-  const { currentQuestions } = useQuestionNavigation(true);
   const hasFinished = useRef(false);
+  const [isShowResults, setIsShowResults] = useState<boolean>(false);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -54,6 +90,9 @@ const ExamPage: React.FC = () => {
   }, [isStart, timeLeft]);
 
   const onStartHandleClick = () => {
+    dispatch(loadExamQuestions());
+    dispatch(resetMaxExamQuestionsLength());
+    setIsShowResults(false);
     dispatch(resetExamHistoryState());
     dispatch(resetCurrentAnswers());
 
@@ -62,16 +101,33 @@ const ExamPage: React.FC = () => {
     hasFinished.current = false;
   };
 
+  useEffect(() => {
+    if (currentQuestions.length > 0) {
+      dispatch(setCurrentQuestionNumber(currentQuestions[0]));
+    }
+  }, [currentQuestions]);
+
   const isCreateLoading = useAppSelector(getCreateExamHistoryLoading);
   const createError = useAppSelector(getCreateExamHistoryError);
+  const currentUser = useAppSelector(getUser);
+
+  const isSuccess = useMemo(() => {
+    return (
+      (wrongAnswersCount === 0 && rightAnswersCount === 20) ||
+      (wrongAnswersCount === 1 && rightAnswersCount === 24) ||
+      (wrongAnswersCount === 2 && rightAnswersCount === 28)
+    );
+  }, [wrongAnswersCount, rightAnswersCount]);
 
   const onFinishHandleClick = () => {
-    // TODO: Пока для теста - исправить
-    dispatch(createExamHistory({ userId: 1, isSuccess: true }));
+    if (currentUser && currentUser.name) {
+      dispatch(
+        createExamHistory({ login: currentUser.name, isSuccess: isSuccess }),
+      );
+    }
     setIsStart(false);
-    alert(
-      `Экзамен завершен!\nПравильных ответов: ${rightAnswersCount} из ${currentQuestions.length}`,
-    );
+    setIsShowResults(true);
+    dispatch(resetCurrentQuestionNumber());
   };
 
   const formatTime = (seconds: number) => {
@@ -97,6 +153,14 @@ const ExamPage: React.FC = () => {
             Начать экзамен
           </Button>
           <div>После нажатия на кнопку "Начать экзамен", пойдет таймер.</div>
+          {isShowResults && (
+            <>
+              <h4 className="display-8 mt-4">Экзамен завершен!</h4>
+              <div>Результат: {isSuccess ? "Успех" : "Неудача"}</div>
+              <div>Правильных ответов: {rightAnswersCount}</div>
+              <div>Неправильных ответов: {wrongAnswersCount}</div>
+            </>
+          )}
         </>
       ) : (
         <>
@@ -113,7 +177,17 @@ const ExamPage: React.FC = () => {
               {formatTime(timeLeft)}
             </p>
           </div>
-          <QuestionNumberList questions={currentQuestions} />
+          <QuestionNumberList
+            questions={initialQuestions}
+            initNumberQuestion={0}
+          />
+          {wrongAnswersCount > 0 && <div>Дополнительные вопросы:</div>}
+          {wrongAnswersCount > 0 && (
+            <QuestionNumberList
+              questions={additionalQuestions}
+              initNumberQuestion={20}
+            />
+          )}
           <Routes>
             <Route path=":questionId" element={<QuestionCard />} />
           </Routes>

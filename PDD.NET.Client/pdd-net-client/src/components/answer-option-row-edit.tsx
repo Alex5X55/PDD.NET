@@ -25,6 +25,8 @@ const AnswerOptionRowEdit: React.FC<IAnswerOption> = (answerOption) => {
           <Link to={`/answer-option/edit/${answerOption.id}`}>
             <EditIcon />
           </Link>
+        </td>
+        <td>
           <TrashIcon onClick={() => handleDeleteClick(answerOption)} />
         </td>
       </tr>

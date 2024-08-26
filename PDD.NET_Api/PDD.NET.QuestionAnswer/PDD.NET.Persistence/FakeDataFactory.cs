@@ -11,7 +11,8 @@ public static class FakeDataFactory
         new QuestionCategory() { Id = 3, Text = "Дорожная разметка" },
         new QuestionCategory() { Id = 4, Text = "Специальные сигналы" },
         new QuestionCategory() { Id = 5, Text = "Светофор и Регулировщик" },
-        new QuestionCategory() { Id = 6, Text = "Начало движения, маневрирование" }
+        new QuestionCategory() { Id = 6, Text = "Начало движения, маневрирование" },
+        new QuestionCategory() { Id = 7, Text = "Скорость движения" }
     };
 
     public static IEnumerable<Question> Questions => new List<Question>()
@@ -45,23 +46,30 @@ public static class FakeDataFactory
         new Question() { Id = 20, CategoryId = 4, ImageData = "https://storage.yandexcloud.net/pddlife/no_picture.png", Text = "Преимущество перед другими участниками движения имеет водитель автомобиля:" },
 
         // Светофор и Регулировщик
-        new Question() { Id = 21, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n31_13.jpg", Text = "Как Вам следует поступить при повороте налево?" },
-        new Question() { Id = 22, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n4_6.jpg", Text = "Каким транспортным средствам разрешено движение прямо?" },
+        new Question() { Id = 21, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n32_6.jpg", Text = "Можно ли Вам перестроиться на соседнюю полосу?" },
+        new Question() { Id = 22, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n8_5.jpg", Text = "Разрешается ли Вам перестроиться?" },
         new Question() { Id = 23, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n21_6.jpg", Text = "Разрешено ли Вам за перекрестком выехать на полосу с реверсивным движением?" },
-        new Question() { Id = 24, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n33_13.jpg", Text = "Как Вам следует поступить при повороте направо?" },
-        new Question() { Id = 25, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n7_6.jpg", Text = "Вам разрешается движение:" },
+        new Question() { Id = 24, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n31_6.jpg", Text = "О чем информируют Вас стрелки на зеленом сигнале светофора?" },
+        new Question() { Id = 25, CategoryId = 5, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n2_6.jpg", Text = "Информационная световая секция в виде силуэта пешехода и стрелки с мигающим сигналом белолунного цвета, расположенная под светофором, информирует водителя о том, что:" },
 
         // Начало движения, маневрирование
-        new Question() { Id = 26, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n14_9.jpg", Text = "Можно ли Вам развернуться в этом месте?" },
+        new Question() { Id = 26, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n31_9.jpg", Text = "Вам можно продолжить движение на перекрестке:" },
         new Question() { Id = 27, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n22_8.jpg", Text = "По какой траектории Вам можно выполнить поворот налево?" },
-        new Question() { Id = 28, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n26_8.jpg", Text = "В каких направлениях Вам можно продолжить движение по второй полосе?" },
+        new Question() { Id = 28, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n11_8.jpg", Text = "По какой траектории Вам разрешено выполнить поворот направо?" },
         new Question() { Id = 29, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n6_7.jpg", Text = "Вы намерены продолжить движение по главной дороге. Обязаны ли Вы включить указатели левого поворота?" },
         new Question() { Id = 30, CategoryId = 6, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n28_9.jpg", Text = "Разрешено ли водителю движение задним ходом для посадки пассажира на этом участке дороги?" },
+        
+        // Скорость движения
+        new Question() { Id = 31, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n35_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение на грузовом автомобиле с разрешенной максимальной массой не более 3,5 т после въезда на примыкающую слева дорогу?" },
+        new Question() { Id = 32, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n6_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение на легковом автомобиле?" },
+        new Question() { Id = 33, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n16_4.jpg", Text = "О чем информируют эти знаки?" },
+        new Question() { Id = 34, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n16_10.jpg", Text = "С какой максимальной скоростью Вы имеете право продолжить движение вне населенных пунктов на легковом автомобиле?" },
+        new Question() { Id = 35, CategoryId = 7, ImageData = "https://storage.yandexcloud.net/pddlife/abm/n15_3.jpg", Text = "Этот дорожный знак:" },
     };
 
     public static IEnumerable<AnswerOption> AnswerOptions => new List<AnswerOption>()
     {
-        
+        // Общие положения
         new AnswerOption() { Id = 3, QuestionId = 1, Text = "Автобусы (в том числе школьные).", IsRight = false },
         new AnswerOption() { Id = 4, QuestionId = 1, Text = "Автобусы, троллейбусы, трамваи, используемые при осуществлении регулярных перевозок пассажиров и багажа, движущиеся по установленному маршруту с обозначенными местами остановок.", IsRight = true },
         new AnswerOption() { Id = 5, QuestionId = 1, Text = "Любые транспортные средства, перевозящие пассажиров и багаж, движущиеся по маршруту с остановками.", IsRight = false },
@@ -148,38 +156,38 @@ public static class FakeDataFactory
         new AnswerOption() { Id = 64, QuestionId = 20, Text = "Автомобили оперативных служб и маршрутные транспортные средства.", IsRight = true },
 
         // Светофор и Регулировщик
-        new AnswerOption() { Id = 65, QuestionId = 21, Text = "Можете продолжать движение прямо.", IsRight = true },
-        new AnswerOption() { Id = 66, QuestionId = 21, Text = "Должны остановиться перед перекрестком и пропустить всех участников движения.", IsRight = false },
-        new AnswerOption() { Id = 67, QuestionId = 21, Text = "Должны включить указатели поворота и уступить дорогу транспортным средствам, движущимся в поперечном направлении.", IsRight = false },
+        new AnswerOption() { Id = 65, QuestionId = 21, Text = "Можно.", IsRight = false },
+        new AnswerOption() { Id = 66, QuestionId = 21, Text = "Можно, если грузовой автомобиль движется со скоростью 30 км/час.", IsRight = false },
+        new AnswerOption() { Id = 67, QuestionId = 21, Text = "Нельзя.", IsRight = true },
 
-        new AnswerOption() { Id = 68, QuestionId = 22, Text = "Обязан уступить дорогу только велосипедистам.", IsRight = false },
-        new AnswerOption() { Id = 69, QuestionId = 22, Text = "Можете продолжить движение без остановки, если не мешаете другим участникам движения.", IsRight = true },
-        new AnswerOption() { Id = 70, QuestionId = 22, Text = "Должны остановиться и уступить дорогу только автомобилям со спецсигналами.", IsRight = false },
+        new AnswerOption() { Id = 68, QuestionId = 22, Text = "Разрешается только на соседнюю полосу.", IsRight = true },
+        new AnswerOption() { Id = 69, QuestionId = 22, Text = "Разрешается, если скорость грузового автомобиля менее 30 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 70, QuestionId = 22, Text = "Запрещается.", IsRight = false },
 
         new AnswerOption() { Id = 71, QuestionId = 23, Text = "Движение запрещено.", IsRight = false },
         new AnswerOption() { Id = 72, QuestionId = 23, Text = "Движение разрешено только при наличии сигнала светофора.", IsRight = false },
         new AnswerOption() { Id = 73, QuestionId = 23, Text = "Движение разрешено только при отсутствии других транспортных средств на полосе.", IsRight = true },
 
-        new AnswerOption() { Id = 74, QuestionId = 24, Text = "Можете продолжить движение, включив указатель поворота.", IsRight = true },
-        new AnswerOption() { Id = 75, QuestionId = 24, Text = "Должны остановиться и дождаться разрешающего сигнала.", IsRight = false },
-        new AnswerOption() { Id = 76, QuestionId = 24, Text = "Можете продолжить движение, если дорожные знаки и разметка позволяют.", IsRight = false },
+        new AnswerOption() { Id = 74, QuestionId = 24, Text = "На этом перекрестке всегда запрещен поворот направо.", IsRight = false },
+        new AnswerOption() { Id = 75, QuestionId = 24, Text = "Движение направо регулируется дополнительной секцией.", IsRight = true },
+        new AnswerOption() { Id = 76, QuestionId = 24, Text = "На этом перекрестке разрешен поворот налево из двух полос.", IsRight = false },
 
-        new AnswerOption() { Id = 77, QuestionId = 25, Text = "Здесь запрещено движение для всех транспортных средств.", IsRight = false },
-        new AnswerOption() { Id = 78, QuestionId = 25, Text = "Движение разрешено только для легковых автомобилей.", IsRight = false },
-        new AnswerOption() { Id = 79, QuestionId = 25, Text = "Движение разрешено для всех транспортных средств, за исключением грузовых.", IsRight = true },
+        new AnswerOption() { Id = 77, QuestionId = 25, Text = "На пешеходном переходе, в направлении которого он поворачивает, включен сигнал светофора, разрешающий движение пешеходам", IsRight = true },
+        new AnswerOption() { Id = 78, QuestionId = 25, Text = "На пешеходном переходе, в направлении которого он поворачивает, включен сигнал светофора, запрещающий движение пешеходам.", IsRight = false },
+        new AnswerOption() { Id = 79, QuestionId = 25, Text = "Он поворачивает в направлении пешеходного перехода.", IsRight = false },
 
         // Начало движения, маневрирование
-        new AnswerOption() { Id = 80, QuestionId = 26, Text = "Можно развернуться.", IsRight = true },
-        new AnswerOption() { Id = 81, QuestionId = 26, Text = "Разворот запрещен.", IsRight = false },
-        new AnswerOption() { Id = 82, QuestionId = 26, Text = "Можно развернуться, если перекресток свободен от других транспортных средств.", IsRight = false },
+        new AnswerOption() { Id = 80, QuestionId = 26, Text = "Только налево.", IsRight = false },
+        new AnswerOption() { Id = 81, QuestionId = 26, Text = "Налево и в обратном направлении.", IsRight = false },
+        new AnswerOption() { Id = 82, QuestionId = 26, Text = "В любом направлении.", IsRight = true },
 
         new AnswerOption() { Id = 83, QuestionId = 27, Text = "По траектории А, если нет других транспортных средств.", IsRight = false },
         new AnswerOption() { Id = 84, QuestionId = 27, Text = "По траектории Б, если нет знаков и светофоров.", IsRight = true },
         new AnswerOption() { Id = 85, QuestionId = 27, Text = "По любой из указанных траекторий.", IsRight = false },
 
-        new AnswerOption() { Id = 86, QuestionId = 28, Text = "Запрещено, так как маневрировать задним ходом запрещено.", IsRight = false },
-        new AnswerOption() { Id = 87, QuestionId = 28, Text = "Разрешено, если это не создает помех другим участникам движения.", IsRight = true },
-        new AnswerOption() { Id = 88, QuestionId = 28, Text = "Разрешено, но только в случае, если за этим участником движения нет других автомобилей.", IsRight = false },
+        new AnswerOption() { Id = 86, QuestionId = 28, Text = "Только по А.", IsRight = true },
+        new AnswerOption() { Id = 87, QuestionId = 28, Text = "Только по Б.", IsRight = false },
+        new AnswerOption() { Id = 88, QuestionId = 28, Text = "По любой из указанных.", IsRight = false },
 
         new AnswerOption() { Id = 89, QuestionId = 29, Text = "Необходимо включить указатели поворота.", IsRight = true },
         new AnswerOption() { Id = 90, QuestionId = 29, Text = "Можно продолжать движение без включения указателей.", IsRight = false },
@@ -188,5 +196,26 @@ public static class FakeDataFactory
         new AnswerOption() { Id = 92, QuestionId = 30, Text = "Разрешено только для посадки и высадки пассажиров.", IsRight = false },
         new AnswerOption() { Id = 93, QuestionId = 30, Text = "Запрещено в любом случае.", IsRight = false },
         new AnswerOption() { Id = 94, QuestionId = 30, Text = "Разрешено, если это не мешает движению других транспортных средств.", IsRight = true },
+        
+        // Скорость движения
+        new AnswerOption() { Id = 95, QuestionId = 31, Text = "60 км/ч.", IsRight = true },
+        new AnswerOption() { Id = 96, QuestionId = 31, Text = "70 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 97, QuestionId = 31, Text = "90 км/ч.", IsRight = false },
+
+        new AnswerOption() { Id = 98, QuestionId = 32, Text = "70 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 99, QuestionId = 32, Text = "90 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 100, QuestionId = 32, Text = "110 км/ч.", IsRight = true },
+
+        new AnswerOption() { Id = 101, QuestionId = 33, Text = "Разрешенная скорость не более 40 км/ч при влажном покрытии.", IsRight = false },
+        new AnswerOption() { Id = 102, QuestionId = 33, Text = "Рекомендуемая скорость 40 км/ч при влажном покрытии.", IsRight = true },
+        new AnswerOption() { Id = 103, QuestionId = 33, Text = "Рекомендуемая скорость не более 40 км/ч только во время дождя.", IsRight = false },
+
+        new AnswerOption() { Id = 104, QuestionId = 34, Text = "60 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 105, QuestionId = 34, Text = "90 км/ч.", IsRight = true },
+        new AnswerOption() { Id = 106, QuestionId = 34, Text = "110 км/ч.", IsRight = false },
+
+        new AnswerOption() { Id = 107, QuestionId = 35, Text = "Рекомендует двигаться со скоростью 40 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 108, QuestionId = 35, Text = "Требует двигаться со скоростью не менее 40 км/ч.", IsRight = false },
+        new AnswerOption() { Id = 109, QuestionId = 35, Text = "Запрещает движение со скоростью более 40 км/ч.", IsRight = true },
     };
 }

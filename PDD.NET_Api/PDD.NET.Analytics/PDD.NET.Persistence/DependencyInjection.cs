@@ -14,8 +14,6 @@ public static class DependencyInjection
         services.AddDbContext<DatabaseContext>(opt => opt.UseNpgsql(connectionString));
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAnalyticsDataRepository, AnalyticsDataRepository>();
 
         services.AddScoped<IDataInitializer, EFDataInitializer>();

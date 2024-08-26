@@ -94,6 +94,7 @@ export interface IAnswer {
 
 export interface IQuestionList {
   questions: Array<IQuestion>;
+  initNumberQuestion: number;
 }
 
 export interface IIconProps {
@@ -110,12 +111,12 @@ export interface IConfirmationDialog {
 }
 
 export interface ICreateExamHistoryRequest {
-  userId: number;
+  login: string;
   isSuccess: boolean;
 }
 
 export interface IExamHistoryResponse {
-  userId: number;
+  login: string;
   isSuccess: boolean;
 }
 
@@ -146,5 +147,12 @@ export interface ILoginResponse {
 export interface IUser {
   id: number;
   email: string;
+  name: string;
   role: string;
+}
+
+export interface IAnalyticsData {
+  createdOn: string;
+  login: string;
+  isSuccess: boolean;
 }

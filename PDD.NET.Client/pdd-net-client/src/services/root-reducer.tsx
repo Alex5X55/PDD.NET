@@ -6,6 +6,7 @@ import { modalSlice } from "./modal/reducer";
 import { answerOptionsSlice } from "./answer-option/reducer";
 import { examHistorySlice } from "./exam-history/reducer";
 import { authSlice } from "./auth/reducer";
+import { analyticsDataSlice } from "./analytics/reducer";
 
 export const rootReducer = combineReducers({
   questionCategories: questionCategoriesSlice.reducer,
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
   modal: modalSlice.reducer,
   examHistory: examHistorySlice.reducer,
   auth: authSlice.reducer,
+  analytics: analyticsDataSlice.reducer,
 });

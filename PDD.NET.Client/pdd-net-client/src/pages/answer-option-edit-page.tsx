@@ -24,6 +24,10 @@ const AnswerOptionEditPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(resetAnswerOptionState());
+  }, [dispatch]);
+
   const { answerOptionId } = useParams<{ answerOptionId: string }>();
   const answerOptionIdNumber = parseInt(answerOptionId || "", 10);
 

@@ -17,8 +17,6 @@ public class EFDataInitializer : IDataInitializer
 
         Context.Database.EnsureCreated();
 
-        Context.AddRange(FakeDataFactory.Users);
-
         Context.AddRange(FakeDataFactory.AnalyticsData);
 
         Context.SaveChanges();
