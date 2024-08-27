@@ -9,7 +9,7 @@ import {
 import { loginEndpoint, registerEndpoint } from "../../utils/auth-api";
 import { AppDispatch } from "../store";
 import { jwtDecode } from "jwt-decode";
-import { setUser } from "./reducer";
+import { setToken, setUser } from "./reducer";
 
 export const register = createAsyncThunk<IRegisterResponse, IRegisterRequest>(
   "auth/register",
@@ -27,6 +27,7 @@ export const login = createAsyncThunk<
       const jwtDecoded = jwtDecode(response.token);
       if (jwtDecoded && (jwtDecoded as IUser)) {
         dispatch(setUser(jwtDecoded as IUser));
+        dispatch(setToken(response.token));
       }
     }
 
