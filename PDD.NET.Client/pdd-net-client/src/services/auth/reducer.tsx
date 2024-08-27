@@ -41,6 +41,9 @@ export const authSlice = createSlice({
     setUser: (state, action: PayloadAction<IUser>) => {
       state.user = action.payload;
     },
+    setToken: (state, action: PayloadAction<string>) => {
+      localStorage.setItem("token", action.payload);
+    },
     resetUser: (state) => {
       state.user = null;
 
@@ -80,5 +83,10 @@ export const authSlice = createSlice({
   },
 });
 
-export const { resetRegisterState, resetLoginState, setUser, resetUser } =
-  authSlice.actions;
+export const {
+  resetRegisterState,
+  resetLoginState,
+  setUser,
+  setToken,
+  resetUser,
+} = authSlice.actions;

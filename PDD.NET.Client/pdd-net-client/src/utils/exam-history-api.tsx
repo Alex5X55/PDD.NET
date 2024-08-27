@@ -10,7 +10,10 @@ export const createExamHistoryEndpoint = async (
 ): Promise<IExamHistoryResponse> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/user-answer/exam-history`, {
     method: "POST",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
     body: JSON.stringify(requestData),
   });
   return getResponse(res);
