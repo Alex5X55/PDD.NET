@@ -11,7 +11,7 @@ public static class FakeDataFactory
             {
                 Id = 1,
                 Login = "Admin",
-                Email = "admin@admin.ru",
+                Email = "admin@admin.ru",// password
                 LastLoginOn = DateTime.Now,
                 PasswordHash = "$2a$11$7YlKi9IEUEWAFw2BaRVBSeykjJ4Aa5lrbBlsjo7JmGM5ulT5uKV5."
             },
