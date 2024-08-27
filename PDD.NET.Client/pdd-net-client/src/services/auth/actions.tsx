@@ -27,7 +27,7 @@ export const login = createAsyncThunk<
       const jwtDecoded = jwtDecode(response.token);
       if (jwtDecoded && (jwtDecoded as IUser)) {
         dispatch(setUser(jwtDecoded as IUser));
-        dispatch(setToken(response.token));
+        dispatch(setToken(`Bearer ${response.token}`));
       }
     }
 
