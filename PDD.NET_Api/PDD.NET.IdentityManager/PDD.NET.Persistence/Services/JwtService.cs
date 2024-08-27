@@ -42,10 +42,11 @@ public class JwtService : IJwtService
         var role = user.Roles.Select(x => x.Name).Contains(nameof(UserRole.Admin)) ? nameof(UserRole.Admin) : nameof(UserRole.User);
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
+            //claims in subject - obsolete?, ClaimsPrincipal топ
             Subject = new ClaimsIdentity(new[]
-            {
+            {//ClaimsIdentity.DefaultRoleClaimType?
                 new Claim("id", user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType,role),//можно определять по id роль.
+                new Claim(ClaimTypes.Role,role),//можно определять по id роль.
                 new Claim(JwtRegisteredClaimNames.Name, user.Login),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
@@ -54,11 +55,11 @@ public class JwtService : IJwtService
             //Issuer - издатель, кто создает токен, какой сервис
             //Audience - кто принимает токен
             //Expires-Gets or sets the value of the 'expiration' claim. This value should be in UTC.
+
             Expires = DateTime.UtcNow.AddMinutes(value: _jwtConfig.LifeTimeAccessMin),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             //HmacSha256Signature - алгоритм для кодирования
         };
-
         // Create token
         SecurityToken? token = jwtTokenHandler.CreateToken(tokenDescriptor);
         // сериализует класс токена в строку

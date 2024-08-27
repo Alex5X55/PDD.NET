@@ -44,9 +44,11 @@ public class Startup
         _logger = logger;
         _logger?.LogInformation(MessageConstants.IS_STARTED_TEXT);
 
+
+
         //if (env.IsDevelopment())
         //{
-            app.UseCors("AllowReactApp");
+        app.UseCors("AllowReactApp");
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -64,6 +66,9 @@ public class Startup
         dataInitializer.InitData();
 
         app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
