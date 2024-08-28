@@ -7,6 +7,7 @@ using PDD.NET.Application.Auth.Response;
 using MediatR;
 using PDD.NET.Application.Features.Users.Queries.GetUserAuthInfo;
 using PDD.NET.Application.Features.Users.Commands.CreateUser;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PDD.NET.WebApi.Controllers;
 
@@ -108,8 +109,8 @@ public class AuthController : ControllerBase
     /// <param name="tokenRequest"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost]
-    //[HttpPost, Authorize]
+    //[HttpPost]
+    [HttpPost, Authorize]
     [Route("Revoke")]
     public async Task<IActionResult> Revoke([FromBody] TokenRequestDTO tokenRequest, CancellationToken cancellationToken)
     {

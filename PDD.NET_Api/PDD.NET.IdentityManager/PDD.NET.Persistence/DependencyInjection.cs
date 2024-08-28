@@ -55,7 +55,7 @@ public static class DependencyInjection
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
-            RequireExpirationTime = false
+            RequireExpirationTime = true
         };
 
         services.AddAuthentication(options =>

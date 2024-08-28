@@ -39,7 +39,7 @@ public sealed class GetAllAnalyticsDataHandler : IRequestHandler<GetAllAnalytics
         var serializedData = JsonSerializer.Serialize(userAnswerHistories);
         await _cache.SetStringAsync("analytics_data_cache_key", serializedData, new DistributedCacheEntryOptions
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1) // Настройте время жизни кэша
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1)
         });
 
         _logger.LogInformation($"All userAnswerHistories returned");
