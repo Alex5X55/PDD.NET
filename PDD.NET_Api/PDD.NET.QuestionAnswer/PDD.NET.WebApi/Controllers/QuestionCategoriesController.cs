@@ -30,7 +30,7 @@ public class QuestionCategoriesController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns>Список всех категорий вопросов</returns>
-    [HttpGet, Authorize(Roles = nameof(UserRole.Admin))]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<GetAllQuestionCategoriesResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetAllQuestionCategoriesRequest(), cancellationToken);
@@ -56,7 +56,7 @@ public class QuestionCategoriesController : ControllerBase
     /// <param name="id">Запрос на обновление информации по категории вопросу</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPost("{id:int}")]
+    [HttpPost("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
     public async Task<ActionResult<Unit>> UpdateQuestionCategory(int id, UpdateQuestionCategoryRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new UpdateQuestionCategoryInternalRequest(id, request.Text), cancellationToken);
@@ -69,7 +69,7 @@ public class QuestionCategoriesController : ControllerBase
     /// <param name="id">Id категории</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
     public async Task<ActionResult<Unit>> DeleteQuestionCategory(int id, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new DeleteQuestionCategoryRequest(id), cancellationToken);
