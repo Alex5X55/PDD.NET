@@ -30,8 +30,7 @@ public sealed class CreateExamHistoryHandler : IRequestHandler<CreateExamHistory
         ExamHistory examHistory = _mapper.Map<ExamHistory>(request);
         _examHistoryRepository.Create(examHistory);
 
-        // TODO
-        MessageDto brokerRequest = new MessageDto() { Loggin = examHistory.Login, IsSuccess = examHistory.IsSuccess, CreatedOn = DateTime.Now };
+        MessageDto brokerRequest = new MessageDto() { Loggin = examHistory.Login, IsSuccess = examHistory.IsSuccess, CreatedOn = examHistory.CreatedOn };
 
         //Отправка сообщения в конкретную очередь
         var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:masstransit_event_queue_analitycs"));
