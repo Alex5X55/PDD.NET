@@ -50,7 +50,7 @@ export default function AppHeader() {
               </Nav.Link>
             )}
             {user && (
-              <Nav.Link as={NavLink} to="/" end>
+              <Nav.Link as={NavLink} to="/user-analytics" end>
                 {user.name}
               </Nav.Link>
             )}
