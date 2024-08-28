@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.AnalyticsData.Queries.GetAllAnalyticsData;
+using PDD.NET.Application.Features.AnalyticsData.Queries.GetUserAnalyticsData;
 
 namespace PDD.NET.WebAPI.Controllers;
 
@@ -31,6 +32,18 @@ public class AnalyticsDataController : ControllerBase
     public async Task<ActionResult<IEnumerable<GetAllAnalyticsDataResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetAllAnalyticsDataRequest(), cancellationToken);
+        return Ok(response);
+    }
+    
+    /// <summary>
+    /// Получить всю аналитику по пользователю
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Список всей аналитики  по пользователю</returns>
+    [HttpGet("{login}"), Authorize]
+    public async Task<ActionResult<IEnumerable<GetAllAnalyticsDataResponse>>> GetAnalyticsByLogin(string login, CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new GetUserAnalyticsDataRequest(login), cancellationToken);
         return Ok(response);
     }
 }

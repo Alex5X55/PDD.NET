@@ -17,4 +17,12 @@ public class AnalyticsDataRepository : BaseRepository<AnalyticsData>, IAnalytics
             .OrderByDescending(x => x.CreatedOn)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<List<AnalyticsData>> GetAnalyticsByLogin(string login, CancellationToken cancellationToken)
+    {
+        return await Context.Set<AnalyticsData>()
+            .Where(x => !x.IsDeleted && x.Login == login)
+            .OrderByDescending(x => x.CreatedOn)
+            .ToListAsync(cancellationToken);
+    }
 }
