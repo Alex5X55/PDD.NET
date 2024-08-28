@@ -28,7 +28,7 @@ public class ExamHistoryController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns>Информация о пройденом экзамене</returns>
-    [HttpPost, Authorize(Roles = nameof(UserRole.Admin))]
+    [HttpPost, Authorize] //(Roles = nameof(UserRole.Admin))
     //[Authorize(Policy = ClaimTypes.Role)]
     public async Task<ActionResult<CreateExamHistoryResponse>> CreateExamHistory(CreateExamHistoryRequest request, CancellationToken cancellationToken)
     {

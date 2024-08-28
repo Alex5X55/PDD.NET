@@ -39,23 +39,23 @@ public class Startup
                                .AllowAnyMethod();
                     });
             });
-        services.AddAuthorization();
-/*        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = "",
-                    ValidateAudience = true,
-                    ValidAudience = "",
-                    ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
-                    ValidateIssuerSigningKey = true
-                };
-            });*/
+        /*       services.AddAuthorization();
+               services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                   .AddJwtBearer(options =>
+                   {
+                       options.TokenValidationParameters = new TokenValidationParameters
+                       {
+                           ValidateIssuer = true,
+                           ValidIssuer = "",
+                           ValidateAudience = true,
+                           ValidAudience = "",
+                           ValidateLifetime = true,
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
+                           ValidateIssuerSigningKey = true
+                       };
+                   });*/
     }
-public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataInitializer dataInitializer, ILogger<Startup> logger, IHostApplicationLifetime lifetime)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataInitializer dataInitializer, ILogger<Startup> logger, IHostApplicationLifetime lifetime)
     {
         _logger = logger;
         _logger?.LogInformation(MessageConstants.IS_STARTED_TEXT);

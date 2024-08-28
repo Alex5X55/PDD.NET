@@ -1,13 +1,13 @@
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 
-namespace PDD.NET.Application
+namespace PDD.NET.Application.Broker
 {
     public class MasstransitService : IHostedService
     {
         private IBusControl _busControl;
 
-        public MasstransitService( IBusControl busControl)
+        public MasstransitService(IBusControl busControl)
         {
             _busControl = busControl;
         }
@@ -18,7 +18,7 @@ namespace PDD.NET.Application
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
-        { 
+        {
             await _busControl.StopAsync(cancellationToken);
         }
     }

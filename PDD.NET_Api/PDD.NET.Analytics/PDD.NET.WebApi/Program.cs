@@ -1,6 +1,6 @@
 using NLog;
 using NLog.Web;
-using PDD.NET.Domain.Constants;
+using PDD.NET.Application.Constants;
 
 namespace PDD.NET.WebApi;
 
