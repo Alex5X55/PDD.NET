@@ -21,6 +21,7 @@ import QuestionEditPage from "../pages/question-edit-page";
 import AnswerOptionEditPage from "../pages/answer-option-edit-page";
 import QuestionCategoryEditPage from "../pages/question-category-edit-page";
 import AnalyticsPage from "../pages/analytics-page";
+import UserAnalyticsPage from "../pages/user-analytics-page";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -39,6 +40,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminPanelPage />} />
           <Route path="/admin/questions" element={<AdminQuestionsPage />} />
+          <Route path="/user-analytics" element={<UserAnalyticsPage />} />
 
           <Route
             path="/question/edit/:questionId"

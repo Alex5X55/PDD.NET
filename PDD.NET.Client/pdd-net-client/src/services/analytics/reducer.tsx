@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAnalyticsData } from "./actions";
+import { getAnalyticsData, getUserAnalyticsData } from "./actions";
 import { IAnalyticsData } from "../../types/types";
 
 interface IAnalyticsDataState {
@@ -34,6 +34,18 @@ export const analyticsDataSlice = createSlice({
         state.getAnalyticsDataLoading = false;
       })
       .addCase(getAnalyticsData.rejected, (state, action) => {
+        state.getAnalyticsDataLoading = false;
+        state.getAnalyticsDataError = action?.error?.message as string;
+      })
+      .addCase(getUserAnalyticsData.pending, (state) => {
+        state.getAnalyticsDataLoading = true;
+        state.getAnalyticsDataError = null;
+      })
+      .addCase(getUserAnalyticsData.fulfilled, (state, action) => {
+        state.analyticsDataResponse = action.payload;
+        state.getAnalyticsDataLoading = false;
+      })
+      .addCase(getUserAnalyticsData.rejected, (state, action) => {
         state.getAnalyticsDataLoading = false;
         state.getAnalyticsDataError = action?.error?.message as string;
       });
