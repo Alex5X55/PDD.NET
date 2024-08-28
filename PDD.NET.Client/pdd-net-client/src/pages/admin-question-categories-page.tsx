@@ -53,6 +53,11 @@ const AdminQuestionCategoriesPage: React.FC = () => {
         редактировать их.
       </p>
       <div className="mb-2">
+        <Link to={`/admin`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
         <Link to={`/question-category/edit`} className="m-2">
           <Button variant="primary" size="lg">
             Добавить категорию
