@@ -78,7 +78,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="request">Запрос на создание вопроса</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Сущность вопроса</returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<CreateQuestionResponse>> CreateQuestion(CreateQuestionRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
@@ -92,7 +92,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="request">Запрос на обновление информации по вопросу</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("{id:int}")]
+        [HttpPost("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<Unit>> UpdateQuestionOptions(int id, UpdateQuestionRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new UpdateQuestionInternalRequest(id, request.CategoryId, request.Text, request.ImageData), cancellationToken);
@@ -105,7 +105,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="id">Id вопроса</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<Unit>> DeleteQuestionById(int id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new DeleteQuestionRequest(id), cancellationToken);

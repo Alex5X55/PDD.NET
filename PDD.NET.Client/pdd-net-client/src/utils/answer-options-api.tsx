@@ -11,7 +11,10 @@ export const createAnswerOptionEndpoint = async (
 ): Promise<IAnswerOption> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/answer-options`, {
     method: "POST",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
     body: JSON.stringify(requestData),
   });
   return getResponse(res);
@@ -24,7 +27,10 @@ export const updateAnswerOptionEndpoint = async (
     `${baseApiConfig.baseUrl}/answer-options/${requestData.id}`,
     {
       method: "POST",
-      headers: baseApiConfig.headers,
+      headers: {
+        ...baseApiConfig.headers,
+        Authorization: localStorage.getItem("token") || "",
+      },
       body: JSON.stringify(requestData),
     },
   );
@@ -36,7 +42,10 @@ export const removeAnswerOption = async (answerOptionId: number) => {
     `${baseApiConfig.baseUrl}/answer-options/${answerOptionId}`,
     {
       method: "DELETE",
-      headers: baseApiConfig.headers,
+      headers: {
+        ...baseApiConfig.headers,
+        Authorization: localStorage.getItem("token") || "",
+      },
     },
   );
   return getResponse(res);

@@ -21,7 +21,10 @@ export const addQuestionCategory = async (
 ): Promise<IQuestionCategoryResponse> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/question-categories`, {
     method: "POST",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
     body: JSON.stringify(requestData),
   });
   return getResponse(res);
@@ -34,7 +37,10 @@ export const updateQuestionCategoryEndpoint = async (
     `${baseApiConfig.baseUrl}/question-categories/${requestData.id}`,
     {
       method: "POST",
-      headers: baseApiConfig.headers,
+      headers: {
+        ...baseApiConfig.headers,
+        Authorization: localStorage.getItem("token") || "",
+      },
       body: JSON.stringify(requestData),
     },
   );
@@ -46,7 +52,10 @@ export const removeQuestionCategory = async (questionCategoryId: number) => {
     `${baseApiConfig.baseUrl}/question-categories/${questionCategoryId}`,
     {
       method: "DELETE",
-      headers: baseApiConfig.headers,
+      headers: {
+        ...baseApiConfig.headers,
+        Authorization: localStorage.getItem("token") || "",
+      },
     },
   );
   return getResponse(res);

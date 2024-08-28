@@ -31,7 +31,10 @@ export const getExamQuestions = async (): Promise<IQuestion[]> => {
 export const getQuestions = async (): Promise<IQuestion[]> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
     method: "GET",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
   });
   return getResponse(res);
 };
@@ -41,7 +44,10 @@ export const addQuestion = async (
 ): Promise<IQuestionResponse> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/questions`, {
     method: "POST",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
     body: JSON.stringify(requestData),
   });
   return getResponse(res);
@@ -54,7 +60,10 @@ export const updateQuestionEndpoint = async (
     `${baseApiConfig.baseUrl}/questions/${requestData.id}`,
     {
       method: "POST",
-      headers: baseApiConfig.headers,
+      headers: {
+        ...baseApiConfig.headers,
+        Authorization: localStorage.getItem("token") || "",
+      },
       body: JSON.stringify(requestData),
     },
   );
@@ -64,7 +73,10 @@ export const updateQuestionEndpoint = async (
 export const removeQuestion = async (questionId: number) => {
   const res = await fetch(`${baseApiConfig.baseUrl}/questions/${questionId}`, {
     method: "DELETE",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
   });
   return getResponse(res);
 };

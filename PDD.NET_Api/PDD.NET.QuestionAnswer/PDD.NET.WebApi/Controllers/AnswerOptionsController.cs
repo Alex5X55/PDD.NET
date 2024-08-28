@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.AnswerOptions.Commands.CreateAnswerOption;
 using PDD.NET.Application.Features.AnswerOptions.Commands.DeleteAnswerOption;
 using PDD.NET.Application.Features.AnswerOptions.Commands.UpdateAnswerOption;
@@ -44,7 +46,6 @@ namespace PDD.NET.WebApi.Controllers
             }
         }
 
-        //TODO проверить - просто Task<ActionResult>
         /// <summary>
         /// Получить все ответы
         /// </summary>
@@ -63,7 +64,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="request">Запрос на создание ответа</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Сущность Ответа</returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<CreateAnswerResponse>> CreateAnswerOptions(CreateAnswerRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(request, cancellationToken);
@@ -76,7 +77,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="id">Запрос на обновление информации по ответу</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost("{id:int}")]
+        [HttpPost("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<Unit>> UpdateAnswerOptions(int id, UpdateAnswerRequest request, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new UpdateAnswerInternalRequest(id, request.Text, request.IsRight, request.QuestionId), cancellationToken);
@@ -89,7 +90,7 @@ namespace PDD.NET.WebApi.Controllers
         /// <param name="id">Id ответа</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<Unit>> DeleteAnswerOptions(int id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new DeleteAnswerRequest(id), cancellationToken);

@@ -5,7 +5,10 @@ import { IAnalyticsData } from "../types/types";
 export const getAnalyticsDataEndpoint = async (): Promise<IAnalyticsData[]> => {
   const res = await fetch(`${baseApiConfig.baseUrl}/analytics`, {
     method: "GET",
-    headers: baseApiConfig.headers,
+    headers: {
+      ...baseApiConfig.headers,
+      Authorization: localStorage.getItem("token") || "",
+    },
   });
   return getResponse(res);
 };
