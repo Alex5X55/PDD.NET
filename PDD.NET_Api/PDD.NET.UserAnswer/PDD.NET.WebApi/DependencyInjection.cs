@@ -57,10 +57,7 @@ public static class DependencyInjection
             ValidateLifetime = true,
             RequireExpirationTime = true
         };
-        services.AddAuthorization(
-            oprions=>
-                oprions.AddPolicy(ClaimTypes.Role, police=>police.RequireClaim(ClaimTypes.Role, nameof(UserRole.Admin)))     
-            );
+        services.AddAuthorization();
 
         services.AddAuthentication(options =>
         {
@@ -69,7 +66,6 @@ public static class DependencyInjection
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(jwt =>
         {
-
             jwt.SaveToken = true;
             jwt.TokenValidationParameters = tokenValidationParams;
         });
