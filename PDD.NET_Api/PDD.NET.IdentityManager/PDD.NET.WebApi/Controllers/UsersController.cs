@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PDD.NET.Application.Features.Users.Commands.CreateUser;
 using PDD.NET.Application.Features.Users.Commands.DeleteUser;
@@ -50,7 +51,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns>Список всех пользователей</returns>
-    [HttpGet]
+    [HttpGet,Authorize]
     public async Task<ActionResult<IEnumerable<GetAllUserResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetAllUserRequest(), cancellationToken);

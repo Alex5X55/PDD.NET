@@ -1,9 +1,6 @@
 using NLog;
 using NLog.Web;
 using PDD.NET.Domain.Constants;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
 namespace PDD.NET.WebApi;
 
 public class Program

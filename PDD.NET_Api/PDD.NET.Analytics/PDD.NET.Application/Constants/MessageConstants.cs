@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDD.NET.Domain.Constants
+namespace PDD.NET.Application.Constants
 {
     public static class MessageConstants
     {

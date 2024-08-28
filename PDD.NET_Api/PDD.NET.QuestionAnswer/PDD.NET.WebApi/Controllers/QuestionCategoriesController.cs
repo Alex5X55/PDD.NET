@@ -1,5 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.QuestionCategories.Commands.CreateQuestionCategory;
 using PDD.NET.Application.Features.QuestionCategories.Commands.DeleteQuestionCategories;
 using PDD.NET.Application.Features.QuestionCategories.Commands.UpdateQuestionCategory;
@@ -12,6 +15,7 @@ namespace PDD.NET.WebAPI.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/question-categories")]
+//[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class QuestionCategoriesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -26,7 +30,7 @@ public class QuestionCategoriesController : ControllerBase
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns>Список всех категорий вопросов</returns>
-    [HttpGet]
+    [HttpGet, Authorize(Roles = nameof(UserRole.Admin))]
     public async Task<ActionResult<IEnumerable<GetAllQuestionCategoriesResponse>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetAllQuestionCategoriesRequest(), cancellationToken);
@@ -39,7 +43,7 @@ public class QuestionCategoriesController : ControllerBase
     /// <param name="request">Запрос на создание категории вопроса</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Сущность Категории вопроса</returns>
-    [HttpPost]
+    [HttpPost, Authorize(Roles = nameof(UserRole.Admin))]
     public async Task<ActionResult<CreateQuestionCategoryResponse>> CreateAnswerOptions(CreateQuestionCategoryRequest request, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(request, cancellationToken);

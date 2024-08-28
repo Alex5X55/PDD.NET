@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PDD.NET.Application.Common.Constants;
 using PDD.NET.Application.Features.Questions.Commands.CreateQuestion;
 using PDD.NET.Application.Features.Questions.Commands.DeleteQuestion;
 using PDD.NET.Application.Features.Questions.Commands.UpdateQuestion;
@@ -26,7 +28,7 @@ namespace PDD.NET.WebApi.Controllers
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>Список всех вопросов c вариантами ответов</returns>
-        [HttpGet]
+        [HttpGet, Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<IEnumerable<GetAllQuestionResponse>>> GetAllQuestions(CancellationToken cancellationToken)
         {
             var questions = await _mediator.Send(new GetAllQuestionRequest(), cancellationToken);
@@ -63,7 +65,7 @@ namespace PDD.NET.WebApi.Controllers
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>Вопрос</returns>
-        [HttpGet("id/{id:int}")]
+        [HttpGet("id/{id:int}"), Authorize(Roles = nameof(UserRole.Admin))]
         public async Task<ActionResult<GetQuestionByIdResponse>> GetQuestionById(int id, CancellationToken cancellationToken)
         {
             var questions = await _mediator.Send(new GetQuestionByIdRequest(id), cancellationToken);
