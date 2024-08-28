@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import {
   createQuestionCategoryError,
@@ -97,6 +97,13 @@ const QuestionCategoryEditPage: React.FC = () => {
         На этой странице вы можете{" "}
         {isNewRecord ? "создать новую категорию." : "редактировать категорию."}
       </p>
+      <div className="mb-2">
+        <Link to={`/admin/question-categories`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
+      </div>
       {(isCreateLoading || isUpdateLoading) && <Preloader />}
       {(createError || updateError) && (
         <h1 className="display-4 mb-4">Ошибка: {createError || updateError}</h1>

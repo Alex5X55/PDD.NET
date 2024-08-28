@@ -72,6 +72,11 @@ const AdminQuestionsPage: React.FC = () => {
         ответов, а также редактировать вопросы и варианты ответов.
       </p>
       <div className="mb-2">
+        <Link to={`/admin`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
         <Link to={`/question/edit`} className="m-2">
           <Button variant="primary" size="lg">
             Добавить вопрос

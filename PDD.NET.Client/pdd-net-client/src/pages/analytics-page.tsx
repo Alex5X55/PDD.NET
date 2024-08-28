@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from "../services/hooks";
 import Preloader from "../components/preloader/preloader";
 import { getAnalyticsData } from "../services/analytics/actions";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const AnalyticsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +30,13 @@ const AnalyticsPage: React.FC = () => {
         В этом разделе вы можете увидеть аналитику прохождения экзамена по
         пользователям.
       </p>
+      <div className="mb-2">
+        <Link to={`/admin`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
+      </div>
       {isLoading && <Preloader />}
       {error && <h1 className="display-4 mb-4">Ошибка: {error}</h1>}
       {analytics.length > 0 ? (

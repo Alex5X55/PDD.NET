@@ -10,7 +10,7 @@ import {
   updateQuestionError,
   updateQuestionLoading,
 } from "../services/question/selectors";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   createQuestion,
   loadAllQuestions,
@@ -121,6 +121,13 @@ const QuestionEditPage: React.FC = () => {
         На этой странице вы можете{" "}
         {isNewRecord ? "создать вопрос." : "редактировать параметры вопроса."}
       </p>
+      <div className="mb-2">
+        <Link to={`/admin/questions`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
+      </div>
       {(isCreateLoading || isUpdateLoading) && <Preloader />}
       {(createError || updateError) && (
         <h1 className="display-4 mb-4">Ошибка: {createError || updateError}</h1>

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useAppDispatch, useAppSelector } from "../services/hooks";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllQuestions } from "../services/question/selectors";
 import { loadAllQuestions } from "../services/question/actions";
 import { Button } from "react-bootstrap";
@@ -137,6 +137,13 @@ const AnswerOptionEditPage: React.FC = () => {
           ? "создать новый вариант ответа."
           : "редактировать параметры варианта ответа."}
       </p>
+      <div className="mb-2">
+        <Link to={`/admin/questions`} className="mr-2">
+          <Button variant="primary" size="lg">
+            Назад
+          </Button>
+        </Link>
+      </div>
       {(isCreateLoading || isUpdateLoading) && <Preloader />}
       {(createError || updateError) && (
         <h1 className="display-4 mb-4">Ошибка: {createError || updateError}</h1>
