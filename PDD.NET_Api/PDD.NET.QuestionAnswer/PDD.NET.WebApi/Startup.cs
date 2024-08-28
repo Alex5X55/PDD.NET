@@ -26,7 +26,7 @@ public class Startup
         services
             .AddApplicationConfig()
             .AddInfrastructureConfig(Configuration)
-            .AddPresentationConfig()
+            .AddPresentationConfig(Configuration)
             .AddCors(options =>
             {
                 options.AddPolicy("AllowReactApp",
@@ -63,6 +63,9 @@ public class Startup
         dataInitializer.InitData();
 
         app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
