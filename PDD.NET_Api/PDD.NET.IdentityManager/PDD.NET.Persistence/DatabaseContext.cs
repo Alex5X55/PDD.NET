@@ -27,10 +27,6 @@ public class DatabaseContext : DbContext
             .WithOne(ud => ud.User)
             .HasForeignKey<UserDetail>(ud => ud.UserId);
 
-/*        modelBuilder.Entity<User>()
-            .Property(f => f.Id)
-            .ValueGeneratedOnAdd();*/
-
 
         modelBuilder.Entity<UserInRole>().HasKey(ur => new { ur.UserId, ur.RoleId });
 

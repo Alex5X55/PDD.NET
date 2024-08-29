@@ -58,7 +58,6 @@ public class Startup
             app.UseHsts();
 
         //}
-        //var logger_ = new LoggerFactory().CreateLogger(nameof(ErrorHandlerExtensions));
         app.UseErrorHandler();
 
         app.UseHttpsRedirection();
@@ -75,7 +74,6 @@ public class Startup
             endpoints.MapControllers();
         });
         lifetime.ApplicationStopping.Register(OnShutdown);
-        //lifetime.StopApplication();
     }
     private void OnShutdown()
     {

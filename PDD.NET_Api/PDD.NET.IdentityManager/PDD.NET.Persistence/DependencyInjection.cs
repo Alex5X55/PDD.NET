@@ -72,9 +72,6 @@ public static class DependencyInjection
 
         services.AddSingleton(tokenValidationParams);
 
-/*        services.AddDefaultIdentity<IdentityUser>(options => { options.SignIn.RequireConfirmedAccount = true; })
-            .AddEntityFrameworkStores<ApiDbContext>();*/
-
         services.AddScoped<IJwtService, JwtService>();
 
         return services;

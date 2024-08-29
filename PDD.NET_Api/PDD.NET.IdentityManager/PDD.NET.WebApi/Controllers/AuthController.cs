@@ -153,7 +153,6 @@ public class AuthController : ControllerBase
             }
             var tokenUser = await _mediator.Send(new GetUserAuthRequest(verified.Email), cancellationToken);
 
-            //var response = await _mediator.Send(new GetUserRequest(id), cancellationToken);
             //генерируем новый рефреш и авторизационный токен
             AuthResult authResult = await _jwtService.GenerateToken(tokenUser);
             //return a token
