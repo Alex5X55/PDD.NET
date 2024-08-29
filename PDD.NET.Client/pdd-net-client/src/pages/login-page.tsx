@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useForm } from "../hooks/use-form";
 import { ILoginRequest } from "../types/types";
@@ -15,6 +15,10 @@ import { resetLoginState } from "../services/auth/reducer";
 
 const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetLoginState());
+  }, [dispatch]);
 
   const { formState, handleFieldChange } = useForm<ILoginRequest>({
     email: "",
