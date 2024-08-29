@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { IRegisterForm } from "../types/types";
 import { useForm } from "../hooks/use-form";
@@ -15,6 +15,10 @@ import { resetRegisterState } from "../services/auth/reducer";
 
 const RegisterPage: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetRegisterState());
+  }, [dispatch]);
 
   const { formState, handleFieldChange } = useForm<IRegisterForm>({
     login: "",
